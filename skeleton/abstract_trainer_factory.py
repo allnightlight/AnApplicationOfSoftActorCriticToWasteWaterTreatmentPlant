@@ -15,7 +15,6 @@ class AbstractTrainerFactory(object):
         
         return AbstractTrainer(agent = agent
                                , environment = environment
-                               , nIteration = context.nIteration
                                , nStepEnvironment = context.nStepEnvironment
                                , nStepGradient = context.nStepGradient
                                , nIntervalUpdateStateValueFunction = context.nIntervalUpdateStateValueFunction)

@@ -24,6 +24,9 @@ class AbstractAgent(object):
         assert isinstance(featureExtractor, AbstractFeatureExtractor)
         self.featureExtractor = featureExtractor
                 
+    def reset(self):
+        pass
+    
     def getFeature(self, batchDataEnvironment):
         
         return self.featureExtractor.call(batchDataEnvironment)

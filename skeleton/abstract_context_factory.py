@@ -12,9 +12,8 @@ class AbstractContextFactory(object):
 
 
     def create(self
-               , nIteration = 2
                , nStepEnvironment = 1
                , nStepGradient = 1
                , nIntervalUpdateStateValueFunction = 1):
         
-        return AbstractContext(nIteration, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction)
+        return AbstractContext(nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction)

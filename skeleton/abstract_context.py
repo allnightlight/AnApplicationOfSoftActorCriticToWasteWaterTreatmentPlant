@@ -10,12 +10,11 @@ class AbstractContext(object):
     '''
 
 
-    def __init__(self, nIteration, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction):
+    def __init__(self, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction):
         '''
         Constructor
         '''
         
-        self.nIteration = nIteration
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction

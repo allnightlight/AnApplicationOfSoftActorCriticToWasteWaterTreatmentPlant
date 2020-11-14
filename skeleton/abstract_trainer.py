@@ -15,7 +15,7 @@ class AbstractTrainer(object):
     '''
 
 
-    def __init__(self, agent, environment, nIteration = 10, nStepEnvironment = 1, nStepGradient = 1, nIntervalUpdateStateValueFunction = 1):
+    def __init__(self, agent, environment, nStepEnvironment = 1, nStepGradient = 1, nIntervalUpdateStateValueFunction = 1):
         '''
         Constructor
         '''
@@ -26,38 +26,51 @@ class AbstractTrainer(object):
         assert isinstance(environment, AbstractEnvironment)
         self.environment = environment
         
-        self.nIteration = nIteration
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
         
-    def train(self):
-        cnt = 0
-        
-        
+    def reset(self):
+        self.cntStepGradient = 0
+        self.agent.reset()
         self.environment.reset()
+        self.resetBuffer()
         
-        for _ in range(self.nIteration):
-            for _ in range(self.nStepEnvironment):
-                
-                batchDataEnvironment = self.environment.observe()
-                batchDataAgent = self.agent.getAction(batchDataEnvironment)
-                batchDataReward = self.environment.update(batchDataAgent)
-                
-                self.appendToBuffer(batchDataEnvironment, batchDataAgent, batchDataReward)
+    def stepEnvironment(self):
         
-            for _ in range(self.nStepGradient):
-                
-                batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = self.getBatchDataFromBuffer()
-                
-                if cnt % self.nIntervalUpdateStateValueFunction == 0:                    
-                    self.agent.updateStateValueFunction(batchDataEnvironment)
-                self.agent.updatePolicy(batchDataEnvironment)
-                self.agent.updateActionValue(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
-                
-                cnt += 1
+        batchDataEnvironment = self.environment.observe()
+        batchDataAgent = self.agent.getAction(batchDataEnvironment)
+        batchDataReward = self.environment.update(batchDataAgent)
+        batchDataEnvironmentNextStep = self.environment.observe()
+        
+        self.appendToBuffer(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
+        
+    def stepGradient(self):
+
+        batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = self.getBatchDataFromBuffer()
+        
+        if self.cntStepGradient % self.nIntervalUpdateStateValueFunction == 0:                    
+            self.agent.updateStateValueFunction(batchDataEnvironment)
+        self.agent.updatePolicy(batchDataEnvironment)
+        self.agent.updateActionValue(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
+        
+        self.cntStepGradient += 1
+        
+        
+    def train(self, nIteration):
+        
+        for _ in range(nIteration//self.nStepEnvironment):
             
-    def appendToBuffer(self, batchDataEnvironment, batchDataAgent, batchDataReward):
+            for _ in range(self.nStepEnvironment):                
+                self.stepEnvironment()
+                
+            for _ in range(self.nStepGradient):
+                self.stepGradient()
+            
+    def resetBuffer(self):
+        pass
+    
+    def appendToBuffer(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
         pass
     
     def getBatchDataFromBuffer(self):

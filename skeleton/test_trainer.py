@@ -37,7 +37,8 @@ class Test(unittest.TestCase):
         
         assert isinstance(trainer, AbstractTrainer) 
 
-        trainer.train()
+        trainer.reset()
+        trainer.train(1)
         
 
 if __name__ == "__main__":
