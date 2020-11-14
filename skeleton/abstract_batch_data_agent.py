@@ -10,4 +10,5 @@ class AbstractBatchDataAgent(object):
     '''
 
 
-        
+    def getMv(self):
+        return None

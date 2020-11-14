@@ -9,3 +9,5 @@ class AbstractBatchDataReward(object):
     classdocs
     '''
         
+    def __init__(self, reward = None):
+        self.reward = reward

@@ -33,6 +33,10 @@ class AbstractTrainer(object):
         
     def train(self):
         cnt = 0
+        
+        
+        self.environment.reset()
+        
         for _ in range(self.nIteration):
             for _ in range(self.nStepEnvironment):
                 
