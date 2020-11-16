@@ -15,7 +15,7 @@ class AbstractTrainer(object):
     '''
 
 
-    def __init__(self, agent, environment, nStepEnvironment = 1, nStepGradient = 1, nIntervalUpdateStateValueFunction = 1):
+    def __init__(self, agent, environment, replayBuffer, nStepEnvironment = 1, nStepGradient = 1, nIntervalUpdateStateValueFunction = 1):
         '''
         Constructor
         '''
@@ -29,12 +29,13 @@ class AbstractTrainer(object):
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
+        self.replayBuffer = replayBuffer
         
     def reset(self):
         self.cntStepGradient = 0
         self.agent.reset()
         self.environment.reset()
-        self.resetBuffer()
+        self.replayBuffer.reset()
         
     def stepEnvironment(self):
         
@@ -43,11 +44,11 @@ class AbstractTrainer(object):
         batchDataReward = self.environment.update(batchDataAgent)
         batchDataEnvironmentNextStep = self.environment.observe()
         
-        self.appendToBuffer(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
+        self.replayBuffer.append(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
         
     def stepGradient(self):
 
-        batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = self.getBatchDataFromBuffer()
+        batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = self.replayBuffer.getStateActionRewardAndNextState()
         
         if self.cntStepGradient % self.nIntervalUpdateStateValueFunction == 0:                    
             self.agent.updateStateValueFunction(batchDataEnvironment)
@@ -66,15 +67,3 @@ class AbstractTrainer(object):
                 
             for _ in range(self.nStepGradient):
                 self.stepGradient()
-            
-    def resetBuffer(self):
-        pass
-    
-    def appendToBuffer(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
-        pass
-    
-    def getBatchDataFromBuffer(self):
-        return (AbstractBatchDataEnvironment()
-                , AbstractBatchDataAgent()
-                , AbstractBatchDataReward()
-                , AbstractBatchDataEnvironment())

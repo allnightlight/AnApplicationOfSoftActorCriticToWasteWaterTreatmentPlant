@@ -12,6 +12,7 @@ from skeleton.abstract_batch_data_environment_factory import AbstractBatchDataEn
 from skeleton.abstract_batch_data_reward_factory import AbstractBatchDataRewardFactory
 from skeleton.abstract_batch_data_agent_factory import AbstractBatchDataAgentFactory
 from skeleton.abstract_environment_factory import AbstractEnvironmentFactory
+from skeleton.abstract_replay_buffer import AbstractReplayBuffer
 
 
 class Test(unittest.TestCase):
@@ -40,7 +41,17 @@ class Test(unittest.TestCase):
         trainer.reset()
         trainer.train(1)
         
-
+    def test002(self):
+        
+        bufferSize = 10
+        buffer = AbstractReplayBuffer(bufferSize)
+        buffer.reset()
+        for k1 in range(bufferSize * 2 + 1):
+            assert len(buffer.buffer) <= bufferSize
+            assert len(buffer.buffer) == min(k1, bufferSize)
+            
+            buffer.append(None, None, None, None)
+            
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
     unittest.main()
