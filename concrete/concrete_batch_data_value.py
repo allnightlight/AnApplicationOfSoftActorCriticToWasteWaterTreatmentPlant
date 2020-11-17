@@ -11,9 +11,8 @@ class ConcreteBatchDataValue(AbstractBatchDataValue):
     '''
 
 
-    def __init__(self, _Value):
-        self._Value = _Value
-        
+    def __init__(self):
+        pass
         
     def getValue(self):
-        return self._Value
+        return 1.

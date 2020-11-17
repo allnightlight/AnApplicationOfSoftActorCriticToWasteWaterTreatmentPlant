@@ -21,6 +21,8 @@ class Test(unittest.TestCase):
         agent = self.factory.createAgent()
         
         assert isinstance(agent, ConcreteAgent)
+        
+        agent.getErrForUpdateStateValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment())
 
 
 if __name__ == "__main__":
