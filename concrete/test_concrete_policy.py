@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
         
         policy = self.factory.createPolicy()
         
-        batchDataAgent = policy(self.factory.createBatchDataFeature())
+        batchDataAgent = policy.call(self.factory.createBatchDataFeature())
         
         assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
         

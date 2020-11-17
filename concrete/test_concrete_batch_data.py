@@ -7,7 +7,6 @@ import unittest
 
 from concrete.factory_for_test import FactoryForTest
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
-import tensorflow
 from builtins import isinstance
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 
@@ -25,11 +24,7 @@ class Test(unittest.TestCase):
         batchDataFeature = self.factory.createBatchDataFeature()
         
         assert isinstance(batchDataFeature, ConcreteBatchDataFeature)
-        
-        _Feature = batchDataFeature.getValue()
-        
-        assert isinstance(_Feature, tensorflow.Tensor)
-        
+                
         
     def test002(self):
         
