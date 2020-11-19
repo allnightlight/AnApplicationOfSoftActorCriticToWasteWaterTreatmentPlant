@@ -38,7 +38,20 @@ class Test(unittest.TestCase):
 
         agent.applyGradientSomeoneToReduce(fh, trainableVariables, optimizer)
         
+    def test003(self):
+        
+        agent = self.factory.createAgent()
+        
+        assert isinstance(agent, ConcreteAgent)
 
+        agent.reset()
+        for optimizer in [
+            agent.getOptimizerForUpdateActionValueFunction()
+            , agent.getOptimizerForUpdatePolicy()
+            , agent.getOptimizerForUpdateStateValueFunction()
+            ]:
+            assert isinstance(optimizer, tensorflow.keras.optimizers.Optimizer)
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

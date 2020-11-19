@@ -29,6 +29,16 @@ class ConcreteAgent(AbstractAgent):
         assert isinstance(featureExtractor, ConcreteFeatureExtractor)
         self.featureExtractor = featureExtractor
         
+        self.optimizerForUpdateActionValueFunction = None
+        self.optimizerForUpdatePolicy = None 
+        self.optimizerForUpdateStateValueFunction = None
+        
+    def reset(self):
+        AbstractAgent.reset(self)  
+        
+        self.optimizerForUpdateActionValueFunction = tensorflow.keras.optimizers.Adam()
+        self.optimizerForUpdatePolicy = tensorflow.keras.optimizers.Adam()
+        self.optimizerForUpdateStateValueFunction = tensorflow.keras.optimizers.Adam()
         
     def applyGradientSomeoneToReduce(self, fh, trainableVariables, optimizer):
         
@@ -38,3 +48,13 @@ class ConcreteAgent(AbstractAgent):
             _loss = tensorflow.reduce_mean(fh())
         grads = tape.gradient(_loss, trainableVariables)
         optimizer.apply_gradients(zip(grads, trainableVariables))
+        
+    def getOptimizerForUpdateActionValueFunction(self):
+        return self.optimizerForUpdateActionValueFunction
+    
+    def getOptimizerForUpdatePolicy(self):
+        return self.optimizerForUpdatePolicy
+
+    def getOptimizerForUpdateStateValueFunction(self):
+        return self.optimizerForUpdateStateValueFunction
+    
