@@ -20,3 +20,7 @@ class AbstractValueFunctionApproximator(object):
         assert batchDataAgent is None or isinstance(batchDataAgent, AbstractBatchDataAgent)
         
         return AbstractBatchDataValue()
+    
+    
+    def getAveragedActionValue(self, batchDataEnvironment, batchDataAgent):
+        return 1.
