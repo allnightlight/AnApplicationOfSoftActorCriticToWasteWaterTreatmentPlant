@@ -58,4 +58,5 @@ class FactoryForTest(object):
         
         return ConcreteAgent(policy = self.createPolicy()
                              , valueFunctionApproximator = self.createValueFunctionApproximator()
-                             , featureExtractor = self.createFeatureExtractor())
+                             , featureExtractor = self.createFeatureExtractor()
+                             , discountFactor = 0.99)

@@ -24,4 +24,4 @@ class ConcreteValueFunctionApproximator(AbstractValueFunctionApproximator):
         
     def getAveragedActionValue(self, batchDataFeature, batchDataAgent):
        
-        return ConcreteBatchDataValue()
+        return 1.

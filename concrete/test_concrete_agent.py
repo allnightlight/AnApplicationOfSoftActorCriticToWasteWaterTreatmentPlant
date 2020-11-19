@@ -6,6 +6,7 @@ Created on 2020/11/17
 import unittest
 from concrete.factory_for_test import FactoryForTest
 from concrete.concrete_agent import ConcreteAgent
+import tensorflow
 
 
 class Test(unittest.TestCase):
@@ -23,6 +24,20 @@ class Test(unittest.TestCase):
         assert isinstance(agent, ConcreteAgent)
         
         agent.getErrForUpdateStateValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        
+    def test002(self):
+
+        agent = self.factory.createAgent()
+        
+        assert isinstance(agent, ConcreteAgent)
+        
+        dense = tensorflow.keras.layers.Dense(self.factory.nPv)
+        fh = lambda : dense(tensorflow.random.normal(shape = (self.factory.nBatch, self.factory.nFeature)))
+        trainableVariables = dense.trainable_variables
+        optimizer = tensorflow.keras.optimizers.Adam()
+
+        agent.applyGradientSomeoneToReduce(fh, trainableVariables, optimizer)
+        
 
 
 if __name__ == "__main__":
