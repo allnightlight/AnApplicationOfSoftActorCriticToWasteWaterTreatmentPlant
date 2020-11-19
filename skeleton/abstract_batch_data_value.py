@@ -9,6 +9,6 @@ class AbstractBatchDataValue(object):
     classdocs
     '''
     
-    
+    # <<abstract>>
     def getValue(self):
         return 1.
