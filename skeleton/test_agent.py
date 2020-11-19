@@ -67,7 +67,7 @@ class Test(unittest.TestCase):
 
         agent.updateStateValueFunction(batchDataEnvironment = self.batchDataEnvironmentFactory.create(context))
         
-        agent.updateActionValue(batchDataEnvironment = self.batchDataEnvironmentFactory.create(context)
+        agent.updateActionValueFunction(batchDataEnvironment = self.batchDataEnvironmentFactory.create(context)
                                 , batchDataAgent = self.batchDataAgentFactory.create(context)
                                 , batchDataReward = self.rewardFactory.create(context)
                                 , batchDataEnvironmentNextStep = self.batchDataEnvironmentFactory.create(context))

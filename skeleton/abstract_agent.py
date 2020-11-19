@@ -105,23 +105,23 @@ class AbstractAgent(object):
         return -_Entropy - _ActionValueAveraged
             
     # <<public>>
-    def updateActionValue(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
+    def updateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
         
         self.applyGradientSomeoneToReduce(
-            fh = lambda : self.getErrForUpdateActionValue(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
-            , trainableVariables = self.getTrainableVariablesForUpdateActionValue()
+            fh = lambda : self.getErrForUpdateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
+            , trainableVariables = self.getTrainableVariablesForUpdateActionValueFunction()
             , optimizer = self.getOptimizerForUpdateStateValueFunction())
 
     # << protected, abstract>>
-    def getOptimizerForUpdateActionValue(self):
+    def getOptimizerForUpdateActionValueFunction(self):
         return None
         
     # <<protected, abstract>>
-    def getTrainableVariablesForUpdateActionValue(self):
+    def getTrainableVariablesForUpdateActionValueFunction(self):
         return None
 
     # <<private, final>>
-    def getErrForUpdateActionValue(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
+    def getErrForUpdateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
         
         batchDataActionValue = self.getActionValue(batchDataEnvironment, batchDataAgent)
         batchDataStateValueNext = self.getStateValue(batchDataEnvironmentNextStep)

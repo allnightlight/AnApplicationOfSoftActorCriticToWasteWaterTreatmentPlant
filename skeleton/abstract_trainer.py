@@ -53,7 +53,7 @@ class AbstractTrainer(object):
         if self.cntStepGradient % self.nIntervalUpdateStateValueFunction == 0:                    
             self.agent.updateStateValueFunction(batchDataEnvironment)
         self.agent.updatePolicy(batchDataEnvironment)
-        self.agent.updateActionValue(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
+        self.agent.updateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
         
         self.cntStepGradient += 1
         
