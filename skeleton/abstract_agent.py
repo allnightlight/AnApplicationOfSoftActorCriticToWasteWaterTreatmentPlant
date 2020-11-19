@@ -46,21 +46,26 @@ class AbstractAgent(object):
         return self.valueFunctionApproximator.call(self.getFeature(batchDataEnvironment), batchDataAgent)
         
     # <<protected, abstract>>
-    def applyGradientSomeoneToReduce(self, fh, trainableVariables):
+    def applyGradientSomeoneToReduce(self, fh, trainableVariables, optimizer):
         # with tensorflow.Gtape() as tape:
         #     loss = tf.reduce_mean(fh())
         # grad = tape.gradient(losss, trainableVariables)
         # opt.apply_gradient(zip(grad, trainableVariables))
         fh()
         pass
-    
+        
     # <<public, final>>
     def updateStateValueFunction(self, batchDataEnvironment):
         
         self.applyGradientSomeoneToReduce(
             fh = lambda : self.getErrForUpdateStateValueFunction(batchDataEnvironment)
-            , trainableVariables = self.getTrainableVariablesForUpdateStateValueFunction())
-        
+            , trainableVariables = self.getTrainableVariablesForUpdateStateValueFunction()
+            , optimizer = self.getOptimizerForUpdateStateValueFunction())
+
+    # << protected, abstract>>
+    def getOptimizerForUpdateStateValueFunction(self):
+        return None
+    
     # <<protected, abstract>>
     def getTrainableVariablesForUpdateStateValueFunction(self):
         return None
@@ -79,7 +84,12 @@ class AbstractAgent(object):
         
         self.applyGradientSomeoneToReduce(
             fh = lambda : self.getErrForUpdatePolicy(batchDataEnvironment)
-            , trainableVariables = self.getTrainableVariablesForUpdatePolicy())
+            , trainableVariables = self.getTrainableVariablesForUpdatePolicy()
+            , optimizer = self.getOptimizerForUpdatePolicy())
+
+    # << protected, abstract>>
+    def getOptimizerForUpdatePolicy(self):
+        return None
     
     # <<protected, abstract>>
     def getTrainableVariablesForUpdatePolicy(self):
@@ -99,7 +109,12 @@ class AbstractAgent(object):
         
         self.applyGradientSomeoneToReduce(
             fh = lambda : self.getErrForUpdateActionValue(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
-            , trainableVariables = self.getTrainableVariablesForUpdateActionValue())
+            , trainableVariables = self.getTrainableVariablesForUpdateActionValue()
+            , optimizer = self.getOptimizerForUpdateStateValueFunction())
+
+    # << protected, abstract>>
+    def getOptimizerForUpdateActionValue(self):
+        return None
         
     # <<protected, abstract>>
     def getTrainableVariablesForUpdateActionValue(self):
