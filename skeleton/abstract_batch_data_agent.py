@@ -12,3 +12,6 @@ class AbstractBatchDataAgent(object):
 
     def getMv(self):
         return None
+    
+    def getEntropy(self):
+        return 1.

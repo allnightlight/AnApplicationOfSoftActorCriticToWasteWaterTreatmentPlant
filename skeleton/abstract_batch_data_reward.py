@@ -11,3 +11,6 @@ class AbstractBatchDataReward(object):
         
     def __init__(self, reward = None):
         self.reward = reward
+        
+    def getValue(self):
+        return 1.

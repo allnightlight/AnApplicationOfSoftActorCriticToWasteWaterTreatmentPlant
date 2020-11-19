@@ -18,4 +18,5 @@ class AbstractAgentFactory(object):
         
         return AbstractAgent(policy = AbstractPolicy()
                              , valueFunctionApproximator = AbstractValueFunctionApproximator()
-                             , featureExtractor = AbstractFeatureExtractor())
+                             , featureExtractor = AbstractFeatureExtractor()
+                             , discountFactor = context.discountFactor)
