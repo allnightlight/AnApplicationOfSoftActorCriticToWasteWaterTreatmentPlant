@@ -57,4 +57,12 @@ class ConcreteAgent(AbstractAgent):
 
     def getOptimizerForUpdateStateValueFunction(self):
         return self.optimizerForUpdateStateValueFunction
+
+    def getTrainableVariablesForUpdateActionValueFunction(self):
+        return self.valueFunctionApproximator.trainable_variables + self.featureExtractor.trainable_variables
     
+    def getTrainableVariablesForUpdatePolicy(self):
+        return self.policy.trainable_variables + self.featureExtractor.trainable_variables
+        
+    def getTrainableVariablesForUpdateStateValueFunction(self):
+        return self.valueFunctionApproximator.trainable_variables + self.featureExtractor.trainable_variables

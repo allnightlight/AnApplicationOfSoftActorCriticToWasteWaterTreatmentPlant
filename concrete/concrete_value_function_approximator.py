@@ -4,11 +4,13 @@ Created on 2020/11/16
 @author: ukai
 '''
 
-from skeleton.abstract_value_function_approximator import AbstractValueFunctionApproximator
+import tensorflow
+
 from concrete.concrete_batch_data_value import ConcreteBatchDataValue
+from skeleton.abstract_value_function_approximator import AbstractValueFunctionApproximator
 
 
-class ConcreteValueFunctionApproximator(AbstractValueFunctionApproximator):
+class ConcreteValueFunctionApproximator(AbstractValueFunctionApproximator, tensorflow.keras.Model):
     '''
     classdocs
     '''

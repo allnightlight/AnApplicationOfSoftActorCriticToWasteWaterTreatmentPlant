@@ -4,11 +4,13 @@ Created on 2020/11/15
 @author: ukai
 '''
 
+import tensorflow
+
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from skeleton.abstract_policy import AbstractPolicy
 
 
-class ConcretePolicy(AbstractPolicy):
+class ConcretePolicy(AbstractPolicy, tensorflow.keras.Model):
     '''
     classdocs
     '''

@@ -51,7 +51,34 @@ class Test(unittest.TestCase):
             , agent.getOptimizerForUpdateStateValueFunction()
             ]:
             assert isinstance(optimizer, tensorflow.keras.optimizers.Optimizer)
+            
+    def test004(self):
+    
+        agent = self.factory.createAgent()
         
+        assert isinstance(agent, ConcreteAgent)
+
+        for trainableVariables in [
+            agent.getTrainableVariablesForUpdateActionValueFunction()
+            , agent.getTrainableVariablesForUpdatePolicy()
+            , agent.getTrainableVariablesForUpdateStateValueFunction()]:
+        
+            assert trainableVariables is not None
+
+    def test005(self):
+        
+        agent = self.factory.createAgent()
+        
+        assert isinstance(agent, ConcreteAgent)
+        
+        agent.reset()
+
+        agent.updateStateValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        agent.updatePolicy(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        agent.updateActionValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment()
+                                        , batchDataAgent = self.factory.createBatchDataAgent()
+                                        , batchDataReward = self.factory.createBatchDataReward()
+                                        , batchDataEnvironmentNextStep = self.factory.createBatchDataEnvironment())
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

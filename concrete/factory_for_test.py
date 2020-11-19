@@ -10,6 +10,7 @@ from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
+from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 
 
 class FactoryForTest(object):
@@ -41,6 +42,10 @@ class FactoryForTest(object):
         _Feature = None
         
         return ConcreteBatchDataFeature(_Feature = _Feature)
+
+    def createBatchDataReward(self):
+        
+        return ConcreteBatchDataReward(reward = 1.0)
     
     def createPolicy(self):
         
