@@ -35,24 +35,10 @@ class Test(unittest.TestCase):
         agent = self.agentFactory.create(context)
         
         assert isinstance(agent, AbstractAgent)
-        
-        batchDataFeature = agent.getFeature(self.batchDataEnvironmentFactory.create(context))
-        
-        assert isinstance(batchDataFeature, AbstractBatchDataFeature)
-        
+                
         batchDataAgent = agent.getAction(self.batchDataEnvironmentFactory.create(context))
         
         assert isinstance(batchDataAgent, AbstractBatchDataAgent)
-
-        batchDataActionValue = agent.getActionValue(self.batchDataEnvironmentFactory.create(context)
-                                        , batchDataAgent)
-        
-        assert isinstance(batchDataActionValue, AbstractBatchDataValue)
-        
-        batchDataStateValue = agent.getActionValue(self.batchDataEnvironmentFactory.create(context)
-                                        , batchDataAgent)
-        
-        assert isinstance(batchDataStateValue, AbstractBatchDataValue)
         
         
     def test002(self):

@@ -28,27 +28,11 @@ class AbstractAgent(object):
                 
     def reset(self):
         pass
-    
-    def getFeature(self, batchDataEnvironment):
         
-        return self.featureExtractor.call(batchDataEnvironment)
-    
     def getAction(self, batchDataEnvironment):
         
-        return self.policy.call(self.getFeature(batchDataEnvironment))
-        
-    def getStateValue(self, batchDataEnvironment):
-        
-        return self.valueFunctionApproximator.getStateValue(self.getFeature(batchDataEnvironment))
-    
-    def getActionValue(self, batchDataEnvironment, batchDataAgent):
-        
-        return self.valueFunctionApproximator.getActionValue(self.getFeature(batchDataEnvironment), batchDataAgent)
-    
-    def getAveragedActionValue(self, batchDataEnvironment, batchDataAgent):
-        
-        return self.valueFunctionApproximator.getAveragedActionValue(self.getFeature(batchDataEnvironment), batchDataAgent)
-        
+        return self.policy.call(self.featureExtractor.call(batchDataEnvironment))
+                
     # <<protected, abstract>>
     def applyGradientSomeoneToReduce(self, fh, trainableVariables, optimizer):
         # with tensorflow.Gtape() as tape:
@@ -78,8 +62,8 @@ class AbstractAgent(object):
     def getErrForUpdateStateValueFunction(self, batchDataEnvironment):
         
         batchDataAgent = self.getAction(batchDataEnvironment)
-        batchDataAveragedActionValue= self.getAveragedActionValue(batchDataEnvironment, batchDataAgent)        
-        batchDataStateValue = self.getStateValue(batchDataEnvironment)
+        batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)        
+        batchDataStateValue = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironment))
                 
         return batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue()
             
@@ -104,7 +88,7 @@ class AbstractAgent(object):
         
         batchDataAgent = self.getAction(batchDataEnvironment)
         _Entropy = batchDataAgent.getEntropy()
-        batchDataAveragedActionValue = self.getAveragedActionValue(batchDataEnvironment, batchDataAgent)
+        batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
                 
         return -_Entropy - batchDataAveragedActionValue.getValue()
             
@@ -127,7 +111,7 @@ class AbstractAgent(object):
     # <<private, final>>
     def getErrForUpdateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
         
-        batchDataActionValue = self.getActionValue(batchDataEnvironment, batchDataAgent)
-        batchDataStateValueNext = self.getStateValue(batchDataEnvironmentNextStep)
+        batchDataActionValue = self.valueFunctionApproximator.getActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
+        batchDataStateValueNext = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironmentNextStep))
         
         return batchDataActionValue.getValue() - ((1-self.discountFactor) * batchDataReward.getValue() + self.discountFactor * batchDataStateValueNext.getValue())
