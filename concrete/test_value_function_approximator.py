@@ -25,12 +25,24 @@ class Test(unittest.TestCase):
         
         assert isinstance(valueFunctionApproximator, ConcreteValueFunctionApproximator)
         
-        batchDataValue = valueFunctionApproximator.call(batchDataFeature = self.factory.createBatchDataFeature()
+        batchDataValue = valueFunctionApproximator.getActionValue(batchDataFeature = self.factory.createBatchDataFeature()
                                        , batchDataAgent = self.factory.createBatchDataAgent())
         
         assert isinstance(batchDataValue, ConcreteBatchDataValue)
+        assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
 
+        batchDataValue = valueFunctionApproximator.getStateValue(batchDataFeature = self.factory.createBatchDataFeature())
+        
+        assert isinstance(batchDataValue, ConcreteBatchDataValue)
+        assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
 
+        batchDataValue = valueFunctionApproximator.getAveragedActionValue(batchDataFeature = self.factory.createBatchDataFeature()
+                                       , batchDataAgent = self.factory.createBatchDataAgent())
+        
+        assert isinstance(batchDataValue, ConcreteBatchDataValue)
+        assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
+
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
     unittest.main()

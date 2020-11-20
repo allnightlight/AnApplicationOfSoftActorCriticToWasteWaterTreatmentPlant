@@ -20,12 +20,13 @@ class FactoryForTest(object):
     '''
 
 
-    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1):
+    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3):
         
         self.nMv = nMv
         self.nPv = nPv
         self.nFeature = nFeature
         self.nBatch = nBatch
+        self.nSampleOfActionsInValueFunctionApproximator = nSampleOfActionsInValueFunctionApproximator
         
     def createBatchDataEnvironment(self):
         
@@ -53,7 +54,7 @@ class FactoryForTest(object):
     
     def createValueFunctionApproximator(self):
         
-        return ConcreteValueFunctionApproximator()
+        return ConcreteValueFunctionApproximator(nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator)
     
     def createFeatureExtractor(self):
         
