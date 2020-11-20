@@ -16,5 +16,5 @@ class ConcreteBatchDataFeature(AbstractBatchDataFeature):
         self._Feature = _Feature
         
         
-    def getValue(self):
+    def getFeature(self):
         return self._Feature

@@ -11,6 +11,7 @@ from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
+import tensorflow
 
 
 class FactoryForTest(object):
@@ -39,7 +40,7 @@ class FactoryForTest(object):
         
     def createBatchDataFeature(self):
         
-        _Feature = None
+        _Feature = tensorflow.random.normal(shape = (self.nBatch, self.nFeature))
         
         return ConcreteBatchDataFeature(_Feature = _Feature)
 
@@ -49,7 +50,7 @@ class FactoryForTest(object):
     
     def createPolicy(self):
         
-        return ConcretePolicy()
+        return ConcretePolicy(nMv = self.nMv)
     
     def createValueFunctionApproximator(self):
         

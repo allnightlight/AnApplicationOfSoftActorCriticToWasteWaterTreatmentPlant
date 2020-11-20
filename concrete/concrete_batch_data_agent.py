@@ -11,9 +11,10 @@ class ConcreteBatchDataAgent(AbstractBatchDataAgent):
     '''
 
 
-    def __init__(self, _Mv):
+    def __init__(self, _Mean, _LogSd):
         AbstractBatchDataAgent.__init__(self)
-        self._Mv = _Mv
+        self._Mv = _Mean
+        self._LogSd = _LogSd
         
     def getValue(self):
         return self._Mv

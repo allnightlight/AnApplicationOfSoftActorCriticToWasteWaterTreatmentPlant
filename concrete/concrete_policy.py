@@ -16,13 +16,19 @@ class ConcretePolicy(AbstractPolicy, tensorflow.keras.Model):
     '''
 
 
-    def __init__(self):
+    def __init__(self, nMv):
         super().__init__()
         
         AbstractPolicy.__init__(self)
+        
+        self.feature2mean = tensorflow.keras.layers.Dense(units = nMv)
+        self.feature2logSd = tensorflow.keras.layers.Dense(units = nMv)
                 
         
     def call(self, batchDataFeature):
-                
-        return ConcreteBatchDataAgent(None)
-    
+        
+        _Feature = batchDataFeature.getFeature() # (..., nFeature)
+        
+        return ConcreteBatchDataAgent(
+            _Mean = self.feature2mean(_Feature)
+            , _LogSd = self.feature2logSd(_Feature))    
