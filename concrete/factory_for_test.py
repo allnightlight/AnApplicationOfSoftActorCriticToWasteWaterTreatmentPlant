@@ -12,6 +12,7 @@ from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 import tensorflow
+import numpy as np
 
 
 class FactoryForTest(object):
@@ -20,17 +21,21 @@ class FactoryForTest(object):
     '''
 
 
-    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3):
+    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2):
         
         self.nMv = nMv
         self.nPv = nPv
         self.nFeature = nFeature
         self.nBatch = nBatch
         self.nSampleOfActionsInValueFunctionApproximator = nSampleOfActionsInValueFunctionApproximator
+        self.nFeatureHorizon = nFeatureHorizon
         
     def createBatchDataEnvironment(self):
         
-        return ConcreteBatchDataEnvironment() 
+        bufferPv = [np.random.randn(self.nBatch, self.nPv).astype(np.float32) for _ in range(self.nFeatureHorizon + 1)]
+        bufferMv = [np.random.randn(self.nBatch, self.nMv).astype(np.float32) for _ in range(self.nFeatureHorizon)]
+        
+        return ConcreteBatchDataEnvironment(bufferPv, bufferMv) 
 
                 
     def createBatchDataAgent(self):
@@ -58,7 +63,7 @@ class FactoryForTest(object):
     
     def createFeatureExtractor(self):
         
-        return ConcreteFeatureExtractor()
+        return ConcreteFeatureExtractor(nFeature = self.nFeature)
     
     def createAgent(self):
         

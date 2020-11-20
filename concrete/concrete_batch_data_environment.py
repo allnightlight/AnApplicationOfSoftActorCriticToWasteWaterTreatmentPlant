@@ -9,6 +9,9 @@ class ConcreteBatchDataEnvironment(AbstractBatchDataEnvironment):
     '''
     classdocs
     '''
-
+    
+    
+    def __init__(self, bufferPv, bufferMv):
+        super(ConcreteBatchDataEnvironment, self).__init__(bufferPv, bufferMv)
 
         

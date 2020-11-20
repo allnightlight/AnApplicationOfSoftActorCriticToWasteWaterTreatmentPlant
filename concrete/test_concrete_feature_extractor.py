@@ -5,8 +5,10 @@ Created on 2020/11/17
 '''
 import unittest
 
-from concrete.factory_for_test import FactoryForTest
+from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
+from concrete.factory_for_test import FactoryForTest
+import tensorflow
 
 
 class Test(unittest.TestCase):
@@ -24,7 +26,14 @@ class Test(unittest.TestCase):
         
         assert isinstance(featureExtractor, ConcreteFeatureExtractor)
         
-        featureExtractor.call(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        batchDataFeature = featureExtractor.call(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        
+        assert isinstance(batchDataFeature, ConcreteBatchDataFeature)
+        
+        _Feature = batchDataFeature.getFeature()
+        
+        assert isinstance(_Feature, tensorflow.Tensor)
+        assert _Feature.shape == (self.factory.nBatch, self.factory.nFeature)
 
 
 if __name__ == "__main__":
