@@ -39,11 +39,15 @@ class AbstractAgent(object):
         
     def getStateValue(self, batchDataEnvironment):
         
-        return self.valueFunctionApproximator.getStateValue(batchDataEnvironment)
+        return self.valueFunctionApproximator.getStateValue(self.getFeature(batchDataEnvironment))
     
     def getActionValue(self, batchDataEnvironment, batchDataAgent):
         
-        return self.valueFunctionApproximator.getActionValue(batchDataEnvironment, batchDataAgent)
+        return self.valueFunctionApproximator.getActionValue(self.getFeature(batchDataEnvironment), batchDataAgent)
+    
+    def getAveragedActionValue(self, batchDataEnvironment, batchDataAgent):
+        
+        return self.valueFunctionApproximator.getAveragedActionValue(self.getFeature(batchDataEnvironment), batchDataAgent)
         
     # <<protected, abstract>>
     def applyGradientSomeoneToReduce(self, fh, trainableVariables, optimizer):
@@ -74,7 +78,7 @@ class AbstractAgent(object):
     def getErrForUpdateStateValueFunction(self, batchDataEnvironment):
         
         batchDataAgent = self.getAction(batchDataEnvironment)
-        batchDataAveragedActionValue= self.valueFunctionApproximator.getAveragedActionValue(batchDataEnvironment, batchDataAgent)        
+        batchDataAveragedActionValue= self.getAveragedActionValue(batchDataEnvironment, batchDataAgent)        
         batchDataStateValue = self.getStateValue(batchDataEnvironment)
                 
         return batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue()
@@ -100,7 +104,7 @@ class AbstractAgent(object):
         
         batchDataAgent = self.getAction(batchDataEnvironment)
         _Entropy = batchDataAgent.getEntropy()
-        batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(batchDataEnvironment, batchDataAgent)
+        batchDataAveragedActionValue = self.getAveragedActionValue(batchDataEnvironment, batchDataAgent)
                 
         return -_Entropy - batchDataAveragedActionValue.getValue()
             
