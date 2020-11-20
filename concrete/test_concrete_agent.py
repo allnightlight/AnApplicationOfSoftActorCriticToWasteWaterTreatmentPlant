@@ -7,6 +7,7 @@ import unittest
 from concrete.factory_for_test import FactoryForTest
 from concrete.concrete_agent import ConcreteAgent
 import tensorflow
+import numpy as np 
 
 
 class Test(unittest.TestCase):
@@ -79,6 +80,115 @@ class Test(unittest.TestCase):
                                         , batchDataAgent = self.factory.createBatchDataAgent()
                                         , batchDataReward = self.factory.createBatchDataReward()
                                         , batchDataEnvironmentNextStep = self.factory.createBatchDataEnvironment())
+
+    def test006(self):
+        
+        agent = self.factory.createAgent()
+        
+        assert isinstance(agent, ConcreteAgent)
+        
+        agent.reset()
+        
+        def isEqual(p, q):
+            flag = True
+            for a, b in zip(p, q):
+                flag &= np.all(a == b)
+            return flag
+
+        agent.updateStateValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+
+        p0 = [v.numpy() for v in agent.policy.trainable_variables]
+        p1 = [v.numpy() for v in agent.valueFunctionApproximator.trainable_variables]
+        p2 = [v.numpy() for v in agent.featureExtractor.trainable_variables]
+        
+        agent.updateStateValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        
+        q0 = [v.numpy() for v in agent.policy.trainable_variables]
+        q1 = [v.numpy() for v in agent.valueFunctionApproximator.trainable_variables]
+        q2 = [v.numpy() for v in agent.featureExtractor.trainable_variables]
+        
+        assert len(p0) == len(q0)
+        assert len(p1) == len(q1)
+        assert len(p2) == len(q2)
+        
+        assert isEqual(p0, q0) == True        
+        assert isEqual(p1, q1) == False
+        assert isEqual(p2, q2) == False
+        
+    def test007(self):
+        
+        agent = self.factory.createAgent()
+        
+        assert isinstance(agent, ConcreteAgent)
+        
+        agent.reset()
+        
+        def isEqual(p, q):
+            flag = True
+            for a, b in zip(p, q):
+                flag &= np.all(a == b)
+            return flag
+
+        agent.updatePolicy(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+
+        p0 = [v.numpy() for v in agent.policy.trainable_variables]
+        p1 = [v.numpy() for v in agent.valueFunctionApproximator.trainable_variables]
+        p2 = [v.numpy() for v in agent.featureExtractor.trainable_variables]
+        
+        agent.updatePolicy(batchDataEnvironment = self.factory.createBatchDataEnvironment())        
+        
+        q0 = [v.numpy() for v in agent.policy.trainable_variables]
+        q1 = [v.numpy() for v in agent.valueFunctionApproximator.trainable_variables]
+        q2 = [v.numpy() for v in agent.featureExtractor.trainable_variables]
+        
+        assert len(p0) == len(q0)
+        assert len(p1) == len(q1)
+        assert len(p2) == len(q2)
+        
+        assert isEqual(p0, q0) == False
+        assert isEqual(p1, q1) == True
+        assert isEqual(p2, q2) == False
+
+    def test008(self):
+        
+        agent = self.factory.createAgent()
+        
+        assert isinstance(agent, ConcreteAgent)
+        
+        agent.reset()
+        
+        def isEqual(p, q):
+            flag = True
+            for a, b in zip(p, q):
+                flag &= np.all(a == b)
+            return flag
+
+        agent.updateActionValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment()
+                                        , batchDataAgent = self.factory.createBatchDataAgent()
+                                        , batchDataReward = self.factory.createBatchDataReward()
+                                        , batchDataEnvironmentNextStep = self.factory.createBatchDataEnvironment())
+
+        p0 = [v.numpy() for v in agent.policy.trainable_variables]
+        p1 = [v.numpy() for v in agent.valueFunctionApproximator.trainable_variables]
+        p2 = [v.numpy() for v in agent.featureExtractor.trainable_variables]
+        
+        agent.updateActionValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment()
+                                        , batchDataAgent = self.factory.createBatchDataAgent()
+                                        , batchDataReward = self.factory.createBatchDataReward()
+                                        , batchDataEnvironmentNextStep = self.factory.createBatchDataEnvironment())
+        
+        q0 = [v.numpy() for v in agent.policy.trainable_variables]
+        q1 = [v.numpy() for v in agent.valueFunctionApproximator.trainable_variables]
+        q2 = [v.numpy() for v in agent.featureExtractor.trainable_variables]
+        
+        assert len(p0) == len(q0)
+        assert len(p1) == len(q1)
+        assert len(p2) == len(q2)
+        
+        assert isEqual(p0, q0) == True
+        assert isEqual(p1, q1) == False
+        assert isEqual(p2, q2) == False
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
