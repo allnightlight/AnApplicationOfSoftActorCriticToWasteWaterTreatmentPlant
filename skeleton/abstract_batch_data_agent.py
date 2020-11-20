@@ -8,10 +8,14 @@ class AbstractBatchDataAgent(object):
     '''
     classdocs
     '''
-
-
-    def getMv(self):
-        return None
     
+    def __init__(self):
+        self.sampledAction = None
+
+    # <<abstract>>
+    def getSampledAction(self):
+        return self.sampledAction
+    
+    # <<abstract>>
     def getEntropy(self):
         return 1.

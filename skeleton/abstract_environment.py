@@ -28,7 +28,7 @@ class AbstractEnvironment(object):
 
     def update(self, batchDataAgent):
         
-        mv = batchDataAgent.getMv()
+        mv = batchDataAgent.getSampledAction()
         r = self.plant.update(mv)
         pvNext = self.plant.getPv()
         self.bufferMv.append(mv)
