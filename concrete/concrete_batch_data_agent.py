@@ -14,14 +14,17 @@ class ConcreteBatchDataAgent(AbstractBatchDataAgent):
 
     def __init__(self, _Mean, _LogSd):
         AbstractBatchDataAgent.__init__(self)
-        self._Mean = _Mean # (..., nAction)
-        self._LogSd = _LogSd # (..., nAction)
+        self._Mean = _Mean # (..., nMv)
+        self._LogSd = _LogSd # (..., nMv)
         
-        self.sampledAction = _Mean + tensorflow.random.normal(shape=_LogSd.shape) * tensorflow.exp(_LogSd) # (..., nAction)
+        self.sampledAction = self.getSample() # (..., nMv)
+
+    def getSample(self):
+        return self._Mean + tensorflow.random.normal(shape=self._LogSd.shape) * tensorflow.exp(self._LogSd) # (..., nMv)
         
     def getEntropy(self):
         return tensorflow.reduce_sum(self._LogSd, axis=-1, keepdims=True) # (..., 1) 
     
     def generateSamples(self, nSample):
         for _ in range(nSample):
-            yield self._Mean + tensorflow.random.normal(shape=self._LogSd.shape) * tensorflow.exp(self._LogSd) # (..., nAction)
+            yield self.getSample() # (..., nMv)
