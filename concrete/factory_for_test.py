@@ -34,9 +34,8 @@ class FactoryForTest(object):
                 
     def createBatchDataAgent(self):
         
-        _Mv = None
-        
-        return ConcreteBatchDataAgent(_Mv = _Mv) 
+        return ConcreteBatchDataAgent(_Mean = tensorflow.random.normal(shape = (self.nBatch, self.nMv))
+                                      , _LogSd  = tensorflow.random.normal(shape = (self.nBatch, self.nMv))) 
         
     def createBatchDataFeature(self):
         
