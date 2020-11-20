@@ -22,5 +22,13 @@ class AbstractValueFunctionApproximator(object):
         return AbstractBatchDataValue()
     
     # <<abstract>>
+    def getActionValue(self, batchDataEnvironment, batchDataAgent):
+        return AbstractBatchDataValue()
+
+    # <<abstract>>
+    def getStateValue(self, batchDataEnvironment):
+        return AbstractBatchDataValue()
+    
+    # <<abstract>>
     def getAveragedActionValue(self, batchDataEnvironment, batchDataAgent):
-        return 1.
+        return AbstractBatchDataValue()

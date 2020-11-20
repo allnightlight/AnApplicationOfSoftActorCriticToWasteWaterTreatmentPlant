@@ -39,11 +39,11 @@ class AbstractAgent(object):
         
     def getStateValue(self, batchDataEnvironment):
         
-        return self.valueFunctionApproximator.call(self.getFeature(batchDataEnvironment), batchDataAgent = None)
+        return self.valueFunctionApproximator.getStateValue(batchDataEnvironment)
     
     def getActionValue(self, batchDataEnvironment, batchDataAgent):
         
-        return self.valueFunctionApproximator.call(self.getFeature(batchDataEnvironment), batchDataAgent)
+        return self.valueFunctionApproximator.getActionValue(batchDataEnvironment, batchDataAgent)
         
     # <<protected, abstract>>
     def applyGradientSomeoneToReduce(self, fh, trainableVariables, optimizer):
@@ -74,10 +74,10 @@ class AbstractAgent(object):
     def getErrForUpdateStateValueFunction(self, batchDataEnvironment):
         
         batchDataAgent = self.getAction(batchDataEnvironment)
-        _ActionValueAveraged = self.valueFunctionApproximator.getAveragedActionValue(batchDataEnvironment, batchDataAgent)        
+        batchDataAveragedActionValue= self.valueFunctionApproximator.getAveragedActionValue(batchDataEnvironment, batchDataAgent)        
         batchDataStateValue = self.getStateValue(batchDataEnvironment)
                 
-        return batchDataStateValue.getValue() - _ActionValueAveraged
+        return batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue()
             
     # <<public, final>>
     def updatePolicy(self, batchDataEnvironment):
@@ -100,9 +100,9 @@ class AbstractAgent(object):
         
         batchDataAgent = self.getAction(batchDataEnvironment)
         _Entropy = batchDataAgent.getEntropy()
-        _ActionValueAveraged = self.valueFunctionApproximator.getAveragedActionValue(batchDataEnvironment, batchDataAgent)
+        batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(batchDataEnvironment, batchDataAgent)
                 
-        return -_Entropy - _ActionValueAveraged
+        return -_Entropy - batchDataAveragedActionValue.getValue()
             
     # <<public>>
     def updateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
