@@ -18,13 +18,17 @@ class ConcreteValueFunctionApproximator(AbstractValueFunctionApproximator, tenso
     '''
 
 
-    def __init__(self, nMv, nSampleOfActionsInValueFunctionApproximator):
+    def __init__(self, nFeature, nMv, nSampleOfActionsInValueFunctionApproximator, nHidden):
         super(ConcreteValueFunctionApproximator, self).__init__()
         
         self.nMv = nMv
         self.nSample = nSampleOfActionsInValueFunctionApproximator
         
-        self.featureAndAction2value = tensorflow.keras.layers.Dense(1)
+        self.featureAndAction2value = tensorflow.keras.Sequential((
+            tensorflow.keras.Input(shape = (nFeature + nMv,))
+            , tensorflow.keras.layers.Dense(nHidden, activation="relu")
+            , tensorflow.keras.layers.Dense(1))) 
+        
       
     def call(self, _Feature, _SampledAction):
         

@@ -65,7 +65,7 @@ class AbstractAgent(object):
         batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)        
         batchDataStateValue = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironment))
                 
-        return batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue()
+        return (batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue() - batchDataAgent.getEntropy())**2
             
     # <<public, final>>
     def updatePolicy(self, batchDataEnvironment):
@@ -87,10 +87,9 @@ class AbstractAgent(object):
     def getErrForUpdatePolicy(self, batchDataEnvironment):
         
         batchDataAgent = self.getAction(batchDataEnvironment)
-        _Entropy = batchDataAgent.getEntropy()
         batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
                 
-        return -_Entropy - batchDataAveragedActionValue.getValue()
+        return - batchDataAgent.getEntropy() - batchDataAveragedActionValue.getValue()
             
     # <<public>>
     def updateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
@@ -114,4 +113,4 @@ class AbstractAgent(object):
         batchDataActionValue = self.valueFunctionApproximator.getActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
         batchDataStateValueNext = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironmentNextStep))
         
-        return batchDataActionValue.getValue() - ((1-self.discountFactor) * batchDataReward.getValue() + self.discountFactor * batchDataStateValueNext.getValue())
+        return (batchDataActionValue.getValue() - ((1-self.discountFactor) * batchDataReward.getValue() + self.discountFactor * batchDataStateValueNext.getValue()))**2
