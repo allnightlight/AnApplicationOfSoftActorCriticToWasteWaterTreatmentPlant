@@ -13,7 +13,7 @@ class AbstractAgent(object):
     '''
 
 
-    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor):
+    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp):
         
         assert isinstance(policy, AbstractPolicy)        
         self.policy = policy
@@ -25,6 +25,8 @@ class AbstractAgent(object):
         self.featureExtractor = featureExtractor
         
         self.discountFactor = discountFactor
+        
+        self.alphaTemp = alphaTemp
                 
     def reset(self):
         pass
@@ -65,7 +67,7 @@ class AbstractAgent(object):
         batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)        
         batchDataStateValue = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironment))
                 
-        return (batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue() - batchDataAgent.getEntropy())**2
+        return (batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue() - self.alphaTemp * batchDataAgent.getEntropy())**2
             
     # <<public, final>>
     def updatePolicy(self, batchDataEnvironment):
@@ -89,7 +91,7 @@ class AbstractAgent(object):
         batchDataAgent = self.getAction(batchDataEnvironment)
         batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
                 
-        return - batchDataAgent.getEntropy() - batchDataAveragedActionValue.getValue()
+        return -self.alphaTemp * batchDataAgent.getEntropy() - batchDataAveragedActionValue.getValue()
             
     # <<public>>
     def updateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
