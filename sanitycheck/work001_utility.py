@@ -29,9 +29,10 @@ class Work001Utility(object):
         nFeature = 1
         nSampleOfActionsInValueFunctionApproximator = 2**3
         discountFactor = 0.5
+        nHidden = 2**2
         
         agent = ConcreteAgent(policy = ConcretePolicy(nMv)
-                              , valueFunctionApproximator = ConcreteValueFunctionApproximator(nMv, nSampleOfActionsInValueFunctionApproximator)
+                              , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, nMv, nSampleOfActionsInValueFunctionApproximator, nHidden)
                               , featureExtractor = ConcreteFeatureExtractor(nFeature)
                               , discountFactor = discountFactor)
         
