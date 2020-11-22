@@ -37,11 +37,11 @@ class Test(unittest.TestCase):
         
     def test004(self):
         
-        self.utility.trainV()
+        self.utility.trainQandV()
         
     def test005(self):
         
-        self.utility.trainPi()
+        self.utility.trainQandVandPi()
 
     def test006(self):
         

@@ -104,30 +104,33 @@ class Work001Utility(object):
             
         print("\n>> Done")
         
-    def trainV(self):
+    def trainQandV(self):
         
         print(">> Start train state value function")
 
         cnt = 0
-        for _, batchDataEnvironment, _, _ in self.generateData():
+        for batchDataAgent, batchDataEnvironment, batchDataReward, batchDataEnvironmentNextStep in self.generateData():
             
             sys.stdout.write("\r%04d/%04d" % (cnt, self.nIter))
-        
+
+            self.agent.updateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)        
             self.agent.updateStateValueFunction(batchDataEnvironment)
             
             cnt += 1
         
         print("\n>> Done")
 
-    def trainPi(self):
+    def trainQandVandPi(self):
         
         print(">> Start training policy")
 
         cnt = 0
-        for _, batchDataEnvironment, _, _ in self.generateData():
+        for batchDataAgent, batchDataEnvironment, batchDataReward, batchDataEnvironmentNextStep in self.generateData():
             
             sys.stdout.write("\r%04d/%04d" % (cnt, self.nIter))
-        
+
+            self.agent.updateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)        
+            self.agent.updateStateValueFunction(batchDataEnvironment)        
             self.agent.updatePolicy(batchDataEnvironment)
             
             cnt += 1
@@ -186,8 +189,7 @@ class Work001Utility(object):
         
         """
         
-        self.trainQ()
-        self.trainV()
+        self.trainQandV()
         self.plotTrainedQ()
         
     def checkUpdatePi(self):
@@ -199,7 +201,5 @@ class Work001Utility(object):
         """
 
         
-        self.trainQ()
-        self.trainV()
-        self.trainPi()
+        self.trainQandVandPi()
         self.plotTrainedPi()
