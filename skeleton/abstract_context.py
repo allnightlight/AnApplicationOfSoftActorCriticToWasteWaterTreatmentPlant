@@ -10,7 +10,7 @@ class AbstractContext(object):
     '''
 
 
-    def __init__(self, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, bufferSize, discountFactor):
+    def __init__(self, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, bufferSize, discountFactor, alphaTemp):
         '''
         Constructor
         '''
@@ -20,3 +20,4 @@ class AbstractContext(object):
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
         self.bufferSize = bufferSize
         self.discountFactor = discountFactor
+        self.alphaTemp = alphaTemp
