@@ -36,8 +36,6 @@ class Work001Utility(object):
                               , featureExtractor = ConcreteFeatureExtractor(nFeature)
                               , discountFactor = discountFactor)
         
-        agent.reset()
-                
         return Work001Utility(nMv, nPv, nFeature, agent, nIter)
 
     def __init__(self, nMv, nPv, nFeature, agent, nIter):
@@ -52,6 +50,10 @@ class Work001Utility(object):
         self.nBatch = 1
         self.nPlottingSamples = 2**7
 
+
+    def reset(self):
+        
+        self.agent.reset()
 
     def getRandomBatchDataAgent(self):
         
@@ -92,6 +94,8 @@ class Work001Utility(object):
         train action value function
         """
         
+        self.reset()
+        
         print(">> Start train action value function")
         
         cnt = 0
@@ -106,6 +110,8 @@ class Work001Utility(object):
         print("\n>> Done")
         
     def trainQandV(self):
+        
+        self.reset()
         
         print(">> Start train state value function")
 
@@ -122,6 +128,8 @@ class Work001Utility(object):
         print("\n>> Done")
 
     def trainQandVandPi(self):
+
+        self.reset()
         
         print(">> Start training policy")
 
