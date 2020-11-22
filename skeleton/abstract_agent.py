@@ -67,7 +67,7 @@ class AbstractAgent(object):
         batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)        
         batchDataStateValue = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironment))
                 
-        return (batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue() - self.alphaTemp * batchDataAgent.getEntropy())**2
+        return (batchDataStateValue.getValue() - batchDataAveragedActionValue.getValue() - self.alphaTemp * batchDataAgent.getEntropy()).__abs__()
             
     # <<public, final>>
     def updatePolicy(self, batchDataEnvironment):
@@ -115,4 +115,4 @@ class AbstractAgent(object):
         batchDataActionValue = self.valueFunctionApproximator.getActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
         batchDataStateValueNext = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironmentNextStep))
         
-        return (batchDataActionValue.getValue() - ((1-self.discountFactor) * batchDataReward.getValue() + self.discountFactor * batchDataStateValueNext.getValue()))**2
+        return (batchDataActionValue.getValue() - ((1-self.discountFactor) * batchDataReward.getValue() + self.discountFactor * batchDataStateValueNext.getValue())).__abs__()
