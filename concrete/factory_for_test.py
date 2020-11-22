@@ -21,7 +21,7 @@ class FactoryForTest(object):
     '''
 
 
-    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2):
+    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0):
         
         self.nMv = nMv
         self.nPv = nPv
@@ -30,6 +30,7 @@ class FactoryForTest(object):
         self.nSampleOfActionsInValueFunctionApproximator = nSampleOfActionsInValueFunctionApproximator
         self.nFeatureHorizon = nFeatureHorizon
         self.nHidden = nHidden
+        self.alphaTemp = alphaTemp
         
     def createBatchDataEnvironment(self):
         
@@ -71,4 +72,5 @@ class FactoryForTest(object):
         return ConcreteAgent(policy = self.createPolicy()
                              , valueFunctionApproximator = self.createValueFunctionApproximator()
                              , featureExtractor = self.createFeatureExtractor()
-                             , discountFactor = 0.99)
+                             , discountFactor = 0.99
+                             , alphaTemp = self.alphaTemp)

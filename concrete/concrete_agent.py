@@ -17,8 +17,8 @@ class ConcreteAgent(AbstractAgent):
     '''
 
 
-    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor):
-        AbstractAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor)
+    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp):
+        AbstractAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp)
         
         assert isinstance(policy, ConcretePolicy)
         self.policy = policy
