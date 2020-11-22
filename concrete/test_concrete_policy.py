@@ -24,6 +24,10 @@ class Test(unittest.TestCase):
         
         assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
         
+        assert batchDataAgent.getSampledAction().shape == (self.factory.nBatch, self.factory.nMv)
+        assert batchDataAgent.getEntropy().shape == (self.factory.nBatch, 1)
+        assert batchDataAgent.generateSamples(1).__next__().shape == (self.factory.nBatch, self.factory.nMv)
+        
         
 
 if __name__ == "__main__":
