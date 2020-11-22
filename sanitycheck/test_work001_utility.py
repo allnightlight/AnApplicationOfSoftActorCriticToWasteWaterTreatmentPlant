@@ -15,7 +15,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.utility = Work001Utility.create(nIter = 10)
+        self.utility = Work001Utility.create(nIter = 10, alphaTemp = 0.5)
 
 
     def test001(self):
