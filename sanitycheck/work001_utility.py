@@ -143,17 +143,22 @@ class Work001Utility(object):
         validate a trained action value function
         """
         
+        mvs = []
         values = []
         for _ in range(self.nPlottingSamples):
+            batchDataAgent = self.getRandomBatchDataAgent()
             value = self.agent.valueFunctionApproximator.getActionValue(
                 batchDataFeature = self.agent.featureExtractor.call(self.getFixedBatchDataEnvironment())
-                , batchDataAgent = self.getRandomBatchDataAgent()).getValue().numpy() # (1,1)
+                , batchDataAgent = batchDataAgent).getValue().numpy() # (1,1)
             assert value.shape == (1,1)
             
+            mvs.append(batchDataAgent.getSampledAction())
             values.append(value)
+        mvs = np.concatenate(mvs, axis=-1).squeeze()
         values = np.concatenate(values, axis=-1).squeeze()        
         
-        plt.plot(values, 'o')
+        plt.plot(mvs, values, 'o')
+        plt.grid()
         plt.show()                                    
                     
     def plotTrainedPi(self):
@@ -170,6 +175,7 @@ class Work001Utility(object):
         mvs = np.concatenate(mvs, axis=-1).squeeze()        
         
         plt.plot(mvs, 'o')
+        plt.grid()
         plt.show()                                    
                     
         
