@@ -11,11 +11,12 @@ class ConcretePlant001(AbstractPlant):
     classdocs
     '''
     
-    def __init__(self):
+    def __init__(self, threshold = 2.):
         super(ConcretePlant001, self).__init__()
         
         self.sv = None
         self.x = None
+        self.threshold = threshold
 
     def getPv(self):
         return np.array(self.x).reshape(1,-1).astype(np.float32)
@@ -25,6 +26,11 @@ class ConcretePlant001(AbstractPlant):
         self.x = 0.
         
     def update(self, u):
+        
+        u = u.copy()
+        
+        u[u > self.threshold ] = self.threshold
+        u[u < -self.threshold] = -self.threshold
         
         self.x = u 
         reward = -(self.sv - self.x).__abs__()
