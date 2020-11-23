@@ -41,6 +41,17 @@ class Test(unittest.TestCase):
         environment.reset()
         environment.observe()
         environment.update(AbstractBatchDataAgentFactory().create(context))
+        
+        
+    def test003(self):
+        
+        context = self.contextFactory.create()
+        environment = self.environmentFactory.create(context)
+        
+        assert isinstance(environment, AbstractEnvironment)
+
+        assert isinstance(environment.getNmv(), int)
+        assert isinstance(environment.getNpv(), int)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

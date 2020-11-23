@@ -20,3 +20,11 @@ class AbstractPlant(object):
     # <<abstract>>
     def reset(self):
         pass
+    
+    # <<abstract>>
+    def getNmv(self):
+        return -1
+    
+        # <<abstract>>
+    def getNpv(self):
+        return -1

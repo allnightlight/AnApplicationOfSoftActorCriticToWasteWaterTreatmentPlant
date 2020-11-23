@@ -52,6 +52,23 @@ class Test(unittest.TestCase):
             
             buffer.append(None, None, None, None)
             
+    def test003(self):
+        
+        context = self.contextFactory.create()
+        agent = self.agentFactory.create(context)
+        environment = self.environmentFactory.create(context)
+        trainer = self.trainerFactory.create(context, agent, environment)
+        
+        assert isinstance(trainer, AbstractTrainer) 
+
+        trainer.reset()
+        try:
+            trainer.stepGradient()
+            assert False
+        except:
+            pass
+            
+            
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
     unittest.main()
