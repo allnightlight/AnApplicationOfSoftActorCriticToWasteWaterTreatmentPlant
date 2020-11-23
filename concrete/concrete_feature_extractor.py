@@ -3,10 +3,12 @@ Created on 2020/11/17
 
 @author: ukai
 '''
-from skeleton.abstract_feature_extractor import AbstractFeatureExtractor
 import tensorflow
-from concrete.concrete_batch_data_environment import ConcreteBatchDataEnvironment
+
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
+from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironment
+from skeleton.abstract_feature_extractor import AbstractFeatureExtractor
+
 
 class ConcreteFeatureExtractor(AbstractFeatureExtractor, tensorflow.keras.Model):
     '''
@@ -21,6 +23,6 @@ class ConcreteFeatureExtractor(AbstractFeatureExtractor, tensorflow.keras.Model)
 
     def call(self, batchDataEnvironment):
         
-        assert isinstance(batchDataEnvironment, ConcreteBatchDataEnvironment)
+        assert isinstance(batchDataEnvironment, AbstractBatchDataEnvironment)
         
         return ConcreteBatchDataFeature(_Feature = self.pv2feature(batchDataEnvironment.bufferPv[-1])) # (..., nPv) 

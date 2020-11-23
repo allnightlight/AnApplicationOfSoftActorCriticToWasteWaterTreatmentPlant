@@ -13,6 +13,10 @@ from concrete.concrete_value_function_approximator import ConcreteValueFunctionA
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 import tensorflow
 import numpy as np
+from skeleton.abstract_environment import AbstractEnvironment
+from plants.concrete_plant001 import ConcretePlant001
+from skeleton.abstract_trainer import AbstractTrainer
+from skeleton.abstract_replay_buffer import AbstractReplayBuffer
 
 
 class FactoryForTest(object):
@@ -74,3 +78,24 @@ class FactoryForTest(object):
                              , featureExtractor = self.createFeatureExtractor()
                              , discountFactor = 0.99
                              , alphaTemp = self.alphaTemp)
+            
+    def createTrainer(self):
+        
+        environment = AbstractEnvironment(plant = ConcretePlant001()) 
+        
+        nHidden = 2**3
+        nSampleOfActionsInValueFunctionApproximator = 2**3
+        nFeature = 2**0
+        
+        agent = ConcreteAgent(policy = ConcretePolicy(nMv = environment.getNmv())
+                              , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
+                              , featureExtractor = ConcreteFeatureExtractor(nFeature)
+                              , discountFactor = 0.99
+                              , alphaTemp = 1.0)
+        
+        return AbstractTrainer(agent = agent
+                               , environment = environment
+                               , replayBuffer = AbstractReplayBuffer(bufferSize = 2**10)
+                               , nStepEnvironment = 1
+                               , nStepGradient = 1
+                               , nIntervalUpdateStateValueFunction = 1)
