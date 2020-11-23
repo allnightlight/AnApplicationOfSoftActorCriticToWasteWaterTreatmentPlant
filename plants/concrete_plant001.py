@@ -3,6 +3,7 @@ Created on 2020/11/23
 
 @author: ukai
 '''
+import numpy as np
 from skeleton.abstract_plant import AbstractPlant
 
 class ConcretePlant001(AbstractPlant):
@@ -17,7 +18,7 @@ class ConcretePlant001(AbstractPlant):
         self.x = None
 
     def getPv(self):
-        return self.x
+        return np.array(self.x).reshape(1,-1)
     
     def reset(self):
         self.sv = 1.
@@ -29,3 +30,9 @@ class ConcretePlant001(AbstractPlant):
         reward = -(self.sv - self.x).__abs__()
         
         return reward
+    
+    def getNmv(self):
+        return 1
+    
+    def getNpv(self):
+        return 1

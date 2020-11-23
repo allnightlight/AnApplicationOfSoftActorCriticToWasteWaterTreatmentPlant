@@ -30,6 +30,9 @@ class Test(unittest.TestCase):
         pv = plant.getPv()
         assert pv is not None
         
+        assert plant.getPv() == 1
+        assert plant.getNmv() == 1
+        
     def test002(self):
         
         environment = self.factory.createEnvironmentPoweredByPlant001()
@@ -41,15 +44,21 @@ class Test(unittest.TestCase):
         batchDataEnvironment = environment.observe()
         
         assert isinstance(batchDataEnvironment, AbstractBatchDataEnvironment)
+        assert batchDataEnvironment.bufferPv[-1] is not None
         
         for batchDataAgent in self.factory.generateBatchDataAgentForPlant001():
             
             assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
+            
+            batchDataEnvironment = environment.observe()
+            assert batchDataEnvironment.bufferPv[-1] is not None
         
             batchDataReward = environment.update(batchDataAgent)
             
             assert isinstance(batchDataReward, AbstractBatchDataReward)
         
+        assert environment.getNmv() == 1
+        assert environment.getNpv() == 1
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
