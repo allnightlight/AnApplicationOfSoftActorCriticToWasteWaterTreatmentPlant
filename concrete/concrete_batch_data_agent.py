@@ -18,6 +18,22 @@ class ConcreteBatchDataAgent(AbstractBatchDataAgent):
         self._LogSd = _LogSd # (..., nMv)
         
         self.sampledAction = self.getSample() # (..., nMv)
+        
+    def getSampledActionOnEnvironment(self):
+        """
+        Output is returned as <<numpy.ndarray>> 
+        since it's used for updating plant objects, which is out of tensorflow's graphs.
+        """        
+        
+        return self.sampledAction.numpy() # (..., nMv)
+
+    def getSampledAction(self):
+        """
+        This function returns sampled action as an instance of <<tensorflow.Tensor>>
+        since it can be used in a tensorflow's graph.
+        """
+        
+        return self.sampledAction  # (..., nMv)
 
     def getSample(self):
         return self._Mean + tensorflow.random.normal(shape=self._LogSd.shape) * tensorflow.exp(self._LogSd) # (..., nMv)

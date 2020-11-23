@@ -47,6 +47,8 @@ class AbstractTrainer(object):
         self.replayBuffer.append(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
         
     def stepGradient(self):
+        
+        assert len(self.replayBuffer.buffer) > 0, "Replay buffer is empty so far. Please, run stepEnvironment at least once."
 
         batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = self.replayBuffer.getStateActionRewardAndNextState()
         
