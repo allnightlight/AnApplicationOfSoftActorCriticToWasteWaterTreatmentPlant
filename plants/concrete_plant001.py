@@ -18,7 +18,7 @@ class ConcretePlant001(AbstractPlant):
         self.x = None
 
     def getPv(self):
-        return np.array(self.x).reshape(1,-1)
+        return np.array(self.x).reshape(1,-1).astype(np.float32)
     
     def reset(self):
         self.sv = 1.
