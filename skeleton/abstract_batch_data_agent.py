@@ -9,12 +9,9 @@ class AbstractBatchDataAgent(object):
     classdocs
     '''
     
-    def __init__(self):
-        self.sampledAction = None
-
     # <<abstract>>
-    def getSampledAction(self):
-        return self.sampledAction
+    def getSampledActionOnEnvironment(self):
+        return None
     
     # <<abstract>>
     def getEntropy(self):

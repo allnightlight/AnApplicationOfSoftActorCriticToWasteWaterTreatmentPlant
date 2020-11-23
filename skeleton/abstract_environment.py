@@ -25,10 +25,12 @@ class AbstractEnvironment(object):
         
         self.bufferPv = [self.plant.getPv(),]
         self.bufferMv = []
+        
+        self.plant.reset()
 
     def update(self, batchDataAgent):
         
-        mv = batchDataAgent.getSampledAction()
+        mv = batchDataAgent.getSampledActionOnEnvironment()
         r = self.plant.update(mv)
         pvNext = self.plant.getPv()
         self.bufferMv.append(mv)
