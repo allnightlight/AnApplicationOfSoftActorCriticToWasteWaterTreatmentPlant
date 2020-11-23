@@ -10,6 +10,7 @@ from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironmen
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from skeleton.abstract_batch_data_reward import AbstractBatchDataReward
 
+import numpy as np
 
 class Test(unittest.TestCase):
 
@@ -24,7 +25,7 @@ class Test(unittest.TestCase):
         
         plant.reset()
         
-        reward = plant.update(u = 1.0)
+        reward = plant.update(u = np.ones((1,1)))
         assert reward is not None
 
         pv = plant.getPv()
