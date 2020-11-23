@@ -22,11 +22,11 @@ class AbstractEnvironment(object):
 
 
     def reset(self):
+
+        self.plant.reset()
         
         self.bufferPv = [self.plant.getPv(),]
-        self.bufferMv = []
-        
-        self.plant.reset()
+        self.bufferMv = []        
 
     def update(self, batchDataAgent):
         
@@ -39,3 +39,11 @@ class AbstractEnvironment(object):
     
     def observe(self):
         return AbstractBatchDataEnvironment(self.bufferPv, self.bufferMv) # as BatchDataEnvironment
+    
+    # <<public, final>>
+    def getNmv(self):
+        return self.plant.getNmv()
+    
+    # <<public, final>>
+    def getNpv(self):
+        return self.plant.getNpv()
