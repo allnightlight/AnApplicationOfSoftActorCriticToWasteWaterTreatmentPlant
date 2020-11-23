@@ -10,6 +10,7 @@ from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from builtins import isinstance
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 import tensorflow
+import numpy as np
 
 
 class Test(unittest.TestCase):
@@ -32,6 +33,11 @@ class Test(unittest.TestCase):
         batchDataAgent = self.factory.createBatchDataAgent()
         
         assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
+        
+        sampledActionOnEnv = batchDataAgent.getSampledActionOnEnvironment() # (nBatch, nMv)
+        
+        assert isinstance(sampledActionOnEnv, np.ndarray)
+        assert sampledActionOnEnv.shape == (self.factory.nBatch, self.factory.nMv)
         
         _SampledAction = batchDataAgent.getSampledAction() # (nBatch, nMv)
         
