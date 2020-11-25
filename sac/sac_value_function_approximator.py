@@ -3,12 +3,12 @@ Created on 2020/11/10
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_feature import AbstractBatchDataFeature
-from skeleton.abstract_batch_data_value import AbstractBatchDataValue
-from skeleton.abstract_batch_data_agent import AbstractBatchDataAgent
+from sac.sac_batch_data_feature import SacBatchDataFeature
+from sac.sac_batch_data_value import SacBatchDataValue
+from sac.sac_batch_data_agent import SacBatchDataAgent
 
 
-class AbstractValueFunctionApproximator(object):
+class SacValueFunctionApproximator(object):
     '''
     classdocs
     '''
@@ -16,19 +16,19 @@ class AbstractValueFunctionApproximator(object):
         
     def call(self, batchDataFeature, batchDataAgent):
         
-        assert isinstance(batchDataFeature, AbstractBatchDataFeature)
-        assert batchDataAgent is None or isinstance(batchDataAgent, AbstractBatchDataAgent)
+        assert isinstance(batchDataFeature, SacBatchDataFeature)
+        assert batchDataAgent is None or isinstance(batchDataAgent, SacBatchDataAgent)
         
-        return AbstractBatchDataValue()
+        return SacBatchDataValue()
     
     # <<abstract>>
     def getActionValue(self, batchDataFeature, batchDataAgent):
-        return AbstractBatchDataValue()
+        return SacBatchDataValue()
 
     # <<abstract>>
     def getStateValue(self, batchDataFeature):
-        return AbstractBatchDataValue()
+        return SacBatchDataValue()
     
     # <<abstract>>
     def getAveragedActionValue(self, batchDataFeature, batchDataAgent):
-        return AbstractBatchDataValue()
+        return SacBatchDataValue()

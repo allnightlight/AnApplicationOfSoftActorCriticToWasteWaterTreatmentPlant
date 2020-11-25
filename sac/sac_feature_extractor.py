@@ -3,10 +3,10 @@ Created on 2020/11/10
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironment
-from skeleton.abstract_batch_data_feature import AbstractBatchDataFeature
+from sac.sac_batch_data_environment import SacBatchDataEnvironment
+from sac.sac_batch_data_feature import SacBatchDataFeature
 
-class AbstractFeatureExtractor(object):
+class SacFeatureExtractor(object):
     '''
     classdocs
     '''
@@ -14,6 +14,6 @@ class AbstractFeatureExtractor(object):
 
     def call(self, batchDataEnvironment):
         
-        assert isinstance(batchDataEnvironment, AbstractBatchDataEnvironment)
+        assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
         
-        return AbstractBatchDataFeature()
+        return SacBatchDataFeature()

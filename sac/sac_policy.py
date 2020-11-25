@@ -3,10 +3,10 @@ Created on 2020/11/10
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_feature import AbstractBatchDataFeature
-from skeleton.abstract_batch_data_agent import AbstractBatchDataAgent
+from sac.sac_batch_data_feature import SacBatchDataFeature
+from sac.sac_batch_data_agent import SacBatchDataAgent
 
-class AbstractPolicy(object):
+class SacPolicy(object):
     '''
     classdocs
     '''
@@ -14,6 +14,6 @@ class AbstractPolicy(object):
         
     def call(self, batchDataFeature):
         
-        assert isinstance(batchDataFeature, AbstractBatchDataFeature)
+        assert isinstance(batchDataFeature, SacBatchDataFeature)
         
-        return AbstractBatchDataAgent()
+        return SacBatchDataAgent()

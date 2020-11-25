@@ -4,9 +4,9 @@ Created on 2020/11/10
 @author: ukai
 '''
 import unittest
-from skeleton.abstract_trainer import AbstractTrainer
-from skeleton.abstract_replay_buffer import AbstractReplayBuffer
-from skeleton.factory_for_test import FactoryForTest
+from sac.sac_trainer import SacTrainer
+from sac.sac_replay_buffer import SacReplayBuffer
+from sac.factory_for_test import FactoryForTest
 
 
 class Test(unittest.TestCase):
@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
         
         trainer = self.factory.createTrainer()
         
-        assert isinstance(trainer, AbstractTrainer) 
+        assert isinstance(trainer, SacTrainer) 
 
         trainer.reset()
         trainer.train(1)
@@ -29,7 +29,7 @@ class Test(unittest.TestCase):
     def test002(self):
         
         bufferSize = 10
-        buffer = AbstractReplayBuffer(bufferSize)
+        buffer = SacReplayBuffer(bufferSize)
         buffer.reset()
         for k1 in range(bufferSize * 2 + 1):
             assert len(buffer.buffer) <= bufferSize
@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
 
         trainer = self.factory.createTrainer()        
         
-        assert isinstance(trainer, AbstractTrainer) 
+        assert isinstance(trainer, SacTrainer) 
 
         trainer.reset()
         try:

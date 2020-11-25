@@ -6,7 +6,7 @@ Created on 2020/11/16
 
 import numpy as np
 
-class AbstractReplayBuffer(object):
+class SacReplayBuffer(object):
     '''
     classdocs
     '''

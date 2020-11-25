@@ -3,11 +3,11 @@ Created on 2020/11/11
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_reward import AbstractBatchDataReward
-from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironment
-from skeleton.abstract_plant import AbstractPlant
+from sac.sac_batch_data_reward import SacBatchDataReward
+from sac.sac_batch_data_environment import SacBatchDataEnvironment
+from sac.sac_plant import SacPlant
 
-class AbstractEnvironment(object):
+class SacEnvironment(object):
     '''
     classdocs
     '''
@@ -15,7 +15,7 @@ class AbstractEnvironment(object):
     
     def __init__(self, plant):
         
-        assert isinstance(plant, AbstractPlant)
+        assert isinstance(plant, SacPlant)
         self.plant = plant
         self.bufferPv = None
         self.bufferMv = None
@@ -35,10 +35,10 @@ class AbstractEnvironment(object):
         pvNext = self.plant.getPv()
         self.bufferMv.append(mv)
         self.bufferPv.append(pvNext) 
-        return AbstractBatchDataReward(r) # as BatchDataReward
+        return SacBatchDataReward(r) # as BatchDataReward
     
     def observe(self):
-        return AbstractBatchDataEnvironment(self.bufferPv, self.bufferMv) # as BatchDataEnvironment
+        return SacBatchDataEnvironment(self.bufferPv, self.bufferMv) # as BatchDataEnvironment
     
     # <<public, final>>
     def getNmv(self):
