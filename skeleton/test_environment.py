@@ -4,12 +4,9 @@ Created on 2020/11/14
 @author: ukai
 '''
 import unittest
-from skeleton.abstract_environment_factory import AbstractEnvironmentFactory
-from skeleton.abstract_context import AbstractContext
-from skeleton.abstract_context_factory import AbstractContextFactory
 from skeleton.abstract_plant import AbstractPlant
 from skeleton.abstract_environment import AbstractEnvironment
-from skeleton.abstract_batch_data_agent_factory import AbstractBatchDataAgentFactory
+from skeleton.factory_for_test import FactoryForTest
 
 
 class Test(unittest.TestCase):
@@ -17,12 +14,11 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.contextFactory = AbstractContextFactory()
-        self.environmentFactory = AbstractEnvironmentFactory()
+        self.factory = FactoryForTest()
 
     def test001(self):
         
-        plant = self.environmentFactory.createPlant(self.contextFactory.create())
+        plant = self.factory.createPlant()
         
         assert isinstance(plant, AbstractPlant)
         
@@ -33,20 +29,18 @@ class Test(unittest.TestCase):
         
     def test002(self):
         
-        context = self.contextFactory.create()
-        environment = self.environmentFactory.create(context)
+        environment = self.factory.createEnvironment()
         
         assert isinstance(environment, AbstractEnvironment)
         
         environment.reset()
         environment.observe()
-        environment.update(AbstractBatchDataAgentFactory().create(context))
+        environment.update(self.factory.createBatchDataAgent())
         
         
     def test003(self):
         
-        context = self.contextFactory.create()
-        environment = self.environmentFactory.create(context)
+        environment = self.factory.createEnvironment()
         
         assert isinstance(environment, AbstractEnvironment)
 
