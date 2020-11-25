@@ -4,7 +4,7 @@ Created on 2020/11/14
 @author: ukai
 '''
 
-class AbstractPlant(object):
+class SacPlant(object):
     '''
     classdocs
     '''

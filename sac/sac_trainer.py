@@ -3,13 +3,13 @@ Created on 2020/11/10
 
 @author: ukai
 '''
-from skeleton.abstract_agent import AbstractAgent
-from skeleton.abstract_environment import AbstractEnvironment
-from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironment
-from skeleton.abstract_batch_data_agent import AbstractBatchDataAgent
-from skeleton.abstract_batch_data_reward import AbstractBatchDataReward
+from sac.sac_agent import SacAgent
+from sac.sac_environment import SacEnvironment
+from sac.sac_batch_data_environment import SacBatchDataEnvironment
+from sac.sac_batch_data_agent import SacBatchDataAgent
+from sac.sac_batch_data_reward import SacBatchDataReward
 
-class AbstractTrainer(object):
+class SacTrainer(object):
     '''
     classdocs
     '''
@@ -20,10 +20,10 @@ class AbstractTrainer(object):
         Constructor
         '''
         
-        assert isinstance(agent, AbstractAgent)
+        assert isinstance(agent, SacAgent)
         self.agent = agent
         
-        assert isinstance(environment, AbstractEnvironment)
+        assert isinstance(environment, SacEnvironment)
         self.environment = environment
         
         self.nStepEnvironment = nStepEnvironment

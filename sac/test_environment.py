@@ -4,9 +4,9 @@ Created on 2020/11/14
 @author: ukai
 '''
 import unittest
-from skeleton.abstract_plant import AbstractPlant
-from skeleton.abstract_environment import AbstractEnvironment
-from skeleton.factory_for_test import FactoryForTest
+from sac.sac_plant import SacPlant
+from sac.sac_environment import SacEnvironment
+from sac.factory_for_test import FactoryForTest
 
 
 class Test(unittest.TestCase):
@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
         
         plant = self.factory.createPlant()
         
-        assert isinstance(plant, AbstractPlant)
+        assert isinstance(plant, SacPlant)
         
         plant.reset()
         _ = plant.update(u = None)
@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
         
         environment = self.factory.createEnvironment()
         
-        assert isinstance(environment, AbstractEnvironment)
+        assert isinstance(environment, SacEnvironment)
         
         environment.reset()
         environment.observe()
@@ -42,7 +42,7 @@ class Test(unittest.TestCase):
         
         environment = self.factory.createEnvironment()
         
-        assert isinstance(environment, AbstractEnvironment)
+        assert isinstance(environment, SacEnvironment)
 
         assert isinstance(environment.getNmv(), int)
         assert isinstance(environment.getNpv(), int)

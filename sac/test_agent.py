@@ -5,9 +5,9 @@ Created on 2020/11/10
 '''
 import unittest
 
-from skeleton.abstract_agent import AbstractAgent
-from skeleton.abstract_batch_data_agent import AbstractBatchDataAgent
-from skeleton.factory_for_test import FactoryForTest
+from sac.sac_agent import SacAgent
+from sac.sac_batch_data_agent import SacBatchDataAgent
+from sac.factory_for_test import FactoryForTest
 
 
 class Test(unittest.TestCase):
@@ -22,18 +22,18 @@ class Test(unittest.TestCase):
         
         agent = self.factory.createAgent()
         
-        assert isinstance(agent, AbstractAgent)
+        assert isinstance(agent, SacAgent)
                 
         batchDataAgent = agent.getAction(self.factory.createBatchDataEnvironment())
         
-        assert isinstance(batchDataAgent, AbstractBatchDataAgent)
+        assert isinstance(batchDataAgent, SacBatchDataAgent)
         
         
     def test002(self):
 
         agent = self.factory.createAgent()
         
-        assert isinstance(agent, AbstractAgent)        
+        assert isinstance(agent, SacAgent)        
         
         agent.updatePolicy(batchDataEnvironment = self.factory.createBatchDataEnvironment())
 

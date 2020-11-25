@@ -3,11 +3,11 @@ Created on 2020/11/10
 
 @author: ukai
 '''
-from skeleton.abstract_policy import AbstractPolicy
-from skeleton.abstract_value_function_approximator import AbstractValueFunctionApproximator
-from skeleton.abstract_feature_extractor import AbstractFeatureExtractor
+from sac.sac_policy import SacPolicy
+from sac.sac_value_function_approximator import SacValueFunctionApproximator
+from sac.sac_feature_extractor import SacFeatureExtractor
 
-class AbstractAgent(object):
+class SacAgent(object):
     '''
     classdocs
     '''
@@ -15,13 +15,13 @@ class AbstractAgent(object):
 
     def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp):
         
-        assert isinstance(policy, AbstractPolicy)        
+        assert isinstance(policy, SacPolicy)        
         self.policy = policy
         
-        assert isinstance(valueFunctionApproximator, AbstractValueFunctionApproximator)
+        assert isinstance(valueFunctionApproximator, SacValueFunctionApproximator)
         self.valueFunctionApproximator = valueFunctionApproximator
         
-        assert isinstance(featureExtractor, AbstractFeatureExtractor)
+        assert isinstance(featureExtractor, SacFeatureExtractor)
         self.featureExtractor = featureExtractor
         
         self.discountFactor = discountFactor

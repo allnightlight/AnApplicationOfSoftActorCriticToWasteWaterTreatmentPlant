@@ -3,17 +3,17 @@ Created on 2020/11/25
 
 @author: ukai
 '''
-from skeleton.abstract_agent import AbstractAgent
-from skeleton.abstract_batch_data_agent import AbstractBatchDataAgent
-from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironment
-from skeleton.abstract_batch_data_reward import AbstractBatchDataReward
-from skeleton.abstract_environment import AbstractEnvironment
-from skeleton.abstract_feature_extractor import AbstractFeatureExtractor
-from skeleton.abstract_plant import AbstractPlant
-from skeleton.abstract_policy import AbstractPolicy
-from skeleton.abstract_replay_buffer import AbstractReplayBuffer
-from skeleton.abstract_trainer import AbstractTrainer
-from skeleton.abstract_value_function_approximator import AbstractValueFunctionApproximator
+from sac.sac_agent import SacAgent
+from sac.sac_batch_data_agent import SacBatchDataAgent
+from sac.sac_batch_data_environment import SacBatchDataEnvironment
+from sac.sac_batch_data_reward import SacBatchDataReward
+from sac.sac_environment import SacEnvironment
+from sac.sac_feature_extractor import SacFeatureExtractor
+from sac.sac_plant import SacPlant
+from sac.sac_policy import SacPolicy
+from sac.sac_replay_buffer import SacReplayBuffer
+from sac.sac_trainer import SacTrainer
+from sac.sac_value_function_approximator import SacValueFunctionApproximator
 
 
 class FactoryForTest(object):
@@ -37,31 +37,31 @@ class FactoryForTest(object):
         self.discountFactor = discountFactor
 
     def createBatchDataAgent(self):
-        return AbstractBatchDataAgent()
+        return SacBatchDataAgent()
     
     def createBatchDataEnvironment(self):
-        return AbstractBatchDataEnvironment()
+        return SacBatchDataEnvironment()
     
     def createBatchDataReward(self):
-        return AbstractBatchDataReward()
+        return SacBatchDataReward()
     
     def createPlant(self):
-        return AbstractPlant()
+        return SacPlant()
     
     def createEnvironment(self):
-        return AbstractEnvironment(self.createPlant())
+        return SacEnvironment(self.createPlant())
     
     def createAgent(self):
-        return AbstractAgent(policy = AbstractPolicy()
-                     , valueFunctionApproximator = AbstractValueFunctionApproximator()
-                     , featureExtractor = AbstractFeatureExtractor()
+        return SacAgent(policy = SacPolicy()
+                     , valueFunctionApproximator = SacValueFunctionApproximator()
+                     , featureExtractor = SacFeatureExtractor()
                      , discountFactor = self.discountFactor
                      , alphaTemp = self.alphaTemp)
         
     def createTrainer(self):
-        return AbstractTrainer(agent = self.createAgent()
+        return SacTrainer(agent = self.createAgent()
                        , environment = self.createEnvironment()
-                       , replayBuffer = AbstractReplayBuffer(bufferSize = self.bufferSize)
+                       , replayBuffer = SacReplayBuffer(bufferSize = self.bufferSize)
                        , nStepEnvironment = self.nStepEnvironment
                        , nStepGradient = self.nStepGradient
                        , nIntervalUpdateStateValueFunction = self.nIntervalUpdateStateValueFunction)
