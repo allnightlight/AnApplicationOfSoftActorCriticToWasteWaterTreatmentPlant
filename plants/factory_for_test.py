@@ -9,7 +9,7 @@ from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 import numpy as np
 from plants.concrete_plant001 import ConcretePlant001
 from plants.concrete_plant002 import ConcretePlant002
-from skeleton.abstract_environment import AbstractEnvironment
+from sac.sac_environment import SacEnvironment
 
 
 class FactoryForTest(object):
@@ -30,7 +30,7 @@ class FactoryForTest(object):
     
     def createEnvironmentPoweredByPlant001(self):
         
-        return AbstractEnvironment(plant = ConcretePlant001())
+        return SacEnvironment(plant = ConcretePlant001())
     
     def generateBatchDataAgentForPlant001(self):
         
@@ -47,7 +47,7 @@ class FactoryForTest(object):
     
     def createEnvironmentPoweredByPlant002(self):
         
-        return AbstractEnvironment(plant = ConcretePlant002())
+        return SacEnvironment(plant = ConcretePlant002())
     
     def generateBatchDataAgentForPlant002(self):
         

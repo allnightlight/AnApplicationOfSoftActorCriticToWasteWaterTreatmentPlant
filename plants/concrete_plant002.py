@@ -4,9 +4,9 @@ Created on 2020/11/23
 @author: ukai
 '''
 import numpy as np
-from skeleton.abstract_plant import AbstractPlant
+from sac.sac_plant import SacPlant
 
-class ConcretePlant002(AbstractPlant):
+class ConcretePlant002(SacPlant):
     '''
     classdocs
     '''

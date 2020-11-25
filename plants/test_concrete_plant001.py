@@ -5,10 +5,10 @@ Created on 2020/11/23
 '''
 import unittest
 from plants.factory_for_test import FactoryForTest
-from skeleton.abstract_environment import AbstractEnvironment
-from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironment
+from sac.sac_environment import SacEnvironment
+from sac.sac_batch_data_environment import SacBatchDataEnvironment
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
-from skeleton.abstract_batch_data_reward import AbstractBatchDataReward
+from sac.sac_batch_data_reward import SacBatchDataReward
 
 import numpy as np
 
@@ -38,13 +38,13 @@ class Test(unittest.TestCase):
         
         environment = self.factory.createEnvironmentPoweredByPlant001()
 
-        assert isinstance(environment, AbstractEnvironment)
+        assert isinstance(environment, SacEnvironment)
         
         environment.reset()
 
         batchDataEnvironment = environment.observe()
         
-        assert isinstance(batchDataEnvironment, AbstractBatchDataEnvironment)
+        assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
         assert batchDataEnvironment.bufferPv[-1] is not None
         
         for batchDataAgent in self.factory.generateBatchDataAgentForPlant001():
@@ -56,7 +56,7 @@ class Test(unittest.TestCase):
         
             batchDataReward = environment.update(batchDataAgent)
             
-            assert isinstance(batchDataReward, AbstractBatchDataReward)
+            assert isinstance(batchDataReward, SacBatchDataReward)
         
         assert environment.getNmv() == 1
         assert environment.getNpv() == 1
