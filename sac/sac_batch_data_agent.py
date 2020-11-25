@@ -4,7 +4,7 @@ Created on 2020/11/10
 @author: ukai
 '''
 
-class AbstractBatchDataAgent(object):
+class SacBatchDataAgent(object):
     '''
     classdocs
     '''

@@ -3,9 +3,9 @@ Created on 2020/11/19
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_reward import AbstractBatchDataReward
+from sac.sac_batch_data_reward import SacBatchDataReward
 
-class ConcreteBatchDataReward(AbstractBatchDataReward):
+class ConcreteBatchDataReward(SacBatchDataReward):
     '''
     classdocs
     '''

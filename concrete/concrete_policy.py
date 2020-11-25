@@ -7,10 +7,10 @@ Created on 2020/11/15
 import tensorflow
 
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
-from skeleton.abstract_policy import AbstractPolicy
+from sac.sac_policy import SacPolicy
 
 
-class ConcretePolicy(AbstractPolicy, tensorflow.keras.Model):
+class ConcretePolicy(SacPolicy, tensorflow.keras.Model):
     '''
     classdocs
     '''
@@ -19,7 +19,7 @@ class ConcretePolicy(AbstractPolicy, tensorflow.keras.Model):
     def __init__(self, nMv):
         super().__init__()
         
-        AbstractPolicy.__init__(self)
+        SacPolicy.__init__(self)
         
         self.feature2mean = tensorflow.keras.layers.Dense(units = nMv)
         self.feature2logSd = tensorflow.keras.layers.Dense(units = nMv)

@@ -3,9 +3,9 @@ Created on 2020/11/16
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_value import AbstractBatchDataValue
+from sac.sac_batch_data_value import SacBatchDataValue
 
-class ConcreteBatchDataValue(AbstractBatchDataValue):
+class ConcreteBatchDataValue(SacBatchDataValue):
     '''
     classdocs
     '''

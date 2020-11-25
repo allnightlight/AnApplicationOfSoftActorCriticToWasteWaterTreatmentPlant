@@ -6,17 +6,18 @@ Created on 2020/11/23
 import numpy as np
 from sac.sac_plant import SacPlant
 
-class ConcretePlant001(SacPlant):
+class ConcretePlant002(SacPlant):
     '''
     classdocs
     '''
     
-    def __init__(self, threshold = 2.):
-        super(ConcretePlant001, self).__init__()
+    def __init__(self, threshold = 2., tau = 10.):
+        super(ConcretePlant002, self).__init__()
         
         self.sv = None
         self.x = None
         self.threshold = threshold
+        self.tau = tau
 
     def getPv(self):
         return np.array(self.x).reshape(1,-1).astype(np.float32)
@@ -32,7 +33,7 @@ class ConcretePlant001(SacPlant):
         u[u > self.threshold ] = self.threshold
         u[u < -self.threshold] = -self.threshold
         
-        self.x = u 
+        self.x = (1-1/self.tau) * self.x + 1/self.tau * u
         reward = -(self.sv - self.x).__abs__()
         
         return reward

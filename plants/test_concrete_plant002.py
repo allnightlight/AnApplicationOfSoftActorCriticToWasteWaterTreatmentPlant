@@ -19,9 +19,9 @@ class Test(unittest.TestCase):
 
         self.factory = FactoryForTest()
 
-    def test001(self):
+    def test002(self):
         
-        plant = self.factory.createPlant001()
+        plant = self.factory.createPlant002()
         
         plant.reset()
         
@@ -30,13 +30,10 @@ class Test(unittest.TestCase):
 
         pv = plant.getPv()
         assert pv is not None
+                
+    def test001(self):
         
-        assert plant.getPv() == 1
-        assert plant.getNmv() == 1
-        
-    def test002(self):
-        
-        environment = self.factory.createEnvironmentPoweredByPlant001()
+        environment = self.factory.createEnvironmentPoweredByPlant002()
 
         assert isinstance(environment, SacEnvironment)
         
@@ -47,7 +44,7 @@ class Test(unittest.TestCase):
         assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
         assert batchDataEnvironment.bufferPv[-1] is not None
         
-        for batchDataAgent in self.factory.generateBatchDataAgentForPlant001():
+        for batchDataAgent in self.factory.generateBatchDataAgentForPlant002():
             
             assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
             
@@ -62,5 +59,5 @@ class Test(unittest.TestCase):
         assert environment.getNpv() == 1
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.test001']
+    #import sys;sys.argv = ['', 'Test.test002']
     unittest.main()
