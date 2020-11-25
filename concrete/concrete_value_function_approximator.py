@@ -7,12 +7,12 @@ Created on 2020/11/16
 import tensorflow
 
 from concrete.concrete_batch_data_value import ConcreteBatchDataValue
-from skeleton.abstract_value_function_approximator import AbstractValueFunctionApproximator
+from sac.sac_value_function_approximator import SacValueFunctionApproximator
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 
 
-class ConcreteValueFunctionApproximator(AbstractValueFunctionApproximator, tensorflow.keras.Model):
+class ConcreteValueFunctionApproximator(SacValueFunctionApproximator, tensorflow.keras.Model):
     '''
     classdocs
     '''

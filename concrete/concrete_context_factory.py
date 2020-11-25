@@ -3,9 +3,9 @@ Created on 2020/11/16
 
 @author: ukai
 '''
-from skeleton.abstract_context_factory import AbstractContextFactory
+from sac.sac_context_factory import SacContextFactory
 
-class ContextContextFactory(AbstractContextFactory):
+class ContextContextFactory(SacContextFactory):
     '''
     classdocs
     '''
@@ -17,4 +17,4 @@ class ContextContextFactory(AbstractContextFactory):
         nIntervalUpdateStateValueFunction=1, 
         bufferSize=10):
         
-        return AbstractContextFactory.create(self, nStepEnvironment=nStepEnvironment, nStepGradient=nStepGradient, nIntervalUpdateStateValueFunction=nIntervalUpdateStateValueFunction, bufferSize=bufferSize)
+        return SacContextFactory.create(self, nStepEnvironment=nStepEnvironment, nStepGradient=nStepGradient, nIntervalUpdateStateValueFunction=nIntervalUpdateStateValueFunction, bufferSize=bufferSize)

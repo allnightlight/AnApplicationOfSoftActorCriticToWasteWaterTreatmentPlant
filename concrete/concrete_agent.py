@@ -4,21 +4,21 @@ Created on 2020/11/15
 @author: ukai
 '''
 
-from skeleton.abstract_agent import AbstractAgent
+from sac.sac_agent import SacAgent
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
 import tensorflow
 
 
-class ConcreteAgent(AbstractAgent):
+class ConcreteAgent(SacAgent):
     '''
     classdocs
     '''
 
 
     def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp):
-        AbstractAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp)
+        SacAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp)
         
         assert isinstance(policy, ConcretePolicy)
         self.policy = policy
@@ -34,7 +34,7 @@ class ConcreteAgent(AbstractAgent):
         self.optimizerForUpdateStateValueFunction = None
         
     def reset(self):
-        AbstractAgent.reset(self)  
+        SacAgent.reset(self)  
         
         self.optimizerForUpdateActionValueFunction = tensorflow.keras.optimizers.Adam()
         self.optimizerForUpdatePolicy = tensorflow.keras.optimizers.Adam()

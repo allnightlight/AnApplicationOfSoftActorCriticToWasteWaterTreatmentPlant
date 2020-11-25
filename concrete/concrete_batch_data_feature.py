@@ -3,16 +3,16 @@ Created on 2020/11/15
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_feature import AbstractBatchDataFeature
+from sac.sac_batch_data_feature import SacBatchDataFeature
 
-class ConcreteBatchDataFeature(AbstractBatchDataFeature):
+class ConcreteBatchDataFeature(SacBatchDataFeature):
     '''
     classdocs
     '''
 
 
     def __init__(self, _Feature):
-        AbstractBatchDataFeature.__init__(self)        
+        SacBatchDataFeature.__init__(self)        
         self._Feature = _Feature
         
         

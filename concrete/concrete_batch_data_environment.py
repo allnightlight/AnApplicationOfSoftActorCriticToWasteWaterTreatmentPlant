@@ -3,9 +3,9 @@ Created on 2020/11/17
 
 @author: ukai
 '''
-from skeleton.abstract_batch_data_environment import AbstractBatchDataEnvironment
+from sac.sac_batch_data_environment import SacBatchDataEnvironment
 
-class ConcreteBatchDataEnvironment(AbstractBatchDataEnvironment):
+class ConcreteBatchDataEnvironment(SacBatchDataEnvironment):
     '''
     classdocs
     '''

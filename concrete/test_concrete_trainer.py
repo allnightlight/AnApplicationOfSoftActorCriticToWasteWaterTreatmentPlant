@@ -5,7 +5,7 @@ Created on 2020/11/23
 '''
 import unittest
 from concrete.factory_for_test import FactoryForTest
-from skeleton.abstract_trainer import AbstractTrainer
+from sac.sac_trainer import SacTrainer
 import numpy
 
 
@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
         
         trainer = self.factory.createTrainer()
         
-        assert isinstance(trainer, AbstractTrainer)
+        assert isinstance(trainer, SacTrainer)
         
         trainer.reset()
                 
@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
         
         trainer = self.factory.createTrainer()
         
-        assert isinstance(trainer, AbstractTrainer)
+        assert isinstance(trainer, SacTrainer)
         
         trainer.reset()
         
