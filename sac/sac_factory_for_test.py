@@ -16,7 +16,7 @@ from sac.sac_trainer import SacTrainer
 from sac.sac_value_function_approximator import SacValueFunctionApproximator
 
 
-class FactoryForTest(object):
+class SacFactoryForTest(object):
     '''
     classdocs
     '''
