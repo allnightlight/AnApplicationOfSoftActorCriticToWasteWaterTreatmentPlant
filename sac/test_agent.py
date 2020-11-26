@@ -7,7 +7,7 @@ import unittest
 
 from sac.sac_agent import SacAgent
 from sac.sac_batch_data_agent import SacBatchDataAgent
-from sac.factory_for_test import FactoryForTest
+from sac.sac_factory_for_test import SacFactoryForTest
 
 
 class Test(unittest.TestCase):
@@ -15,7 +15,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.factory = FactoryForTest()
+        self.factory = SacFactoryForTest()
 
 
     def test001(self):
