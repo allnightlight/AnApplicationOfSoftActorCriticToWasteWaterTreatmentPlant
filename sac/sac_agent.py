@@ -13,7 +13,7 @@ class SacAgent(object):
     '''
 
 
-    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp):
+    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage):
         
         assert isinstance(policy, SacPolicy)        
         self.policy = policy
@@ -27,6 +27,7 @@ class SacAgent(object):
         self.discountFactor = discountFactor
         
         self.alphaTemp = alphaTemp
+        self.updatePolicyByAdvantage = updatePolicyByAdvantage
                 
     def reset(self):
         pass
@@ -91,8 +92,11 @@ class SacAgent(object):
         batchDataAgent = self.getAction(batchDataEnvironment)
         batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
                 
-        return -self.alphaTemp * batchDataAgent.getEntropy() - batchDataAveragedActionValue.getValue()
-            
+        if self.updatePolicyByAdvantage:
+            return -self.alphaTemp * batchDataAgent.getEntropy() - (batchDataAveragedActionValue.getValue() - batchDataAgent.getEntropy())
+        else:
+            return -self.alphaTemp * batchDataAgent.getEntropy() - batchDataAveragedActionValue.getValue() 
+        
     # <<public>>
     def updateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
         
