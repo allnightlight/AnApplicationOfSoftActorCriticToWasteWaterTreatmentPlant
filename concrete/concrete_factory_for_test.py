@@ -13,6 +13,7 @@ from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
 from concrete.concrete_plant001 import ConcretePlant001
 from concrete.concrete_plant002 import ConcretePlant002
+from concrete.concrete_plant003 import ConcretePlant003
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 import numpy as np
@@ -130,6 +131,23 @@ class ConcreteFactoryForTest(object):
     def generateBatchDataAgentForPlant002(self):
         
         nMv = 1
+        nBatch = 1
+        
+        for _ in range(10):
+            yield ConcreteBatchDataAgent(_Mean = tensorflow.random.normal(shape = (nBatch, nMv))
+                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))
+                        
+    def createPlant003(self):
+        
+        return ConcretePlant003()
+    
+    def createEnvironmentPoweredByPlant003(self):
+        
+        return SacEnvironment(plant = ConcretePlant003())
+    
+    def generateBatchDataAgentForPlant003(self):
+        
+        nMv = ConcretePlant003().getNmv()
         nBatch = 1
         
         for _ in range(10):

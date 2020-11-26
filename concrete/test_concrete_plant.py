@@ -102,6 +102,43 @@ class Test(unittest.TestCase):
         assert environment.getNmv() == 1
         assert environment.getNpv() == 1
 
+    def test005(self):
+         
+        plant = self.factory.createPlant003()
+         
+        plant.reset()
+         
+        reward = plant.update(u = np.ones((1,plant.getNmv())))
+        assert reward is not None
+ 
+        pv = plant.getPv()
+        assert pv is not None
+                 
+    def test006(self):
+         
+        environment = self.factory.createEnvironmentPoweredByPlant003()
+ 
+        assert isinstance(environment, SacEnvironment)
+         
+        environment.reset()
+ 
+        batchDataEnvironment = environment.observe()
+         
+        assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
+        assert batchDataEnvironment.bufferPv[-1] is not None
+         
+        for batchDataAgent in self.factory.generateBatchDataAgentForPlant003():
+             
+            assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
+             
+            batchDataEnvironment = environment.observe()
+            assert batchDataEnvironment.bufferPv[-1] is not None
+         
+            batchDataReward = environment.update(batchDataAgent)
+             
+            assert isinstance(batchDataReward, SacBatchDataReward)
+         
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
