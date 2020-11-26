@@ -20,7 +20,7 @@ class Work002Utility(object):
     '''
     
     @classmethod
-    def create(cls, alphaTemp = 1.0, discountFactor = 0.01, nIteration = 2**3):
+    def create(cls, alphaTemp = 1.0, discountFactor = 0.01, nIteration = 2**3, nIntervalUpdateStateValueFunction = 1):
         
         environment = SacEnvironment(plant = ConcretePlant001()) 
         
@@ -39,7 +39,7 @@ class Work002Utility(object):
                             , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
                             , nStepEnvironment = 1
                             , nStepGradient = 1
-                            , nIntervalUpdateStateValueFunction = 1)
+                            , nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction)
         
         work001Utility = Work001Utility(nMv = trainer.environment.getNmv()
                                          , nPv = trainer.environment.getNpv()

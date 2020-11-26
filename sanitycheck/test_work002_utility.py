@@ -13,7 +13,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.utility = Work002Utility.create(alphaTemp = 1.0, discountFactor = 0.01, nIteration=2**0) 
+        self.utility = Work002Utility.create(alphaTemp = 1.0, discountFactor = 0.01, nIteration=2**2, nIntervalUpdateStateValueFunction = 2**3) 
 
     def test001(self):
         
@@ -27,6 +27,9 @@ class Test(unittest.TestCase):
         
         self.utility.plotTrainedQ()
         
+    def test003(self):
+        
+        self.utility.checkTraining()
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
