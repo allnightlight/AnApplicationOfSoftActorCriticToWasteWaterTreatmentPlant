@@ -28,7 +28,7 @@ class ConcreteFactoryForTest(object):
     '''
 
 
-    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0):
+    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0, updatePolicyByAdvantage = False):
         
         self.nMv = nMv
         self.nPv = nPv
@@ -38,6 +38,7 @@ class ConcreteFactoryForTest(object):
         self.nFeatureHorizon = nFeatureHorizon
         self.nHidden = nHidden
         self.alphaTemp = alphaTemp
+        self.updatePolicyByAdvantage = updatePolicyByAdvantage
         
     def createBatchDataEnvironment(self):
         
@@ -80,7 +81,8 @@ class ConcreteFactoryForTest(object):
                              , valueFunctionApproximator = self.createValueFunctionApproximator()
                              , featureExtractor = self.createFeatureExtractor()
                              , discountFactor = 0.99
-                             , alphaTemp = self.alphaTemp)
+                             , alphaTemp = self.alphaTemp
+                             , updatePolicyByAdvantage = self.updatePolicyByAdvantage)
             
     def createTrainer(self):
         
@@ -94,7 +96,8 @@ class ConcreteFactoryForTest(object):
                               , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
                               , featureExtractor = ConcreteFeatureExtractor(nFeature)
                               , discountFactor = 0.99
-                              , alphaTemp = 1.0)
+                              , alphaTemp = 1.0
+                              , updatePolicyByAdvantage = True)
         
         return SacTrainer(agent = agent
                                , environment = environment

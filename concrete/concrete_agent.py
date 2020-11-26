@@ -17,8 +17,8 @@ class ConcreteAgent(SacAgent):
     '''
 
 
-    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp):
-        SacAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp)
+    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage):
+        SacAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage)
         
         assert isinstance(policy, ConcretePolicy)
         self.policy = policy
