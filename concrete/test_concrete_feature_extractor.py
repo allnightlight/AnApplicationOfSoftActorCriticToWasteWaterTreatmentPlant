@@ -7,7 +7,7 @@ import unittest
 
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
-from concrete.factory_for_test import FactoryForTest
+from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 import tensorflow
 
 
@@ -16,9 +16,9 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.factory = FactoryForTest()
+        self.factory = ConcreteFactoryForTest()
         
-        assert isinstance(self.factory, FactoryForTest)
+        assert isinstance(self.factory, ConcreteFactoryForTest)
 
     def test001(self):
         

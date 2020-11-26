@@ -4,7 +4,7 @@ Created on 2020/11/17
 @author: ukai
 '''
 import unittest
-from concrete.factory_for_test import FactoryForTest
+from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 from concrete.concrete_agent import ConcreteAgent
 import tensorflow
 import numpy as np 
@@ -15,7 +15,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.factory = FactoryForTest()
+        self.factory = ConcreteFactoryForTest()
 
 
     def test001(self):
