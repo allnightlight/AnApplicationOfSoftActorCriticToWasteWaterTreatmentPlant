@@ -4,7 +4,7 @@ Created on 2020/11/23
 @author: ukai
 '''
 import unittest
-from concrete.factory_for_test import FactoryForTest
+from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 from sac.sac_trainer import SacTrainer
 import numpy
 
@@ -14,7 +14,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.factory = FactoryForTest()
+        self.factory = ConcreteFactoryForTest()
 
 
     def test001(self):

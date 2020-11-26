@@ -3,23 +3,26 @@ Created on 2020/11/16
 
 @author: ukai
 '''
+import tensorflow
+
 from concrete.concrete_agent import ConcreteAgent
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from concrete.concrete_batch_data_environment import ConcreteBatchDataEnvironment
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
+from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
+from concrete.concrete_plant001 import ConcretePlant001
+from concrete.concrete_plant002 import ConcretePlant002
+from concrete.concrete_plant003 import ConcretePlant003
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
-from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
-import tensorflow
 import numpy as np
 from sac.sac_environment import SacEnvironment
-from plants.concrete_plant001 import ConcretePlant001
-from sac.sac_trainer import SacTrainer
 from sac.sac_replay_buffer import SacReplayBuffer
+from sac.sac_trainer import SacTrainer
 
 
-class FactoryForTest(object):
+class ConcreteFactoryForTest(object):
     '''
     classdocs
     '''
@@ -99,3 +102,54 @@ class FactoryForTest(object):
                                , nStepEnvironment = 1
                                , nStepGradient = 1
                                , nIntervalUpdateStateValueFunction = 1)
+        
+    def createPlant001(self):
+        
+        return ConcretePlant001()
+    
+    def createEnvironmentPoweredByPlant001(self):
+        
+        return SacEnvironment(plant = ConcretePlant001())
+    
+    def generateBatchDataAgentForPlant001(self):
+        
+        nMv = 1
+        nBatch = 1
+        
+        for _ in range(10):
+            yield ConcreteBatchDataAgent(_Mean = tensorflow.random.normal(shape = (nBatch, nMv))
+                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))            
+            
+    def createPlant002(self):
+        
+        return ConcretePlant002()
+    
+    def createEnvironmentPoweredByPlant002(self):
+        
+        return SacEnvironment(plant = ConcretePlant002())
+    
+    def generateBatchDataAgentForPlant002(self):
+        
+        nMv = 1
+        nBatch = 1
+        
+        for _ in range(10):
+            yield ConcreteBatchDataAgent(_Mean = tensorflow.random.normal(shape = (nBatch, nMv))
+                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))
+                        
+    def createPlant003(self):
+        
+        return ConcretePlant003()
+    
+    def createEnvironmentPoweredByPlant003(self):
+        
+        return SacEnvironment(plant = ConcretePlant003())
+    
+    def generateBatchDataAgentForPlant003(self):
+        
+        nMv = ConcretePlant003().getNmv()
+        nBatch = 1
+        
+        for _ in range(10):
+            yield ConcreteBatchDataAgent(_Mean = tensorflow.random.normal(shape = (nBatch, nMv))
+                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))
