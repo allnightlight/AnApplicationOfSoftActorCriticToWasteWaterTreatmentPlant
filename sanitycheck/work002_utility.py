@@ -20,7 +20,7 @@ class Work002Utility(object):
     '''
     
     @classmethod
-    def create(cls, alphaTemp = 1.0, discountFactor = 0.01, nIteration = 2**3, nIntervalUpdateStateValueFunction = 1):
+    def create(cls, alphaTemp = 1.0, discountFactor = 0.01, nIteration = 2**3, nIntervalUpdateStateValueFunction = 1, updatePolicyByAdvantage = False):
         
         environment = SacEnvironment(plant = ConcretePlant001()) 
         
@@ -32,7 +32,8 @@ class Work002Utility(object):
                     , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
                     , featureExtractor = ConcreteFeatureExtractor(nFeature)
                     , discountFactor = discountFactor
-                    , alphaTemp = alphaTemp)
+                    , alphaTemp = alphaTemp
+                    , updatePolicyByAdvantage = updatePolicyByAdvantage)
         
         trainer = SacTrainer(agent = agent
                             , environment = environment

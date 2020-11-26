@@ -22,7 +22,7 @@ class Work001Utility(object):
     '''
     
     @classmethod
-    def create(cls, nIter = 1, alphaTemp = 0.0):
+    def create(cls, nIter = 1, alphaTemp = 0.0, updatePolicyByAdvantage = False):
         
         nMv = 1
         nPv = 1
@@ -35,7 +35,8 @@ class Work001Utility(object):
                               , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, nMv, nSampleOfActionsInValueFunctionApproximator, nHidden)
                               , featureExtractor = ConcreteFeatureExtractor(nFeature)
                               , discountFactor = discountFactor
-                              , alphaTemp = alphaTemp)
+                              , alphaTemp = alphaTemp
+                              , updatePolicyByAdvantage = updatePolicyByAdvantage)
         
         return Work001Utility(nMv, nPv, nFeature, agent, nIter)
 

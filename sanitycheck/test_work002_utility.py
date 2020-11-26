@@ -13,7 +13,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         
-        self.utility = Work002Utility.create(alphaTemp = 1.0, discountFactor = 0.01, nIteration=2**2, nIntervalUpdateStateValueFunction = 2**3) 
+        self.utility = Work002Utility.create(alphaTemp = 1.0, discountFactor = 0.01, nIteration=2**2, nIntervalUpdateStateValueFunction = 2**3, updatePolicyByAdvantage=True) 
 
     def test001(self):
         
