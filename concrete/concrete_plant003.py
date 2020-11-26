@@ -50,6 +50,9 @@ class ConcretePlant003(SacPlant):
         
         return e # (1,1)        
     
+    def getNH4(self):
+        return self.x[self.idxNH4]
+    
     def reset(self):        
         self.t = 0
         self.x = self.getSteadyState()

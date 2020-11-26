@@ -38,7 +38,7 @@ class SacEnvironment(object):
         return SacBatchDataReward(r) # as BatchDataReward
     
     def observe(self):
-        return SacBatchDataEnvironment(self.bufferPv, self.bufferMv) # as BatchDataEnvironment
+        return SacBatchDataEnvironment(self.bufferPv.copy(), self.bufferMv.copy()) # as BatchDataEnvironment
     
     # <<public, final>>
     def getNmv(self):
