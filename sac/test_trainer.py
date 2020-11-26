@@ -7,6 +7,7 @@ import unittest
 from sac.sac_trainer import SacTrainer
 from sac.sac_replay_buffer import SacReplayBuffer
 from sac.sac_factory_for_test import SacFactoryForTest
+from sac.sac_batch_data_environment import SacBatchDataEnvironment
 
 
 class Test(unittest.TestCase):
@@ -50,7 +51,28 @@ class Test(unittest.TestCase):
         except:
             pass
             
+    def test004(self):
+        
+        nIteration = 2**3
+        trainer = self.factory.createTrainer()
+        
+        assert isinstance(trainer, SacTrainer) 
+
+        replayBuffer = trainer.replayBuffer
+        assert isinstance(replayBuffer, SacReplayBuffer)
+
+        trainer.reset()
+        trainer.train(nIteration = nIteration)
+        
+        for k1 in range(nIteration):
+            batchDataEnvironment = replayBuffer.buffer[k1][0]
             
+            assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
+            
+            assert len(batchDataEnvironment.bufferMv) == k1, "%d" % len(batchDataEnvironment.bufferMv)
+            assert len(batchDataEnvironment.bufferPv) == k1+1, "%d" % len(batchDataEnvironment.bufferPv) 
+            
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
     unittest.main()
