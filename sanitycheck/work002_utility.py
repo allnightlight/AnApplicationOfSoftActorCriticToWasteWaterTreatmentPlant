@@ -7,10 +7,10 @@ from concrete.concrete_agent import ConcreteAgent
 from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
-from plants.concrete_plant001 import ConcretePlant001
-from skeleton.abstract_environment import AbstractEnvironment
-from skeleton.abstract_replay_buffer import AbstractReplayBuffer
-from skeleton.abstract_trainer import AbstractTrainer
+from concrete.concrete_plant001 import ConcretePlant001
+from sac.sac_environment import SacEnvironment
+from sac.sac_replay_buffer import SacReplayBuffer
+from sac.sac_trainer import SacTrainer
 from sanitycheck.work001_utility import Work001Utility
 
 
@@ -22,7 +22,7 @@ class Work002Utility(object):
     @classmethod
     def create(cls, alphaTemp = 1.0, discountFactor = 0.01, nIteration = 2**3):
         
-        environment = AbstractEnvironment(plant = ConcretePlant001()) 
+        environment = SacEnvironment(plant = ConcretePlant001()) 
         
         nHidden = 2**3
         nSampleOfActionsInValueFunctionApproximator = 2**3
@@ -34,9 +34,9 @@ class Work002Utility(object):
                     , discountFactor = discountFactor
                     , alphaTemp = alphaTemp)
         
-        trainer = AbstractTrainer(agent = agent
+        trainer = SacTrainer(agent = agent
                             , environment = environment
-                            , replayBuffer = AbstractReplayBuffer(bufferSize = 2**10)
+                            , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
                             , nStepEnvironment = 1
                             , nStepGradient = 1
                             , nIntervalUpdateStateValueFunction = 1)
