@@ -93,7 +93,8 @@ class SacAgent(object):
         batchDataAveragedActionValue = self.valueFunctionApproximator.getAveragedActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
                 
         if self.updatePolicyByAdvantage:
-            return -self.alphaTemp * batchDataAgent.getEntropy() - (batchDataAveragedActionValue.getValue() - batchDataAgent.getEntropy())
+            batchDataStateValue = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironment))
+            return -self.alphaTemp * batchDataAgent.getEntropy() - (batchDataAveragedActionValue.getValue() - batchDataStateValue.getValue())
         else:
             return -self.alphaTemp * batchDataAgent.getEntropy() - batchDataAveragedActionValue.getValue() 
         
