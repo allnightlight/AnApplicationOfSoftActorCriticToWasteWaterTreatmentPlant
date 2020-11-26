@@ -27,7 +27,8 @@ class SacFactoryForTest(object):
             , nIntervalUpdateStateValueFunction = 1
             , bufferSize = 10
             , discountFactor = 0.99
-            , alphaTemp = 1.0):
+            , alphaTemp = 1.0
+            , updatePolicyByAdvantage = False):
 
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
@@ -35,6 +36,7 @@ class SacFactoryForTest(object):
         self.bufferSize = bufferSize
         self.alphaTemp = alphaTemp
         self.discountFactor = discountFactor
+        self.updatePolicyByAdvantage = updatePolicyByAdvantage
 
     def createBatchDataAgent(self):
         return SacBatchDataAgent()
@@ -56,7 +58,8 @@ class SacFactoryForTest(object):
                      , valueFunctionApproximator = SacValueFunctionApproximator()
                      , featureExtractor = SacFeatureExtractor()
                      , discountFactor = self.discountFactor
-                     , alphaTemp = self.alphaTemp)
+                     , alphaTemp = self.alphaTemp
+                     , updatePolicyByAdvantage = self.updatePolicyByAdvantage)
         
     def createTrainer(self):
         return SacTrainer(agent = self.createAgent()
