@@ -5,9 +5,10 @@ Created on 2020/11/23
 '''
 from concrete.concrete_agent import ConcreteAgent
 from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
+from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
+from concrete.concrete_plant001 import ConcretePlant001
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
-from concrete.concrete_plant001 import ConcretePlant001
 from sac.sac_environment import SacEnvironment
 from sac.sac_replay_buffer import SacReplayBuffer
 from sac.sac_trainer import SacTrainer
@@ -20,7 +21,7 @@ class Work002Utility(object):
     '''
     
     @classmethod
-    def create(cls, alphaTemp = 1.0, discountFactor = 0.01, nIteration = 2**3, nIntervalUpdateStateValueFunction = 1, updatePolicyByAdvantage = False):
+    def create(cls, alphaTemp = 1.0, discountFactor = 0.01, nIteration = 2**3, nIntervalUpdateStateValueFunction = 1, updatePolicyByAdvantage = False, featureExtractorType = "ConcreteFeatureExtractor001"):
         
         environment = SacEnvironment(plant = ConcretePlant001()) 
         
@@ -28,9 +29,15 @@ class Work002Utility(object):
         nSampleOfActionsInValueFunctionApproximator = 2**3
         nFeature = 2**0
         
+        if featureExtractorType == "ConcreteFeatureExtractor001":
+            featureExtractor = ConcreteFeatureExtractor001(nFeature=nFeature)
+        if featureExtractorType == "ConcreteFeatureExtractor002":
+            featureExtractor = ConcreteFeatureExtractor002(nFeature=environment.getNpv())
+
+        
         agent = ConcreteAgent(policy = ConcretePolicy(nMv = environment.getNmv())
                     , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
-                    , featureExtractor = ConcreteFeatureExtractor001(nFeature)
+                    , featureExtractor = featureExtractor
                     , discountFactor = discountFactor
                     , alphaTemp = alphaTemp
                     , updatePolicyByAdvantage = updatePolicyByAdvantage)

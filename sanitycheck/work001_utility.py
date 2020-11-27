@@ -3,18 +3,21 @@ Created on 2020/11/21
 
 @author: ukai
 '''
+import sys
+
+import tensorflow
+
+from concrete.concrete_agent import ConcreteAgent
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from concrete.concrete_batch_data_environment import ConcreteBatchDataEnvironment
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
-import tensorflow
-from concrete.concrete_agent import ConcreteAgent
+from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
+from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
-from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
-
-import numpy as np
 import matplotlib.pylab as plt
-import sys
+import numpy as np
+
 
 class Work001Utility(object):
     '''
@@ -22,7 +25,7 @@ class Work001Utility(object):
     '''
     
     @classmethod
-    def create(cls, nIter = 1, alphaTemp = 0.0, updatePolicyByAdvantage = False, showLog = False):
+    def create(cls, nIter = 1, alphaTemp = 0.0, updatePolicyByAdvantage = False, showLog = False, featureExtractorType = "ConcreteFeatureExtractor001"):
         
         nMv = 1
         nPv = 1
@@ -31,9 +34,14 @@ class Work001Utility(object):
         discountFactor = 0.5
         nHidden = 2**2
         
+        if featureExtractorType == "ConcreteFeatureExtractor001":
+            featureExtractor = ConcreteFeatureExtractor001(nFeature=nFeature)
+        if featureExtractorType == "ConcreteFeatureExtractor002":
+            featureExtractor = ConcreteFeatureExtractor002(nFeature=nPv)        
+        
         agent = ConcreteAgent(policy = ConcretePolicy(nMv)
                               , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, nMv, nSampleOfActionsInValueFunctionApproximator, nHidden)
-                              , featureExtractor = ConcreteFeatureExtractor001(nFeature)
+                              , featureExtractor = featureExtractor
                               , discountFactor = discountFactor
                               , alphaTemp = alphaTemp
                               , updatePolicyByAdvantage = updatePolicyByAdvantage)
