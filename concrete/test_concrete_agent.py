@@ -8,6 +8,7 @@ from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 from concrete.concrete_agent import ConcreteAgent
 import tensorflow
 import numpy as np 
+import shutil
 
 
 class Test(unittest.TestCase):
@@ -188,7 +189,36 @@ class Test(unittest.TestCase):
         assert isEqual(p0, q0) == True
         assert isEqual(p1, q1) == False
 #         assert isEqual(p2, q2) == False
+
+    def test009(self):
+        agent = self.factory.createAgent()
+        agent2 = self.factory.createAgent()
         
+        assert isinstance(agent, ConcreteAgent)
+        
+        saveFilePrefix = "foo"
+        
+        agent.reset()
+        
+        agent.updateStateValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        agent.updatePolicy(batchDataEnvironment = self.factory.createBatchDataEnvironment())
+        agent.updateActionValueFunction(batchDataEnvironment = self.factory.createBatchDataEnvironment()
+                                        , batchDataAgent = self.factory.createBatchDataAgent()
+                                        , batchDataReward = self.factory.createBatchDataReward()
+                                        , batchDataEnvironmentNextStep = self.factory.createBatchDataEnvironment())
+        
+        agent.saveNetworks(saveFilePrefix)
+        
+        agent2.reset()
+        agent2.loadNetworks(saveFilePrefix)
+        
+        batchDataEnvironment = self.factory.createBatchDataEnvironment()
+        batchDataAgent1 = agent.getAction(batchDataEnvironment)
+        batchDataAgent2 = agent2.getAction(batchDataEnvironment)
+        
+        assert np.all(batchDataAgent1._Mean.numpy() == batchDataAgent2._Mean.numpy())
+        
+        shutil.rmtree(agent.saveFolderPath)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

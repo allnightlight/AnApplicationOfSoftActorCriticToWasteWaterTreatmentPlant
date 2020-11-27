@@ -87,7 +87,8 @@ class ConcreteFactoryForTest(object):
                              , featureExtractor = self.createFeatureExtractor()
                              , discountFactor = 0.99
                              , alphaTemp = self.alphaTemp
-                             , updatePolicyByAdvantage = self.updatePolicyByAdvantage)
+                             , updatePolicyByAdvantage = self.updatePolicyByAdvantage
+                             , saveFolderPath = "./test")
             
     def createTrainer(self):
         
@@ -102,7 +103,8 @@ class ConcreteFactoryForTest(object):
                               , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                               , discountFactor = 0.99
                               , alphaTemp = 1.0
-                              , updatePolicyByAdvantage = True)
+                              , updatePolicyByAdvantage = True
+                              , saveFolderPath = "./test")
         
         return SacTrainer(agent = agent
                                , environment = environment
