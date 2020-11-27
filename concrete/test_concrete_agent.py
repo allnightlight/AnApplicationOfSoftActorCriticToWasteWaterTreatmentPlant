@@ -219,6 +219,13 @@ class Test(unittest.TestCase):
         assert np.all(batchDataAgent1._Mean.numpy() == batchDataAgent2._Mean.numpy())
         
         shutil.rmtree(agent.saveFolderPath)
+        
+    def test010(self):
+        agent = self.factory.createAgent()
+        
+        assert isinstance(agent, ConcreteAgent)
+        
+        agent.loadMemento(agent.createMemento())
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

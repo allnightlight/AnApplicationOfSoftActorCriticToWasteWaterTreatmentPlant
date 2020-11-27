@@ -10,9 +10,11 @@ from concrete.concrete_value_function_approximator import ConcreteValueFunctionA
 import tensorflow
 from sac.sac_feature_extractor import SacFeatureExtractor
 import os
+from framework.agent import Agent
+from framework.util import Utils
 
 
-class ConcreteAgent(SacAgent):
+class ConcreteAgent(SacAgent, Agent):
     '''
     classdocs
     '''
@@ -86,3 +88,11 @@ class ConcreteAgent(SacAgent):
             , (self.featureExtractor, "featureExtractor")]:
             
             obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
+            
+    def createMemento(self):
+        agentMemento = Utils.generateRandomString(16)
+        self.saveNetworks(agentMemento)
+        return agentMemento
+        
+    def loadMemento(self, agentMemento):
+        self.loadNetworks(agentMemento)
