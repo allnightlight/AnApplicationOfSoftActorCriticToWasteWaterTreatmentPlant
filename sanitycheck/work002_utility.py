@@ -4,7 +4,7 @@ Created on 2020/11/23
 @author: ukai
 '''
 from concrete.concrete_agent import ConcreteAgent
-from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
+from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 from concrete.concrete_plant001 import ConcretePlant001
@@ -30,7 +30,7 @@ class Work002Utility(object):
         
         agent = ConcreteAgent(policy = ConcretePolicy(nMv = environment.getNmv())
                     , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
-                    , featureExtractor = ConcreteFeatureExtractor(nFeature)
+                    , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                     , discountFactor = discountFactor
                     , alphaTemp = alphaTemp
                     , updatePolicyByAdvantage = updatePolicyByAdvantage)

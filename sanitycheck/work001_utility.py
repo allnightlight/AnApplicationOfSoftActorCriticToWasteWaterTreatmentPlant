@@ -10,7 +10,7 @@ import tensorflow
 from concrete.concrete_agent import ConcreteAgent
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
-from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
+from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 
 import numpy as np
 import matplotlib.pylab as plt
@@ -33,7 +33,7 @@ class Work001Utility(object):
         
         agent = ConcreteAgent(policy = ConcretePolicy(nMv)
                               , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, nMv, nSampleOfActionsInValueFunctionApproximator, nHidden)
-                              , featureExtractor = ConcreteFeatureExtractor(nFeature)
+                              , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                               , discountFactor = discountFactor
                               , alphaTemp = alphaTemp
                               , updatePolicyByAdvantage = updatePolicyByAdvantage)
