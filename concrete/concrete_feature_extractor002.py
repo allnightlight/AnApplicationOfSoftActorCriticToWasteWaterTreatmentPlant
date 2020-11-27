@@ -1,5 +1,5 @@
 '''
-Created on 2020/11/17
+Created on 2020/11/27
 
 @author: ukai
 '''
@@ -10,7 +10,7 @@ from sac.sac_batch_data_environment import SacBatchDataEnvironment
 from sac.sac_feature_extractor import SacFeatureExtractor
 
 
-class ConcreteFeatureExtractor(SacFeatureExtractor, tensorflow.keras.Model):
+class ConcreteFeatureExtractor002(SacFeatureExtractor, tensorflow.keras.Model):
     '''
     classdocs
     '''
@@ -19,10 +19,11 @@ class ConcreteFeatureExtractor(SacFeatureExtractor, tensorflow.keras.Model):
         super().__init__()
         
         self.nFeature = nFeature
-        self.pv2feature = tensorflow.keras.layers.Dense(nFeature)
-
+        
     def call(self, batchDataEnvironment):
         
         assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
+        assert batchDataEnvironment.bufferPv[-1].shape[-1] == self.nFeature
         
-        return ConcreteBatchDataFeature(_Feature = self.pv2feature(batchDataEnvironment.bufferPv[-1])) # (..., nPv) 
+        return ConcreteBatchDataFeature(_Feature = tensorflow.constant(batchDataEnvironment.bufferPv[-1])) # (..., nPv) 
+        

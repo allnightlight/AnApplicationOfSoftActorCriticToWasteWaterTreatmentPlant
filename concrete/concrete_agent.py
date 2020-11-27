@@ -7,7 +7,7 @@ Created on 2020/11/15
 from sac.sac_agent import SacAgent
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
-from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
+from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 import tensorflow
 
 
@@ -26,7 +26,7 @@ class ConcreteAgent(SacAgent):
         assert isinstance(valueFunctionApproximator, ConcreteValueFunctionApproximator)
         self.valueFunctionApproximator = valueFunctionApproximator
         
-        assert isinstance(featureExtractor, ConcreteFeatureExtractor)
+        assert isinstance(featureExtractor, ConcreteFeatureExtractor001)
         self.featureExtractor = featureExtractor
         
         self.optimizerForUpdateActionValueFunction = None
@@ -59,10 +59,10 @@ class ConcreteAgent(SacAgent):
         return self.optimizerForUpdateStateValueFunction
 
     def getTrainableVariablesForUpdateActionValueFunction(self):
-        return self.valueFunctionApproximator.trainable_variables + self.featureExtractor.trainable_variables
+        return self.valueFunctionApproximator.trainable_variables 
     
     def getTrainableVariablesForUpdatePolicy(self):
-        return self.policy.trainable_variables + self.featureExtractor.trainable_variables
+        return self.policy.trainable_variables 
         
     def getTrainableVariablesForUpdateStateValueFunction(self):
-        return self.valueFunctionApproximator.trainable_variables + self.featureExtractor.trainable_variables
+        return self.valueFunctionApproximator.trainable_variables 
