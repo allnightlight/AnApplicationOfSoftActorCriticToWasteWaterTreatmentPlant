@@ -25,7 +25,7 @@ class Test(unittest.TestCase):
         assert isinstance(trainer, SacTrainer) 
 
         trainer.reset()
-        trainer.train(1)
+        trainer.train()
         
     def test002(self):
         
@@ -62,7 +62,7 @@ class Test(unittest.TestCase):
         assert isinstance(replayBuffer, SacReplayBuffer)
 
         trainer.reset()
-        trainer.train(nIteration = nIteration)
+        trainer.train()
         
         for k1 in range(nIteration):
             batchDataEnvironment = replayBuffer.buffer[k1][0]
