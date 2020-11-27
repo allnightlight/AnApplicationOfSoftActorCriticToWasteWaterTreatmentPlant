@@ -109,7 +109,8 @@ class ConcreteFactoryForTest(object):
                                , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
                                , nStepEnvironment = 1
                                , nStepGradient = 1
-                               , nIntervalUpdateStateValueFunction = 1)
+                               , nIntervalUpdateStateValueFunction = 1
+                               , nIterationPerEpoch = 10)
         
     def createPlant001(self):
         
