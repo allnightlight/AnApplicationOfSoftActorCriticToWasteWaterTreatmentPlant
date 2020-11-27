@@ -22,13 +22,14 @@ class SacFactoryForTest(object):
     '''
 
     def __init__(self
-            , nStepEnvironment = 1
+            , nStepEnvironment = 2
             , nStepGradient = 1
             , nIntervalUpdateStateValueFunction = 1
             , bufferSize = 10
             , discountFactor = 0.99
             , alphaTemp = 1.0
-            , updatePolicyByAdvantage = False):
+            , updatePolicyByAdvantage = False
+            , nIterationPerEpoch = 9):
 
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
@@ -37,6 +38,7 @@ class SacFactoryForTest(object):
         self.alphaTemp = alphaTemp
         self.discountFactor = discountFactor
         self.updatePolicyByAdvantage = updatePolicyByAdvantage
+        self.nIterationPerEpoch = nIterationPerEpoch
 
     def createBatchDataAgent(self):
         return SacBatchDataAgent()
@@ -67,4 +69,5 @@ class SacFactoryForTest(object):
                        , replayBuffer = SacReplayBuffer(bufferSize = self.bufferSize)
                        , nStepEnvironment = self.nStepEnvironment
                        , nStepGradient = self.nStepGradient
-                       , nIntervalUpdateStateValueFunction = self.nIntervalUpdateStateValueFunction)
+                       , nIntervalUpdateStateValueFunction = self.nIntervalUpdateStateValueFunction
+                       , nIterationPerEpoch = self.nIterationPerEpoch)

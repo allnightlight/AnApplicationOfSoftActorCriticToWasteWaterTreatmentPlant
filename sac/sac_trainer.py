@@ -5,9 +5,6 @@ Created on 2020/11/10
 '''
 from sac.sac_agent import SacAgent
 from sac.sac_environment import SacEnvironment
-from sac.sac_batch_data_environment import SacBatchDataEnvironment
-from sac.sac_batch_data_agent import SacBatchDataAgent
-from sac.sac_batch_data_reward import SacBatchDataReward
 
 class SacTrainer(object):
     '''
@@ -15,7 +12,7 @@ class SacTrainer(object):
     '''
 
 
-    def __init__(self, agent, environment, replayBuffer, nStepEnvironment = 1, nStepGradient = 1, nIntervalUpdateStateValueFunction = 1):
+    def __init__(self, agent, environment, replayBuffer, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, nIterationPerEpoch):
         '''
         Constructor
         '''
@@ -30,6 +27,7 @@ class SacTrainer(object):
         self.nStepGradient = nStepGradient
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
         self.replayBuffer = replayBuffer
+        self.nIterationPerEpoch = nIterationPerEpoch
         
     def reset(self):
         self.cntStepGradient = 0
@@ -60,12 +58,15 @@ class SacTrainer(object):
         self.cntStepGradient += 1
         
         
-    def train(self, nIteration):
+    def train(self):
         
-        for _ in range(nIteration//self.nStepEnvironment):
+        for _ in range(self.nIterationPerEpoch//self.nStepEnvironment):
             
             for _ in range(self.nStepEnvironment):                
                 self.stepEnvironment()
                 
             for _ in range(self.nStepGradient):
                 self.stepGradient()
+                
+        for _ in range(self.nIterationPerEpoch - (self.nIterationPerEpoch//self.nStepEnvironment) * self.nIterationPerEpoch):                
+            self.stepEnvironment()
