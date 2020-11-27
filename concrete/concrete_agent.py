@@ -9,6 +9,7 @@ from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 import tensorflow
+from sac.sac_feature_extractor import SacFeatureExtractor
 
 
 class ConcreteAgent(SacAgent):
@@ -26,7 +27,7 @@ class ConcreteAgent(SacAgent):
         assert isinstance(valueFunctionApproximator, ConcreteValueFunctionApproximator)
         self.valueFunctionApproximator = valueFunctionApproximator
         
-        assert isinstance(featureExtractor, ConcreteFeatureExtractor001)
+        assert isinstance(featureExtractor, SacFeatureExtractor)
         self.featureExtractor = featureExtractor
         
         self.optimizerForUpdateActionValueFunction = None
