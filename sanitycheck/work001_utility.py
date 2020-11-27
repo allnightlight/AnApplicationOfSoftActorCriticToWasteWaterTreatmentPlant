@@ -22,7 +22,7 @@ class Work001Utility(object):
     '''
     
     @classmethod
-    def create(cls, nIter = 1, alphaTemp = 0.0, updatePolicyByAdvantage = False):
+    def create(cls, nIter = 1, alphaTemp = 0.0, updatePolicyByAdvantage = False, showLog = False):
         
         nMv = 1
         nPv = 1
@@ -38,9 +38,9 @@ class Work001Utility(object):
                               , alphaTemp = alphaTemp
                               , updatePolicyByAdvantage = updatePolicyByAdvantage)
         
-        return Work001Utility(nMv, nPv, nFeature, agent, nIter)
+        return Work001Utility(nMv, nPv, nFeature, agent, nIter, showLog)
 
-    def __init__(self, nMv, nPv, nFeature, agent, nIter):
+    def __init__(self, nMv, nPv, nFeature, agent, nIter, showLog):
         
         assert isinstance(agent, ConcreteAgent)
         
@@ -51,6 +51,7 @@ class Work001Utility(object):
         self.nIter = nIter
         self.nBatch = 1
         self.nPlottingSamples = 2**7
+        self.showLog = showLog
 
 
     def reset(self):
@@ -133,12 +134,14 @@ class Work001Utility(object):
 
         self.reset()
         
-        print(">> Start training policy")
+        if self.showLog:
+            print(">> Start training policy")
 
         cnt = 0
         for batchDataAgent, batchDataEnvironment, batchDataReward, batchDataEnvironmentNextStep in self.generateData():
             
-            sys.stdout.write("\r%04d/%04d" % (cnt, self.nIter))
+            if self.showLog:
+                sys.stdout.write("\r%04d/%04d" % (cnt, self.nIter))
 
             self.agent.updateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)        
             self.agent.updateStateValueFunction(batchDataEnvironment)        
@@ -146,7 +149,27 @@ class Work001Utility(object):
             
             cnt += 1
         
-        print("\n>> Done")
+        if self.showLog:
+            print("\n>> Done")
+
+    def trainOnlyPi(self):
+
+        self.reset()
+        
+        if self.showLog:
+            print(">> Start training policy")
+
+        cnt = 0
+        for _ in range(self.nIter):
+            
+            if self.showLog:
+                sys.stdout.write("\r%04d/%04d" % (cnt, self.nIter))
+
+            self.agent.updatePolicy(batchDataEnvironment = self.getFixedBatchDataEnvironment())
+            
+            cnt += 1
+        if self.showLog:
+            print("\n>> Done")
         
     def plotTrainedQ(self):
         """

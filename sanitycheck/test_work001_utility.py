@@ -47,7 +47,35 @@ class Test(unittest.TestCase):
         
         self.utility.plotTrainedPi()
 
+    @unittest.skip("check the performance of update policy")
+    def test007(self):
+        
+        def getLogSd():    
+            batchDataAgent = self.utility.agent.getAction(batchDataEnvironment = self.utility.getFixedBatchDataEnvironment())
+            assert isinstance(batchDataAgent, ConcreteBatchDataAgent)        
+            return batchDataAgent._LogSd.numpy().squeeze()
+        
+        print(getLogSd())
+        for _ in range(10):
+            self.utility.trainOnlyPi()
+            print(getLogSd())
+    
+    @unittest.skip("check the performance of update policy")
+    def test008(self):
+        
+        def getLogSd():    
+            batchDataAgent = self.utility.agent.getAction(batchDataEnvironment = self.utility.getFixedBatchDataEnvironment())
+            assert isinstance(batchDataAgent, ConcreteBatchDataAgent)        
+            return batchDataAgent._Mean.numpy().squeeze(), batchDataAgent._LogSd.numpy().squeeze()
+        
+        print(getLogSd())
+        for _ in range(100):
+            self.utility.trainQandVandPi()
+            print(getLogSd())
 
+            self.utility.plotTrainedQ()
+            
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
     unittest.main()

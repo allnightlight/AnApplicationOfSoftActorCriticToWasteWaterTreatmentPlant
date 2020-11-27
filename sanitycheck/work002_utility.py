@@ -46,7 +46,8 @@ class Work002Utility(object):
                                          , nPv = trainer.environment.getNpv()
                                          , nFeature = None
                                          , agent = trainer.agent
-                                         , nIter = nIteration)
+                                         , nIter = nIteration
+                                         , showLog = False)
         
         return Work002Utility(trainer, nIteration, work001Utility)
                     
