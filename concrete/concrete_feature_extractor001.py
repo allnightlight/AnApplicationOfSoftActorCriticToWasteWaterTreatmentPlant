@@ -10,7 +10,7 @@ from sac.sac_batch_data_environment import SacBatchDataEnvironment
 from sac.sac_feature_extractor import SacFeatureExtractor
 
 
-class ConcreteFeatureExtractor(SacFeatureExtractor, tensorflow.keras.Model):
+class ConcreteFeatureExtractor001(SacFeatureExtractor, tensorflow.keras.Model):
     '''
     classdocs
     '''

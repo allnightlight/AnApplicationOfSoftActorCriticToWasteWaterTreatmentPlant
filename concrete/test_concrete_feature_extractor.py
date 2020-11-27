@@ -6,7 +6,7 @@ Created on 2020/11/17
 import unittest
 
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
-from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
+from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 import tensorflow
 
@@ -24,7 +24,7 @@ class Test(unittest.TestCase):
         
         featureExtractor = self.factory.createFeatureExtractor()
         
-        assert isinstance(featureExtractor, ConcreteFeatureExtractor)
+        assert isinstance(featureExtractor, ConcreteFeatureExtractor001)
         
         batchDataFeature = featureExtractor.call(batchDataEnvironment = self.factory.createBatchDataEnvironment())
         

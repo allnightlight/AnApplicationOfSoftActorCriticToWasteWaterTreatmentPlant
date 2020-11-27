@@ -10,7 +10,7 @@ from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from concrete.concrete_batch_data_environment import ConcreteBatchDataEnvironment
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
-from concrete.concrete_feature_extractor import ConcreteFeatureExtractor
+from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 from concrete.concrete_plant001 import ConcretePlant001
 from concrete.concrete_plant002 import ConcretePlant002
 from concrete.concrete_plant003 import ConcretePlant003
@@ -73,7 +73,7 @@ class ConcreteFactoryForTest(object):
     
     def createFeatureExtractor(self):
         
-        return ConcreteFeatureExtractor(nFeature = self.nFeature)
+        return ConcreteFeatureExtractor001(nFeature = self.nFeature)
     
     def createAgent(self):
         
@@ -94,7 +94,7 @@ class ConcreteFactoryForTest(object):
         
         agent = ConcreteAgent(policy = ConcretePolicy(nMv = environment.getNmv())
                               , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
-                              , featureExtractor = ConcreteFeatureExtractor(nFeature)
+                              , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                               , discountFactor = 0.99
                               , alphaTemp = 1.0
                               , updatePolicyByAdvantage = True)
