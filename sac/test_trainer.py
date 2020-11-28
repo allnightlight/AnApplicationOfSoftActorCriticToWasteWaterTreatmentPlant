@@ -71,6 +71,19 @@ class Test(unittest.TestCase):
             
             assert len(batchDataEnvironment.bufferMv) == k1, "%d" % len(batchDataEnvironment.bufferMv)
             assert len(batchDataEnvironment.bufferPv) == k1+1, "%d" % len(batchDataEnvironment.bufferPv) 
+    
+    def test005(self):        
+        
+        bufferSize = 2**7
+        nStepGradient = 2**3
+        buffer = SacReplayBuffer(bufferSize)
+        buffer.reset()
+        for k1 in range(bufferSize * 2 + 1):
+            
+            assert len([*buffer.generateStateActionRewardAndNextState(nStepGradient)]) == min(k1, nStepGradient)
+            
+            buffer.append(None, None, None, None)
+            
             
 
 if __name__ == "__main__":
