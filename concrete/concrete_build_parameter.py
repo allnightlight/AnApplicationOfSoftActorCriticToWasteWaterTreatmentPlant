@@ -21,12 +21,13 @@ class ConcreteBuildParameter(BuildParameter):
                  , saveFolderPathAgent = "checkpoint"
                  , nFeature = 2**3
                  , nSampleOfActionsInValueFunctionApproximator = 2**2
-                 , nHiddenFeatureExtractor = 2**5
+                 , nHiddenValueFunctionApproximator = 2**5
                  , nStepEnvironment = 1
                  , nStepGradient = 2**5
                  , nIntervalUpdateStateValueFunction = 1
                  , nIterationPerEpoch = 2**7
-                 , bufferSizeReplayBuffer = 2**10):
+                 , bufferSizeReplayBuffer = 2**10
+                 , featureExtractorClass = "ConcreteFeatureExtractor002"):
         
         BuildParameter.__init__(self, nIntervalSave=nIntervalSave, nEpoch=nEpoch, label=label)
         
@@ -36,9 +37,10 @@ class ConcreteBuildParameter(BuildParameter):
         self.saveFolderPathAgent = saveFolderPathAgent
         self.nFeature = nFeature
         self.nSampleOfActionsInValueFunctionApproximator = nSampleOfActionsInValueFunctionApproximator
-        self.nHiddenFeatureExtractor = nHiddenFeatureExtractor        
+        self.nHiddenValueFunctionApproximator = nHiddenValueFunctionApproximator        
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
         self.nIterationPerEpoch = nIterationPerEpoch
         self.bufferSizeReplayBuffer = bufferSizeReplayBuffer
+        self.featureExtractorClass = featureExtractorClass

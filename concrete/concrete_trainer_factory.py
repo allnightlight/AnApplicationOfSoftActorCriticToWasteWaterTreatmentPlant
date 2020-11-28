@@ -14,9 +14,11 @@ class ConcreteTrainerFactory(TrainerFactory):
 
 
     def create(self, buildParameter, agent, environment):
-        return ConcreteTrainer(agent, environment
+        trainer = ConcreteTrainer(agent, environment
                         , replayBuffer = SacReplayBuffer(bufferSize = buildParameter.bufferSizeReplayBuffer)
                         , nStepEnvironment = buildParameter.nStepEnvironment
                         , nStepGradient = buildParameter.nStepGradient
                         , nIntervalUpdateStateValueFunction = buildParameter.nIntervalUpdateStateValueFunction
                         , nIterationPerEpoch = buildParameter.nIterationPerEpoch)
+        trainer.reset()
+        return trainer

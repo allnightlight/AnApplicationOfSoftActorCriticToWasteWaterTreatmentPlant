@@ -22,6 +22,7 @@ class ConcreteAgent(SacAgent, Agent):
 
     def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage, saveFolderPath):
         SacAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage)
+        Agent.__init__(self)
         
         assert isinstance(policy, ConcretePolicy)
         self.policy = policy
@@ -75,8 +76,8 @@ class ConcreteAgent(SacAgent, Agent):
         
         for (obj, label) in [
             (self.policy, "policy")
-            , (self.valueFunctionApproximator, "valueFunctionApproximator")
-            , (self.featureExtractor, "featureExtractor")]:
+            , (self.valueFunctionApproximator, "valueFunc")
+            , (self.featureExtractor, "feature")]:
             
             obj.save_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
             
@@ -84,8 +85,8 @@ class ConcreteAgent(SacAgent, Agent):
         
         for (obj, label) in [
             (self.policy, "policy")
-            , (self.valueFunctionApproximator, "valueFunctionApproximator")
-            , (self.featureExtractor, "featureExtractor")]:
+            , (self.valueFunctionApproximator, "valueFunc")
+            , (self.featureExtractor, "feature")]:
             
             obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
             

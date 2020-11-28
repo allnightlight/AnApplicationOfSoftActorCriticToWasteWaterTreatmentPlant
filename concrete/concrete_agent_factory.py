@@ -34,10 +34,16 @@ class ConcreteAgentFactory(AgentFactory):
         return ConcretePolicy(nMv = environment.getNmv())
     
     def createValueFunctionApproximator(self, buildParameter, environment):
-        return ConcreteValueFunctionApproximator(nFeature = buildParameter.nFeature
+        
+        if buildParameter.featureExtractorClass != "ConcreteFeatureExtractor002":
+            nFeature = buildParameter.nFeature
+        else:
+            nFeature = environment.getNmv()
+        
+        return ConcreteValueFunctionApproximator(nFeature = nFeature
                                                  , nMv = environment.getNmv()
                                                  , nSampleOfActionsInValueFunctionApproximator = buildParameter.nSampleOfActionsInValueFunctionApproximator
-                                                 , nHidden = buildParameter.nHiddenFeatureExtractor)
+                                                 , nHidden = buildParameter.nHiddenValueFunctionApproximator)
     
     def createFeatureExtractor(self, buildParameter, environment):
-        return ConcreteFeatureExtractor002(nFeature = buildParameter.nFeature)
+        return ConcreteFeatureExtractor002(nFeature = environment.getNmv())

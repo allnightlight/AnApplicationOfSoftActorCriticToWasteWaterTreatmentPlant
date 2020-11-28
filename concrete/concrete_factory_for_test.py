@@ -21,6 +21,7 @@ from concrete.concrete_trainer import ConcreteTrainer
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 import numpy as np
 from sac.sac_replay_buffer import SacReplayBuffer
+from concrete.concrete_build_parameter import ConcreteBuildParameter
 
 
 class ConcreteFactoryForTest(object):
@@ -163,4 +164,16 @@ class ConcreteFactoryForTest(object):
         
         for _ in range(10):
             yield ConcreteBatchDataAgent(_Mean = tensorflow.random.normal(shape = (nBatch, nMv))
-                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))
+                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))            
+            
+    def generateBuildParameter(self):
+        
+        yield ConcreteBuildParameter(nIntervalSave = 1
+            , nEpoch = 2**2
+            , label = "test"
+            , nSampleOfActionsInValueFunctionApproximator = 2**1
+            , nStepEnvironment = 1
+            , nStepGradient = 1
+            , nIntervalUpdateStateValueFunction = 1
+            , nIterationPerEpoch = 1
+            , bufferSizeReplayBuffer = 2**10)
