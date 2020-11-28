@@ -226,6 +226,8 @@ class Test(unittest.TestCase):
         assert isinstance(agent, ConcreteAgent)
         
         agent.loadMemento(agent.createMemento())
+        
+        shutil.rmtree(agent.saveFolderPath)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
