@@ -46,16 +46,14 @@ class SacTrainer(object):
         
     def stepGradient(self):
         
-        assert len(self.replayBuffer.buffer) > 0, "Replay buffer is empty so far. Please, run stepEnvironment at least once."
-
-        batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = self.replayBuffer.getStateActionRewardAndNextState()
+        for batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep in self.replayBuffer.generateStateActionRewardAndNextState(self.nStepGradient):
         
-        if self.cntStepGradient % self.nIntervalUpdateStateValueFunction == 0:                    
-            self.agent.updateStateValueFunction(batchDataEnvironment)
-        self.agent.updatePolicy(batchDataEnvironment)
-        self.agent.updateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
-        
-        self.cntStepGradient += 1
+            if self.cntStepGradient % self.nIntervalUpdateStateValueFunction == 0:                    
+                self.agent.updateStateValueFunction(batchDataEnvironment)
+            self.agent.updatePolicy(batchDataEnvironment)
+            self.agent.updateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
+            
+            self.cntStepGradient += 1
         
         
     def train(self):
@@ -64,9 +62,8 @@ class SacTrainer(object):
             
             for _ in range(self.nStepEnvironment):                
                 self.stepEnvironment()
-                
-            for _ in range(self.nStepGradient):
-                self.stepGradient()
+                            
+            self.stepGradient()
                 
         for _ in range(self.nIterationPerEpoch - (self.nIterationPerEpoch//self.nStepEnvironment) * self.nIterationPerEpoch):                
             self.stepEnvironment()
