@@ -5,6 +5,7 @@ Created on 2020/11/10
 '''
 from sac.sac_agent import SacAgent
 from sac.sac_environment import SacEnvironment
+from sac.sac_simulator import SacSimulator
 
 class SacTrainer(object):
     '''
@@ -23,6 +24,7 @@ class SacTrainer(object):
         assert isinstance(environment, SacEnvironment)
         self.environment = environment
         
+        self.simulator = SacSimulator(agent, environment)
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
@@ -31,18 +33,12 @@ class SacTrainer(object):
         
     def reset(self):
         self.cntStepGradient = 0
-        self.agent.reset()
-        self.environment.reset()
+        self.simulator.reset()
         self.replayBuffer.reset()
         
     def stepEnvironment(self):
-        
-        batchDataEnvironment = self.environment.observe()
-        batchDataAgent = self.agent.getAction(batchDataEnvironment)
-        batchDataReward = self.environment.update(batchDataAgent)
-        batchDataEnvironmentNextStep = self.environment.observe()
-        
-        self.replayBuffer.append(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
+                
+        self.replayBuffer.append(*self.simulator.step())
         
     def stepGradient(self):
         
