@@ -103,8 +103,16 @@ class Test(unittest.TestCase):
             assert epoch == epochGiven
             assert isinstance(environment, Environment)
             assert isinstance(trainer, Trainer)
-                    
-            
+
+        agentKey = None
+        for agent, buildParameter, epoch, environment, trainer in loader.load():
+            agentKey = agent.getAgentKey()
+            break
+
+        assert agentKey is not None
+        for agent, buildParameter, epoch, environment, trainer in loader.load(agentKey=agentKey):
+            assert agent.getAgentKey() == agentKey            
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test0001']
     unittest.main()

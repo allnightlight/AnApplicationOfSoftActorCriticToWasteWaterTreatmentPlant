@@ -31,11 +31,11 @@ class Loader(object):
         self.buildParameterFactory = buildParameterFactory
         self.store = store        
         
-    def load(self, buildParameterLabel, epoch = None, buildParameterKey = None):
+    def load(self, buildParameterLabel = "%", epoch = None, buildParameterKey = None, agentKey = None):
         
         self.store.update_db()
         
-        for storeField in self.store.restore(buildParameterLabel, epoch, buildParameterKey):
+        for storeField in self.store.restore(buildParameterLabel, epoch, buildParameterKey, agentKey):
             buildParameter = self.buildParameterFactory.create()            
             buildParameter.loadMemento(storeField.buildParameterMemento)
             
