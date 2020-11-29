@@ -29,13 +29,13 @@ class ConcreteApplication(object):
         
         self.builder.build(buildParameter)        
         
-    def runEvaluationWithSimulation(self, evaluators, nSimulationStep, buildParameterLabel = "%", epoch = None, buildParameterKey = None):
+    def runEvaluationWithSimulation(self, evaluators, nSimulationStep, buildParameterLabel = "%", epoch = None, buildParameterKey = None, agentKey = None):
         
         assert isinstance(evaluators, list)
         for x in evaluators:
             assert isinstance(x, SacEvaluator)
 
-        for agent, buildParameter, epoch, environment, trainer in self.loader.load(buildParameterLabel, epoch, buildParameterKey):
+        for agent, buildParameter, epoch, environment, trainer in self.loader.load(buildParameterLabel, epoch, buildParameterKey, agentKey):
             
             simulator = SacSimulator(agent, environment)
             simulator.reset()
