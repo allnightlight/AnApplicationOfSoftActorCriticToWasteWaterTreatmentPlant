@@ -24,7 +24,7 @@ class Test(unittest.TestCase):
 
     def test001(self):
         
-        nEpoch = 2**2
+        nEpoch = 2**4
         buildParameter = ConcreteBuildParameter(nIntervalSave = nEpoch//2
                                                 , nEpoch = nEpoch
                                                 , label = "test"
@@ -42,13 +42,12 @@ class Test(unittest.TestCase):
                                                 , bufferSizeReplayBuffer = 2**10
                                                 , featureExtractorClass = "ConcreteFeatureExtractor002")
         
-        for _ in range(3):
+        for _ in range(1):
             self.app.build(buildParameter)        
         
+    def test002(self):
         self.app.evaluate()
         
-        pass
-
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
