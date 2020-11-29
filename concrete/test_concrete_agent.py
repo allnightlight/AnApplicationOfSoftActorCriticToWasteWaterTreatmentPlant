@@ -225,7 +225,11 @@ class Test(unittest.TestCase):
         
         assert isinstance(agent, ConcreteAgent)
         
-        agent.loadMemento(agent.createMemento())
+        agent2 = self.factory.createAgent()
+        
+        agent2.loadMemento(agent.createMemento(), agent.getAgentKey())
+        
+        assert agent.getAgentKey() == agent2.getAgentKey()
         
         shutil.rmtree(agent.saveFolderPath)
 

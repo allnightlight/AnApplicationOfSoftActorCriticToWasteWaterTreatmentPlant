@@ -25,9 +25,12 @@ class Test(unittest.TestCase):
             
             assert isinstance(agent, Agent)
             agentMemento = agent.createMemento()
-            agent.loadMemento(agentMemento)
+            
+            agent2 = Agent()
+            
+            agent2.loadMemento(agentMemento, agent.getAgentKey())
 
-            assert agent.getAgentKey() is not None
+            assert agent.getAgentKey() == agent2.getAgentKey()
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

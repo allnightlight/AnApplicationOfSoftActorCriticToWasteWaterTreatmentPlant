@@ -97,5 +97,6 @@ class ConcreteAgent(SacAgent, Agent):
         self.saveNetworks(agentMemento)
         return agentMemento
         
-    def loadMemento(self, agentMemento):
+    def loadMemento(self, agentMemento, agentKey):
+        super(ConcreteAgent, self).loadMemento(agentMemento, agentKey)
         self.loadNetworks(agentMemento)
