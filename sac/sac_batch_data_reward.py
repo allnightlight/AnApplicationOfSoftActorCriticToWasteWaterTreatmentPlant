@@ -9,9 +9,9 @@ class SacBatchDataReward(object):
     classdocs
     '''
         
-    def __init__(self, reward = None):
+    def __init__(self, reward):
         self.reward = reward
         
     # <<abstract>>
     def getValue(self):
-        return 1.
+        return self.reward
