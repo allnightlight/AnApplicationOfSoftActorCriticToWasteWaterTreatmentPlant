@@ -88,8 +88,8 @@ class ConcreteAgent(SacAgent, Agent):
             (self.policy, "policy")
             , (self.valueFunctionApproximator, "valueFunc")
             , (self.featureExtractor, "feature")]:
-        
-            if len(obj.trainable_variables) > 0:    
+
+            if not isinstance(obj, ConcreteFeatureExtractor002):        
                 obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
             
     def createMemento(self):
