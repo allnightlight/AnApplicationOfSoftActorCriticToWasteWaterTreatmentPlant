@@ -6,7 +6,6 @@ Created on 2020/11/29
 import unittest
 from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 from concrete.concrete_application import ConcreteApplication
-from sac.sac_evaluator import SacEvaluator
 
 
 class Test(unittest.TestCase):
@@ -31,7 +30,7 @@ class Test(unittest.TestCase):
         for buildParameter in self.factory.generateBuildParameter():
             self.app.runBuild(buildParameter)
         
-        for row, agent, buildParameter, epoch, environment, trainer in self.app.runEvaluationWithSimulation(evaluators = [SacEvaluator(),], nSimulationStep = 10):
+        for row, agent, buildParameter, epoch, environment, trainer in self.app.runEvaluationWithSimulation(nSimulationStep = 10):
             assert isinstance(row, dict)
 
 
