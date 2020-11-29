@@ -14,6 +14,8 @@ from sac.sac_policy import SacPolicy
 from sac.sac_replay_buffer import SacReplayBuffer
 from sac.sac_trainer import SacTrainer
 from sac.sac_value_function_approximator import SacValueFunctionApproximator
+from sac.sac_simulator import SacSimulator
+from sac.sac_evaluator import SacEvaluator
 
 
 class SacFactoryForTest(object):
@@ -71,3 +73,10 @@ class SacFactoryForTest(object):
                        , nStepGradient = self.nStepGradient
                        , nIntervalUpdateStateValueFunction = self.nIntervalUpdateStateValueFunction
                        , nIterationPerEpoch = self.nIterationPerEpoch)
+        
+    def createSimulator(self):
+        return SacSimulator(agent = self.createAgent()
+                            , environment = self.createEnvironment())
+        
+    def createEvaluator(self):
+        return SacEvaluator()
