@@ -44,7 +44,8 @@ class Work001Utility(object):
                               , featureExtractor = featureExtractor
                               , discountFactor = discountFactor
                               , alphaTemp = alphaTemp
-                              , updatePolicyByAdvantage = updatePolicyByAdvantage)
+                              , updatePolicyByAdvantage = updatePolicyByAdvantage
+                              , saveFolderPath = "checkpoint")
         
         return Work001Utility(nMv, nPv, nFeature, agent, nIter, showLog)
 

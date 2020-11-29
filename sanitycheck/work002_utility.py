@@ -40,14 +40,16 @@ class Work002Utility(object):
                     , featureExtractor = featureExtractor
                     , discountFactor = discountFactor
                     , alphaTemp = alphaTemp
-                    , updatePolicyByAdvantage = updatePolicyByAdvantage)
+                    , updatePolicyByAdvantage = updatePolicyByAdvantage
+                    , saveFolderPath = "./checkpoint")
         
         trainer = SacTrainer(agent = agent
                             , environment = environment
                             , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
                             , nStepEnvironment = 1
                             , nStepGradient = 1
-                            , nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction)
+                            , nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
+                            , nIterationPerEpoch = 1)
         
         work001Utility = Work001Utility(nMv = trainer.environment.getNmv()
                                          , nPv = trainer.environment.getNpv()
@@ -73,7 +75,7 @@ class Work002Utility(object):
 
         self.trainer.reset()
         
-        self.trainer.train(self.nIteration)
+        self.trainer.train()
         
     def plotTrainedQ(self):
         
