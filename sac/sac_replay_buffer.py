@@ -23,15 +23,14 @@ class SacReplayBuffer(object):
     def reset(self):
         
         self.buffer = []
-        
-        
+                
     def append(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
         self.buffer.append((batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep))
         if len(self.buffer) > self.bufferSize:
             del self.buffer[0]
             
-    def getStateActionRewardAndNextState(self):
+    def generateStateActionRewardAndNextState(self, nStepGradient):
         
-        i = int(np.random.randint(len(self.buffer)))
-        
-        return self.buffer[i]
+        if len(self.buffer) > 0:                    
+            for i in np.random.permutation(len(self.buffer))[:min(len(self.buffer), nStepGradient, self.bufferSize)]:            
+                yield self.buffer[i]

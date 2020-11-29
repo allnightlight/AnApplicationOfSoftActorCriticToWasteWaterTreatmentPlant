@@ -7,19 +7,23 @@ Created on 2020/11/15
 from sac.sac_agent import SacAgent
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
-from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 import tensorflow
 from sac.sac_feature_extractor import SacFeatureExtractor
+import os
+from framework.agent import Agent
+from framework.util import Utils
+from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
 
 
-class ConcreteAgent(SacAgent):
+class ConcreteAgent(SacAgent, Agent):
     '''
     classdocs
     '''
 
 
-    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage):
+    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage, saveFolderPath):
         SacAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage)
+        Agent.__init__(self)
         
         assert isinstance(policy, ConcretePolicy)
         self.policy = policy
@@ -33,6 +37,7 @@ class ConcreteAgent(SacAgent):
         self.optimizerForUpdateActionValueFunction = None
         self.optimizerForUpdatePolicy = None 
         self.optimizerForUpdateStateValueFunction = None
+        self.saveFolderPath = saveFolderPath
         
     def reset(self):
         SacAgent.reset(self)  
@@ -66,4 +71,31 @@ class ConcreteAgent(SacAgent):
         return self.policy.trainable_variables 
         
     def getTrainableVariablesForUpdateStateValueFunction(self):
-        return self.valueFunctionApproximator.trainable_variables 
+        return self.valueFunctionApproximator.trainable_variables
+    
+    def saveNetworks(self, saveFilePrefix):
+        
+        for (obj, label) in [
+            (self.policy, "policy")
+            , (self.valueFunctionApproximator, "valueFunc")
+            , (self.featureExtractor, "feature")]:
+            
+            obj.save_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
+            
+    def loadNetworks(self, saveFilePrefix):
+        
+        for (obj, label) in [
+            (self.policy, "policy")
+            , (self.valueFunctionApproximator, "valueFunc")
+            , (self.featureExtractor, "feature")]:
+
+            if not isinstance(obj, ConcreteFeatureExtractor002):        
+                obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
+            
+    def createMemento(self):
+        agentMemento = Utils.generateRandomString(16)
+        self.saveNetworks(agentMemento)
+        return agentMemento
+        
+    def loadMemento(self, agentMemento):
+        self.loadNetworks(agentMemento)

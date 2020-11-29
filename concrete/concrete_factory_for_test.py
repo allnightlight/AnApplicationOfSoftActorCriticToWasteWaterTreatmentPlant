@@ -6,21 +6,27 @@ Created on 2020/11/16
 import tensorflow
 
 from concrete.concrete_agent import ConcreteAgent
+from concrete.concrete_application import ConcreteApplication
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from concrete.concrete_batch_data_environment import ConcreteBatchDataEnvironment
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
+from concrete.concrete_build_parameter import ConcreteBuildParameter
+from concrete.concrete_builder import ConcreteBuilder
+from concrete.concrete_environment import ConcreteEnvironment
 from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
+from concrete.concrete_loader import ConcreteLoader
 from concrete.concrete_plant001 import ConcretePlant001
 from concrete.concrete_plant002 import ConcretePlant002
 from concrete.concrete_plant003 import ConcretePlant003
 from concrete.concrete_policy import ConcretePolicy
+from concrete.concrete_trainer import ConcreteTrainer
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
+from framework.mylogger import MyLogger
+from framework.store import Store
 import numpy as np
-from sac.sac_environment import SacEnvironment
 from sac.sac_replay_buffer import SacReplayBuffer
-from sac.sac_trainer import SacTrainer
 
 
 class ConcreteFactoryForTest(object):
@@ -87,11 +93,12 @@ class ConcreteFactoryForTest(object):
                              , featureExtractor = self.createFeatureExtractor()
                              , discountFactor = 0.99
                              , alphaTemp = self.alphaTemp
-                             , updatePolicyByAdvantage = self.updatePolicyByAdvantage)
+                             , updatePolicyByAdvantage = self.updatePolicyByAdvantage
+                             , saveFolderPath = "./test")
             
     def createTrainer(self):
         
-        environment = SacEnvironment(plant = ConcretePlant001()) 
+        environment = ConcreteEnvironment(plant = ConcretePlant001()) 
         
         nHidden = 2**3
         nSampleOfActionsInValueFunctionApproximator = 2**3
@@ -102,14 +109,16 @@ class ConcreteFactoryForTest(object):
                               , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                               , discountFactor = 0.99
                               , alphaTemp = 1.0
-                              , updatePolicyByAdvantage = True)
+                              , updatePolicyByAdvantage = True
+                              , saveFolderPath = "./test")
         
-        return SacTrainer(agent = agent
+        return ConcreteTrainer(agent = agent
                                , environment = environment
                                , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
                                , nStepEnvironment = 1
                                , nStepGradient = 1
-                               , nIntervalUpdateStateValueFunction = 1)
+                               , nIntervalUpdateStateValueFunction = 1
+                               , nIterationPerEpoch = 10)
         
     def createPlant001(self):
         
@@ -117,7 +126,7 @@ class ConcreteFactoryForTest(object):
     
     def createEnvironmentPoweredByPlant001(self):
         
-        return SacEnvironment(plant = ConcretePlant001())
+        return ConcreteEnvironment(plant = ConcretePlant001())
     
     def generateBatchDataAgentForPlant001(self):
         
@@ -134,7 +143,7 @@ class ConcreteFactoryForTest(object):
     
     def createEnvironmentPoweredByPlant002(self):
         
-        return SacEnvironment(plant = ConcretePlant002())
+        return ConcreteEnvironment(plant = ConcretePlant002())
     
     def generateBatchDataAgentForPlant002(self):
         
@@ -151,7 +160,7 @@ class ConcreteFactoryForTest(object):
     
     def createEnvironmentPoweredByPlant003(self):
         
-        return SacEnvironment(plant = ConcretePlant003())
+        return ConcreteEnvironment(plant = ConcretePlant003())
     
     def generateBatchDataAgentForPlant003(self):
         
@@ -160,4 +169,29 @@ class ConcreteFactoryForTest(object):
         
         for _ in range(10):
             yield ConcreteBatchDataAgent(_Mean = tensorflow.random.normal(shape = (nBatch, nMv))
-                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))
+                                     , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))            
+            
+    def generateBuildParameter(self):
+        
+        yield ConcreteBuildParameter(nIntervalSave = 1
+            , nEpoch = 2**2
+            , label = "test"
+            , nSampleOfActionsInValueFunctionApproximator = 2**1
+            , nStepEnvironment = 1
+            , nStepGradient = 1
+            , nIntervalUpdateStateValueFunction = 1
+            , nIterationPerEpoch = 1
+            , bufferSizeReplayBuffer = 2**10)
+        
+    def createStore(self):
+        return Store(dbPath = "testDb.sqlite", trainLogFolderPath = "testTrainLog")
+    
+    def createApplication(self, dbPath = "train.sqlite"
+               , trainLogFolderPath = "trainLog"
+               , console_print = False):
+        
+        store = Store(dbPath, trainLogFolderPath)
+        builder = ConcreteBuilder(store, logger = MyLogger(console_print = console_print))
+        loader = ConcreteLoader(store)
+        return ConcreteApplication(builder, loader), store
+        

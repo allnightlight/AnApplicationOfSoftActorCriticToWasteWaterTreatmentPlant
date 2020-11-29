@@ -29,7 +29,7 @@ class Test(unittest.TestCase):
         
         trainer.stepGradient()
         
-        trainer.train(nIteration = 10)
+        trainer.train()
         
     def test002(self):
         
