@@ -12,6 +12,7 @@ from sac.sac_feature_extractor import SacFeatureExtractor
 import os
 from framework.agent import Agent
 from framework.util import Utils
+from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
 
 
 class ConcreteAgent(SacAgent, Agent):
@@ -87,8 +88,9 @@ class ConcreteAgent(SacAgent, Agent):
             (self.policy, "policy")
             , (self.valueFunctionApproximator, "valueFunc")
             , (self.featureExtractor, "feature")]:
-            
-            obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
+        
+            if len(obj.trainable_variables) > 0:    
+                obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
             
     def createMemento(self):
         agentMemento = Utils.generateRandomString(16)

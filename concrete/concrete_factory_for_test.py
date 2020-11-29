@@ -10,6 +10,7 @@ from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 from concrete.concrete_batch_data_environment import ConcreteBatchDataEnvironment
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
+from concrete.concrete_build_parameter import ConcreteBuildParameter
 from concrete.concrete_environment import ConcreteEnvironment
 from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
@@ -19,9 +20,9 @@ from concrete.concrete_plant003 import ConcretePlant003
 from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_trainer import ConcreteTrainer
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
+from framework.store import Store
 import numpy as np
 from sac.sac_replay_buffer import SacReplayBuffer
-from concrete.concrete_build_parameter import ConcreteBuildParameter
 
 
 class ConcreteFactoryForTest(object):
@@ -177,3 +178,6 @@ class ConcreteFactoryForTest(object):
             , nIntervalUpdateStateValueFunction = 1
             , nIterationPerEpoch = 1
             , bufferSizeReplayBuffer = 2**10)
+        
+    def createStore(self):
+        return Store(dbPath = "testDb.sqlite", trainLogFolderPath = "testTrainLog")

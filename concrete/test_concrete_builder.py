@@ -8,6 +8,12 @@ from concrete.concrete_builder import ConcreteBuilder
 from framework.store import Store
 from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 from framework.mylogger import MyLogger
+from concrete.concrete_loader import ConcreteLoader
+from sac.sac_agent import SacAgent
+from concrete.concrete_build_parameter import ConcreteBuildParameter
+from concrete.concrete_agent import ConcreteAgent
+from concrete.concrete_environment import ConcreteEnvironment
+from concrete.concrete_trainer import ConcreteTrainer
 
 
 class Test(unittest.TestCase):
@@ -16,7 +22,8 @@ class Test(unittest.TestCase):
     def setUpClass(cls):
         super(Test, cls).setUpClass()
         
-        cls.store = Store(dbPath = "testDb.sqlite", trainLogFolderPath = "testTrainLog")
+        cls.factory = ConcreteFactoryForTest()
+        cls.store = cls.factory.createStore() 
 
     @classmethod
     def tearDownClass(cls):
@@ -24,11 +31,6 @@ class Test(unittest.TestCase):
         
         cls.store.removeHistory()
                 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-        
-        self.factory = ConcreteFactoryForTest()
-
     def test001(self):
         
         builder = ConcreteBuilder(store = self.store, logger = MyLogger(console_print = True))
@@ -36,9 +38,22 @@ class Test(unittest.TestCase):
         assert isinstance(builder, ConcreteBuilder)
         
         for buildParameter in self.factory.generateBuildParameter():
-            builder.build(buildParameter) 
-        
+            builder.build(buildParameter)         
 
+    def test002(self):
+        
+        loader = ConcreteLoader(store = self.store)
+        
+        assert isinstance(loader, ConcreteLoader)
+    
+        for agent, buildParameter, epoch, environment, trainer in loader.load("%"):
+            
+            assert isinstance(agent, ConcreteAgent)
+            assert isinstance(buildParameter, ConcreteBuildParameter)
+            assert epoch >= 0
+            assert isinstance(environment, ConcreteEnvironment)
+            assert isinstance(trainer, ConcreteTrainer)
+            
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
