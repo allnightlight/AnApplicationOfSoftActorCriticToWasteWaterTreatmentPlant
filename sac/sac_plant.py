@@ -15,7 +15,7 @@ class SacPlant(object):
     
     # <<abstract>>
     def update(self, u):
-        return None # reward
+        return 1. # reward
     
     # <<abstract>>
     def reset(self):

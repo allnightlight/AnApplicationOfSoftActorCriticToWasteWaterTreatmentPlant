@@ -49,7 +49,7 @@ class SacFactoryForTest(object):
         return SacBatchDataEnvironment()
     
     def createBatchDataReward(self):
-        return SacBatchDataReward()
+        return SacBatchDataReward(1.23)
     
     def createPlant(self):
         return SacPlant()
