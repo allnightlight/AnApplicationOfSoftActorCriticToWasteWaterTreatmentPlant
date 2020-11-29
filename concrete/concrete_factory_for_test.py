@@ -27,6 +27,7 @@ from framework.mylogger import MyLogger
 from framework.store import Store
 import numpy as np
 from sac.sac_replay_buffer import SacReplayBuffer
+from sac.sac_evaluator import SacEvaluator
 
 
 class ConcreteFactoryForTest(object):
@@ -193,5 +194,6 @@ class ConcreteFactoryForTest(object):
         store = Store(dbPath, trainLogFolderPath)
         builder = ConcreteBuilder(store, logger = MyLogger(console_print = console_print))
         loader = ConcreteLoader(store)
-        return ConcreteApplication(builder, loader), store
+        evaluators = [SacEvaluator(),]
+        return ConcreteApplication(builder, loader, evaluators), store
         
