@@ -41,7 +41,7 @@ class Loader(object):
             
             environment = self.environmentFactory.create(buildParameter)
             agent = self.agentFactory.create(buildParameter, environment)
-            agent.loadMemento(storeField.agentMemento)
+            agent.loadMemento(storeField.agentMemento, storeField.agentKey)
             
             trainer = self.trainerFactory.create(buildParameter, agent, environment)
             

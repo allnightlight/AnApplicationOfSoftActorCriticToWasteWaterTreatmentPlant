@@ -18,7 +18,8 @@ class Agent(object):
         agentMemento = Utils.generateRandomString(16)        
         return agentMemento
     
-    def loadMemento(self, agentMemento):
+    def loadMemento(self, agentMemento, agentKey):
+        self.agentKey = agentKey
         pass
         
     def getAgentKey(self):
