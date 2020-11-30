@@ -5,6 +5,7 @@ Created on 2020/11/23
 '''
 import numpy as np
 from sac.sac_plant import SacPlant
+from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 
 class ConcretePlant001(SacPlant):
     '''
@@ -35,7 +36,7 @@ class ConcretePlant001(SacPlant):
         self.x = u 
         reward = -(self.sv - self.x).__abs__()
         
-        return reward
+        return ConcreteBatchDataReward(reward = np.array(reward).reshape(1,-1).astype(np.float32))
     
     def getNmv(self):
         return 1

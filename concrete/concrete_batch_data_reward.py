@@ -12,10 +12,4 @@ class ConcreteBatchDataReward(SacBatchDataReward):
 
 
     def __init__(self, reward):
-        '''
-        Constructor
-        '''        
-        self.reward = reward
-        
-    def getValue(self):
-        return self.reward
+        SacBatchDataReward.__init__(self, reward)
