@@ -49,7 +49,7 @@ class Work002Utility(object):
                             , nStepEnvironment = 1
                             , nStepGradient = 1
                             , nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
-                            , nIterationPerEpoch = 1)
+                            , nIterationPerEpoch = nIteration)
         
         work001Utility = Work001Utility(nMv = trainer.environment.getNmv()
                                          , nPv = trainer.environment.getNpv()
