@@ -84,7 +84,25 @@ class Test(unittest.TestCase):
             
             buffer.append(None, None, None, None)
             
-            
+    def test006(self):
+        
+        trainer = self.factory.createTrainer()
+        trainer.nStepEnvironment = 2**5
+        trainer.nStepGradient = 1
+        trainer.nIterationPerEpoch = 1
+        
+        nEpoch = 2**7 
+        
+        assert isinstance(trainer, SacTrainer) 
+        
+        trainer.reset()
+        for _ in range(nEpoch):
+            trainer.train()
+        assert trainer.cntStepEnvironment == nEpoch        
+        assert trainer.cntStepGradient == (nEpoch//trainer.nStepEnvironment)
+        
+        
+#         assert trainer.cntStepGradient == trainer.nIterationPerEpoch//trainer.nStepEnvironment*trainer.nStepGradient
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
