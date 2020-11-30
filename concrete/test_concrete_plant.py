@@ -6,10 +6,10 @@ Created on 2020/11/26
 import unittest
 
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
+from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 import numpy as np
 from sac.sac_batch_data_environment import SacBatchDataEnvironment
-from sac.sac_batch_data_reward import SacBatchDataReward
 from sac.sac_environment import SacEnvironment
 
 
@@ -58,7 +58,7 @@ class Test(unittest.TestCase):
          
             batchDataReward = environment.update(batchDataAgent)
              
-            assert isinstance(batchDataReward, SacBatchDataReward)
+            assert isinstance(batchDataReward, ConcreteBatchDataReward)
          
         assert environment.getNmv() == 1
         assert environment.getNpv() == 1
@@ -97,7 +97,7 @@ class Test(unittest.TestCase):
          
             batchDataReward = environment.update(batchDataAgent)
              
-            assert isinstance(batchDataReward, SacBatchDataReward)
+            assert isinstance(batchDataReward, ConcreteBatchDataReward)
          
         assert environment.getNmv() == 1
         assert environment.getNpv() == 1
@@ -136,7 +136,7 @@ class Test(unittest.TestCase):
          
             batchDataReward = environment.update(batchDataAgent)
              
-            assert isinstance(batchDataReward, SacBatchDataReward)
+            assert isinstance(batchDataReward, ConcreteBatchDataReward)
          
 
 if __name__ == "__main__":

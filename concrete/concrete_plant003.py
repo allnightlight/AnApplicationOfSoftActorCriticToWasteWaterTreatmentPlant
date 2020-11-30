@@ -4,8 +4,11 @@ Created on 2020/11/26
 @author: ukai
 '''
 from scipy.integrate import ode
+
+from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 import numpy as np
 from sac.sac_plant import SacPlant
+
 
 class ConcretePlant003(SacPlant):
     '''
@@ -95,7 +98,9 @@ class ConcretePlant003(SacPlant):
         self.t = self.t + self.h
         self.x = self.odeHandler.y
                 
-        return self.getReward(xPrev = xPrev, Do = Do, xNext = self.x)
+        reward = self.getReward(xPrev = xPrev, Do = Do, xNext = self.x) 
+                
+        return ConcreteBatchDataReward(reward = np.array(reward).reshape(1,-1).astype(np.float32))
 
     def getNmv(self):
         return 1 # DO

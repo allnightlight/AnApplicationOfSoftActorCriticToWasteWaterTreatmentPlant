@@ -3,8 +3,10 @@ Created on 2020/11/23
 
 @author: ukai
 '''
+from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 import numpy as np
 from sac.sac_plant import SacPlant
+
 
 class ConcretePlant002(SacPlant):
     '''
@@ -36,7 +38,7 @@ class ConcretePlant002(SacPlant):
         self.x = (1-1/self.tau) * self.x + 1/self.tau * u
         reward = -(self.sv - self.x).__abs__()
         
-        return reward
+        return ConcreteBatchDataReward(reward = np.array(reward).reshape(1,-1).astype(np.float32))
     
     def getNmv(self):
         return 1
