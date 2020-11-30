@@ -3,6 +3,7 @@ Created on 2020/11/14
 
 @author: ukai
 '''
+from sac.sac_batch_data_reward import SacBatchDataReward
 
 class SacPlant(object):
     '''
@@ -15,7 +16,7 @@ class SacPlant(object):
     
     # <<abstract>>
     def update(self, u):
-        return 1. # reward
+        return SacBatchDataReward(reward = 1.0) # reward
     
     # <<abstract>>
     def reset(self):

@@ -31,11 +31,11 @@ class SacEnvironment(object):
     def update(self, batchDataAgent):
         
         mv = batchDataAgent.getSampledActionOnEnvironment()
-        r = self.plant.update(mv)
+        batchDataReward = self.plant.update(mv)
         pvNext = self.plant.getPv()
         self.bufferMv.append(mv)
         self.bufferPv.append(pvNext) 
-        return SacBatchDataReward(r) # as BatchDataReward
+        return batchDataReward # as BatchDataReward
     
     def observe(self):
         return SacBatchDataEnvironment(self.bufferPv.copy(), self.bufferMv.copy()) # as BatchDataEnvironment
