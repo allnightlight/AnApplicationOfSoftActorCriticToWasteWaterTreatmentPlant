@@ -32,7 +32,8 @@ class SacTrainer(object):
         self.nIterationPerEpoch = nIterationPerEpoch
         
     def reset(self):
-        self.cntStepGradient = 0
+        self.cntStepEnvironment = 0
+        self.cntStepGradient = 0        
         self.simulator.reset()
         self.replayBuffer.reset()
         
@@ -54,12 +55,11 @@ class SacTrainer(object):
         
     def train(self):
         
-        for _ in range(self.nIterationPerEpoch//self.nStepEnvironment):
+        for _ in range(self.nIterationPerEpoch):
             
-            for _ in range(self.nStepEnvironment):                
-                self.stepEnvironment()
-                            
-            self.stepGradient()
-                
-        for _ in range(self.nIterationPerEpoch - (self.nIterationPerEpoch//self.nStepEnvironment) * self.nIterationPerEpoch):                
             self.stepEnvironment()
+
+            if self.cntStepEnvironment % self.nStepEnvironment == 0:                            
+                self.stepGradient()
+                
+            self.cntStepEnvironment += 1
