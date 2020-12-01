@@ -36,7 +36,7 @@ class Test(unittest.TestCase):
         
         environment.reset()
         environment.observe()
-        environment.update(self.factory.createBatchDataAgent())
+        environment.updateWithStochasticAction(self.factory.createBatchDataAgent())
         
         
     def test003(self):
@@ -64,7 +64,7 @@ class Test(unittest.TestCase):
             assert len(batchDataEnvironment.bufferMv) == k1
             assert len(batchDataEnvironment.bufferPv) == (k1+1)
             
-            environment.update(self.factory.createBatchDataAgent())
+            environment.updateWithStochasticAction(self.factory.createBatchDataAgent())
 
 
 if __name__ == "__main__":

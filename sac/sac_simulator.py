@@ -24,17 +24,24 @@ class SacSimulator(object):
     def reset(self):
         self.agent.reset()
         self.environment.reset()
-        
-    def step(self):
+    
+    # <<private>>    
+    def stepPrivate(self, mode):
         
         batchDataEnvironment = self.environment.observe()
         batchDataAgent = self.agent.getAction(batchDataEnvironment)
-        batchDataReward = self.environment.update(batchDataAgent)
+        if mode == "stochastic":
+            batchDataReward = self.environment.updateWithStochasticAction(batchDataAgent)
+        if mode == "deterministic":
+            batchDataReward = self.environment.updateWithDeterministicAction(batchDataAgent)
         batchDataEnvironmentNextStep = self.environment.observe()
 
         return batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep
+    
+    # <<public>>
+    def stepWithDeterministicAction(self):
+        return self.stepPrivate(mode = "deterministic")
         
-    def getSimulationResultGenerator(self, nStep):        
-        for _ in range(nStep):
-            yield self.step()
-        
+    # <<public>>
+    def stepWithStochasticAction(self):
+        return self.stepPrivate(mode = "stochastic")
