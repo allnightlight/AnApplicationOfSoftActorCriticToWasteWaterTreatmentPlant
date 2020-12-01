@@ -14,7 +14,7 @@ class Test(unittest.TestCase):
     def setUpClass(cls):
         super(Test, cls).setUpClass()
         
-        cls.app, cls.store = Work004Utility.create()
+        cls.app, cls.store = Work004Utility.create(nAgent = 3, nEpoch = 2**1)
         
     @classmethod
     def tearDownClass(cls):
@@ -24,26 +24,7 @@ class Test(unittest.TestCase):
 
     def test001(self):
         
-        nEpoch = 2**4
-        buildParameter = ConcreteBuildParameter(nIntervalSave = nEpoch//2
-                                                , nEpoch = nEpoch
-                                                , label = "test"
-                                                , plantClass = "ConcretePlant001"
-                                                , discountFactor = 0.
-                                                , alphaTemp = 1.
-                                                , saveFolderPathAgent = "checkpoint"
-                                                , nFeature = 1
-                                                , nSampleOfActionsInValueFunctionApproximator = 2**3
-                                                , nHiddenValueFunctionApproximator = 2**5
-                                                , nStepEnvironment = 1
-                                                , nStepGradient = 2**5
-                                                , nIntervalUpdateStateValueFunction = 1
-                                                , nIterationPerEpoch = 1
-                                                , bufferSizeReplayBuffer = 2**10
-                                                , featureExtractorClass = "ConcreteFeatureExtractor002")
-        
-        for _ in range(1):
-            self.app.build(buildParameter)        
+        self.app.build()        
         
     def test002(self):
         self.app.evaluate()
