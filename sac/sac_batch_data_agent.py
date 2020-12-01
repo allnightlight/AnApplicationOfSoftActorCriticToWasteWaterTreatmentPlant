@@ -13,6 +13,9 @@ class SacBatchDataAgent(object):
     def getSampledActionOnEnvironment(self):
         return None
     
+    def getDeterministicAction(self):
+        return None
+    
     # <<abstract>>
     def getEntropy(self):
         return 1.

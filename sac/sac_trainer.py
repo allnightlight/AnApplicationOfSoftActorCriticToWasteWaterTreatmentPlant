@@ -7,6 +7,7 @@ from sac.sac_agent import SacAgent
 from sac.sac_environment import SacEnvironment
 from sac.sac_simulator import SacSimulator
 
+
 class SacTrainer(object):
     '''
     classdocs
@@ -39,7 +40,7 @@ class SacTrainer(object):
         
     def stepEnvironment(self):
                 
-        self.replayBuffer.append(*self.simulator.step())
+        self.replayBuffer.append(*self.simulator.stepWithStochasticAction())
         
     def stepGradient(self):
         
