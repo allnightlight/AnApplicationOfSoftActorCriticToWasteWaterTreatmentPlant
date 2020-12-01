@@ -56,7 +56,11 @@ class Test(unittest.TestCase):
             batchDataEnvironment = environment.observe()
             assert batchDataEnvironment.bufferPv[-1] is not None
          
-            batchDataReward = environment.update(batchDataAgent)
+            batchDataReward = environment.updateWithStochasticAction(batchDataAgent)
+             
+            assert isinstance(batchDataReward, ConcreteBatchDataReward)
+
+            batchDataReward = environment.updateWithDeterministicAction(batchDataAgent)
              
             assert isinstance(batchDataReward, ConcreteBatchDataReward)
          
@@ -95,7 +99,7 @@ class Test(unittest.TestCase):
             batchDataEnvironment = environment.observe()
             assert batchDataEnvironment.bufferPv[-1] is not None
          
-            batchDataReward = environment.update(batchDataAgent)
+            batchDataReward = environment.updateWithStochasticAction(batchDataAgent)
              
             assert isinstance(batchDataReward, ConcreteBatchDataReward)
          
@@ -134,7 +138,7 @@ class Test(unittest.TestCase):
             batchDataEnvironment = environment.observe()
             assert batchDataEnvironment.bufferPv[-1] is not None
          
-            batchDataReward = environment.update(batchDataAgent)
+            batchDataReward = environment.updateWithStochasticAction(batchDataAgent)
              
             assert isinstance(batchDataReward, ConcreteBatchDataReward)
          

@@ -44,6 +44,6 @@ class ConcreteApplication(object):
             row = {}
             for evaluator in self.evaluators:
                 assert isinstance(evaluator, SacEvaluator)
-                row = {**row, **evaluator.evaluate(simulator.getSimulationResultGenerator(nStep = nSimulationStep))}
+                row = {**row, **evaluator.evaluate([simulator.stepWithDeterministicAction() for _ in range(nSimulationStep)])}
             
             yield row, agent, buildParameter, epoch, environment, trainer

@@ -23,11 +23,22 @@ class Test(unittest.TestCase):
         n = 10
         
         simulator.reset()
-        res = evaluator.evaluate(simulator.getSimulationResultGenerator(n))
+        
+        g = iter([simulator.stepWithDeterministicAction() for _ in range(n) ])
+        
+        res = evaluator.evaluate(g)
         
         assert isinstance(res, dict)
         assert res["count"] == n
         
+        simulator.reset()
+        
+        g = iter([simulator.stepWithStochasticAction() for _ in range(n) ])
+        
+        res = evaluator.evaluate(g)
+        
+        assert isinstance(res, dict)
+        assert res["count"] == n
         
 
 if __name__ == "__main__":

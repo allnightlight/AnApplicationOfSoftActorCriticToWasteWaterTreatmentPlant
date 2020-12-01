@@ -24,19 +24,41 @@ class Test(unittest.TestCase):
         simulator.reset()
         
         for _ in range(10):
-            batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = simulator.step()
+            batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = simulator.stepWithDeterministicAction()
+            
+            assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
+            assert isinstance(batchDataAgent, SacBatchDataAgent)
+            assert isinstance(batchDataReward, SacBatchDataReward)
+            assert isinstance(batchDataEnvironmentNextStep, SacBatchDataEnvironment)
+            
+        for _ in range(10):
+            batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep = simulator.stepWithStochasticAction()
             
             assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
             assert isinstance(batchDataAgent, SacBatchDataAgent)
             assert isinstance(batchDataReward, SacBatchDataReward)
             assert isinstance(batchDataEnvironmentNextStep, SacBatchDataEnvironment)
 
+
     def test002(self):
         simulator = self.factory.createSimulator()
         
         simulator.reset()
+        
+        g = iter([simulator.stepWithDeterministicAction() for _ in range(10)])
 
-        for batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep in simulator.getSimulationResultGenerator(10):
+        for batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep in g:
+
+            assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
+            assert isinstance(batchDataAgent, SacBatchDataAgent)
+            assert isinstance(batchDataReward, SacBatchDataReward)
+            assert isinstance(batchDataEnvironmentNextStep, SacBatchDataEnvironment)
+
+        simulator.reset()
+        
+        g = iter([simulator.stepWithStochasticAction() for _ in range(10)])
+
+        for batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep in g:
 
             assert isinstance(batchDataEnvironment, SacBatchDataEnvironment)
             assert isinstance(batchDataAgent, SacBatchDataAgent)

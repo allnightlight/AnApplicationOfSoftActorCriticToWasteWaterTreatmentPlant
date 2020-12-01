@@ -44,3 +44,6 @@ class ConcreteBatchDataAgent(SacBatchDataAgent):
     def generateSamples(self, nSample):
         for _ in range(nSample):
             yield self.getSample() # (..., nMv)
+            
+    def getDeterministicAction(self):
+        return self._Mean.numpy() # (..., nMv)
