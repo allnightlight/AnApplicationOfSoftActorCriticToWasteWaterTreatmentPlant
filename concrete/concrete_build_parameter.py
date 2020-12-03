@@ -27,7 +27,10 @@ class ConcreteBuildParameter(BuildParameter):
                  , nIntervalUpdateStateValueFunction = 1
                  , nIterationPerEpoch = 2**7
                  , bufferSizeReplayBuffer = 2**10
-                 , featureExtractorClass = "ConcreteFeatureExtractor002"):
+                 , featureExtractorClass = "ConcreteFeatureExtractor002"
+                 , learningRateForUpdateActionValueFunction = 1e-3
+                 , learningRateForUpdatePolicy = 1e-3
+                 , learningRateForUpdateStateValueFunction = 1e-3):
         
         BuildParameter.__init__(self, nIntervalSave=nIntervalSave, nEpoch=nEpoch, label=label)
         
@@ -44,3 +47,7 @@ class ConcreteBuildParameter(BuildParameter):
         self.nIterationPerEpoch = nIterationPerEpoch
         self.bufferSizeReplayBuffer = bufferSizeReplayBuffer
         self.featureExtractorClass = featureExtractorClass
+        self.learningRateForUpdateActionValueFunction = learningRateForUpdateActionValueFunction
+        self.learningRateForUpdatePolicy = learningRateForUpdatePolicy
+        self.learningRateForUpdateStateValueFunction = learningRateForUpdateStateValueFunction
+

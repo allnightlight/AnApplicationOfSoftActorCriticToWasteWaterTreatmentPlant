@@ -29,9 +29,9 @@ class ConcreteAgentFactory(AgentFactory):
                              , alphaTemp = buildParameter.alphaTemp
                              , updatePolicyByAdvantage = False
                              , saveFolderPath = buildParameter.saveFolderPathAgent
-                             , learningRateForUpdateActionValueFunction = 1e-3
-                             , learningRateForUpdatePolicy = 1e-3
-                             , learningRateForUpdateStateValueFunction = 1e-3)
+                             , learningRateForUpdateActionValueFunction = buildParameter.learningRateForUpdateActionValueFunction
+                             , learningRateForUpdatePolicy = buildParameter.learningRateForUpdatePolicy
+                             , learningRateForUpdateStateValueFunction = buildParameter.learningRateForUpdateStateValueFunction)
         
     def createPolicy(self, buildParameter, environment):
         return ConcretePolicy(nMv = environment.getNmv())
