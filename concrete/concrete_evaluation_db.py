@@ -146,7 +146,7 @@ Select e.name, e.value
 
             cur.execute(sql2, (agentKey, epoch))            
             for name, value in cur.fetchall():
-                tbl.append({**head, name: value})
+                tbl.append({**head, "evaluationName": name, "evaluationValue": value})
         
         conn.close()
 
