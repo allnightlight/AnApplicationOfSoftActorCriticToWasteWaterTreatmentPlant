@@ -21,7 +21,7 @@ class ConcreteAgent(SacAgent, Agent):
     '''
 
 
-    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage, saveFolderPath):
+    def __init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage, saveFolderPath, learningRateForUpdateActionValueFunction, learningRateForUpdatePolicy, learningRateForUpdateStateValueFunction):
         SacAgent.__init__(self, policy, valueFunctionApproximator, featureExtractor, discountFactor, alphaTemp, updatePolicyByAdvantage)
         Agent.__init__(self)
         
@@ -39,12 +39,16 @@ class ConcreteAgent(SacAgent, Agent):
         self.optimizerForUpdateStateValueFunction = None
         self.saveFolderPath = saveFolderPath
         
+        self.learningRateForUpdateActionValueFunction = learningRateForUpdateActionValueFunction
+        self.learningRateForUpdatePolicy = learningRateForUpdatePolicy
+        self.learningRateForUpdateStateValueFunction = learningRateForUpdateStateValueFunction
+        
     def reset(self):
         SacAgent.reset(self)  
         
-        self.optimizerForUpdateActionValueFunction = tensorflow.keras.optimizers.Adam()
-        self.optimizerForUpdatePolicy = tensorflow.keras.optimizers.Adam()
-        self.optimizerForUpdateStateValueFunction = tensorflow.keras.optimizers.Adam()
+        self.optimizerForUpdateActionValueFunction = tensorflow.keras.optimizers.Adam(learning_rate = self.learningRateForUpdateActionValueFunction)
+        self.optimizerForUpdatePolicy = tensorflow.keras.optimizers.Adam(learning_rate = self.learningRateForUpdatePolicy)
+        self.optimizerForUpdateStateValueFunction = tensorflow.keras.optimizers.Adam(learning_rate = self.learningRateForUpdateStateValueFunction)
         
     def applyGradientSomeoneToReduce(self, fh, trainableVariables, optimizer):
         

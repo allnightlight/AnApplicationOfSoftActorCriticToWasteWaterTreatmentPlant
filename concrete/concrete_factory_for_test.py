@@ -98,7 +98,10 @@ class ConcreteFactoryForTest(object):
                              , discountFactor = 0.99
                              , alphaTemp = self.alphaTemp
                              , updatePolicyByAdvantage = self.updatePolicyByAdvantage
-                             , saveFolderPath = "./test")
+                             , saveFolderPath = "./test"
+                             , learningRateForUpdateActionValueFunction = 1e-3
+                             , learningRateForUpdatePolicy = 1e-3
+                             , learningRateForUpdateStateValueFunction = 1e-3)
             
     def createTrainer(self):
         
@@ -114,7 +117,11 @@ class ConcreteFactoryForTest(object):
                               , discountFactor = 0.99
                               , alphaTemp = 1.0
                               , updatePolicyByAdvantage = True
-                              , saveFolderPath = "./test")
+                              , saveFolderPath = "./test"
+                              , learningRateForUpdateActionValueFunction = 1e-3
+                              , learningRateForUpdatePolicy = 1e-3
+                              , learningRateForUpdateStateValueFunction = 1e-3)
+
         
         return ConcreteTrainer(agent = agent
                                , environment = environment
