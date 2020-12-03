@@ -5,16 +5,20 @@ Created on 2020/11/29
 '''
 from datetime import datetime
 
-import numpy as np
 import pandas
 
 from concrete.concrete_application import ConcreteApplication
 from concrete.concrete_build_parameter import ConcreteBuildParameter
+from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
 from concrete.concrete_builder import ConcreteBuilder
+from concrete.concrete_evaluation_db import ConcreteEvaluationDb
+from concrete.concrete_evaluator_suite import ConcreteEvaluatorSuite
 from concrete.concrete_loader import ConcreteLoader
 from framework.store import Store
+import numpy as np
 from sac.sac_evaluator import SacEvaluator
 from sanitycheck.work004_evaluator import Work004Evaluator
+import os
 
 
 class Work004Utility(object):
@@ -28,10 +32,17 @@ class Work004Utility(object):
         store = Store(dbPath = "trained_agent.sqlite", trainLogFolderPath = "tmpTrainLog")        
         builder = ConcreteBuilder(store)
         loader = ConcreteLoader(store)
-        evaluators = [Work004Evaluator(),]
+        evaluatorSuite = ConcreteEvaluatorSuite([Work004Evaluator(),])
         
-        return Work004Utility(app = ConcreteApplication(builder, loader, evaluators), nSimulationStep = 2**7, nAgent = nAgent, nEpoch = nEpoch), store
-
+        evaluationDbPath = "evaluationDb.sqlite"        
+        evaluationDb = ConcreteEvaluationDb(evaluationDbPath = evaluationDbPath, buildParameterFactory = ConcreteBuildParameterFactory())
+        if not os.path.exists(evaluationDbPath):
+            evaluationDb.initDb()
+        
+        return Work004Utility(app =ConcreteApplication(builder, loader, evaluatorSuite, evaluationDb) 
+                              , nSimulationStep = 2**7
+                              , nAgent = nAgent
+                              , nEpoch = nEpoch), store, evaluationDb
 
     def __init__(self, app, nSimulationStep, nAgent, nEpoch):
         '''
@@ -51,11 +62,11 @@ class Work004Utility(object):
         
     def evaluate(self):
         
-        tbl = []
-        for row, agent, buildParameter, epoch, environment, trainer in self.app.runEvaluationWithSimulation(nSimulationStep = self.nSimulationStep):
-            tbl.append(pandas.DataFrame([{**row, **buildParameter.__dict__, "epoch": epoch, "agentKey": agent.getAgentKey()}]))
-        tbl = pandas.concat(tbl, axis=0)
+        self.app.runEvaluationWithSimulation(nSimulationStep = self.nSimulationStep)
+        tbl = self.app.exportEvaluationTable()
         
+        tbl = pandas.concat([pandas.DataFrame([row]) for row in tbl], axis=0)
+                
         fileName = "work004_export_%s.csv" % datetime.strftime(datetime.now(), '%Y%m%d%H%M%S')
         
         assert isinstance(tbl, pandas.DataFrame)

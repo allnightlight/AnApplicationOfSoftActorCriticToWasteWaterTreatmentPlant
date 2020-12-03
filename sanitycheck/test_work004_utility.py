@@ -5,7 +5,6 @@ Created on 2020/11/29
 '''
 import unittest
 from sanitycheck.work004_utility import Work004Utility
-from concrete.concrete_build_parameter import ConcreteBuildParameter
 
 
 class Test(unittest.TestCase):
@@ -14,13 +13,14 @@ class Test(unittest.TestCase):
     def setUpClass(cls):
         super(Test, cls).setUpClass()
         
-        cls.app, cls.store = Work004Utility.create(nAgent = 3, nEpoch = 2**1)
+        cls.app, cls.store, cls.evaluationDb = Work004Utility.create(nAgent = 3, nEpoch = 2**1)
         
     @classmethod
     def tearDownClass(cls):
         super(Test, cls).tearDownClass()
         
         cls.store.removeHistory()
+        cls.evaluationDb.removeRemainedFiles()
 
     def test001(self):
         

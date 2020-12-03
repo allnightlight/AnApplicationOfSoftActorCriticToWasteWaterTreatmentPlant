@@ -31,6 +31,6 @@ class Work004Evaluator(SacEvaluator):
             rewards.append(batchDataReward.getValue())
             mvs.append(batchDataAgent._Mean.numpy())
             
-        return {"mvAverage": np.mean(mvs)
-            , "rewardAverage": np.mean(rewards)}
+        return {"mvAverage": float(np.mean(mvs))
+            , "rewardAverage": float(np.mean(rewards))}
         
