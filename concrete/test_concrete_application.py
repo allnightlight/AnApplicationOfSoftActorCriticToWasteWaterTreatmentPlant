@@ -15,13 +15,14 @@ class Test(unittest.TestCase):
         super(Test, cls).setUpClass()
         
         cls.factory = ConcreteFactoryForTest()
-        cls.app, cls.store = cls.factory.createApplication(console_print=True)
+        cls.app, cls.store, cls.evaluationDb = cls.factory.createApplication(console_print=False)
         
     @classmethod
     def tearDownClass(cls):
         super(Test, cls).tearDownClass()
         
         cls.store.removeHistory()
+        cls.evaluationDb.removeRemainedFiles()
 
     def test001(self):
         
@@ -29,9 +30,12 @@ class Test(unittest.TestCase):
         
         for buildParameter in self.factory.generateBuildParameter():
             self.app.runBuild(buildParameter)
+            
+        assert self.app.runEvaluationWithSimulation(nSimulationStep = 10) > 0
         
-        for row, agent, buildParameter, epoch, environment, trainer in self.app.runEvaluationWithSimulation(nSimulationStep = 10):
-            assert isinstance(row, dict)
+        assert self.app.runEvaluationWithSimulation(nSimulationStep = 10) == 0
+
+        assert len(self.app.exportEvaluationTable()) > 0
 
 
 if __name__ == "__main__":
