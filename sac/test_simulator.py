@@ -38,8 +38,7 @@ class Test(unittest.TestCase):
         
         simulatorFactory = self.factory.createSimulatorFactory()
         simulator = simulatorFactory.create(agent = self.factory.createAgent()
-                                , environment = self.factory.createEnvironment()
-                                , nSimulationStep = self.factory.nSimulationStep)
+                                , environment = self.factory.createEnvironment())
         assert isinstance(simulator, SacSimulatorAbstract)
         
         simulator.reset()
