@@ -5,7 +5,8 @@ Created on 2020/11/10
 '''
 from sac.sac_agent import SacAgent
 from sac.sac_environment import SacEnvironment
-from sac.sac_simulator import SacSimulator
+from sac.sac_simulator_abstract import SacSimulatorAbstract
+from sac.sac_simulator_factory import SacSimulatorFactory
 
 
 class SacTrainer(object):
@@ -14,7 +15,7 @@ class SacTrainer(object):
     '''
 
 
-    def __init__(self, agent, environment, replayBuffer, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, nIterationPerEpoch):
+    def __init__(self, agent, environment, replayBuffer, simulatorFactory, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, nIterationPerEpoch):
         '''
         Constructor
         '''
@@ -25,7 +26,11 @@ class SacTrainer(object):
         assert isinstance(environment, SacEnvironment)
         self.environment = environment
         
-        self.simulator = SacSimulator(agent, environment)
+        assert isinstance(simulatorFactory, SacSimulatorFactory)
+        self.simulator = simulatorFactory.create(agent, environment, nSimulationStep=1)
+        
+        assert isinstance(self.simulator, SacSimulatorAbstract)
+        
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
         self.nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
@@ -40,7 +45,7 @@ class SacTrainer(object):
         
     def stepEnvironment(self):
                 
-        self.replayBuffer.append(*self.simulator.stepWithStochasticAction())
+        self.replayBuffer.append(*self.simulator.generateSeries().__next__())
         
     def stepGradient(self):
         
