@@ -5,7 +5,7 @@ Created on 2020/11/29
 '''
 from concrete.concrete_builder import ConcreteBuilder
 from concrete.concrete_loader import ConcreteLoader
-from sac.sac_evaluator import SacEvaluatorDummy
+from sac.sac_evaluator import SacEvaluator
 from concrete.concrete_evaluation_db import ConcreteEvaluationDb
 from sac.sac_evaluate_method import SacEvaluateMethod
 
@@ -15,7 +15,7 @@ class ConcreteApplication(object):
     '''
     
 
-    def __init__(self, builder, loader, evaluationDb, evaluatorDummy):
+    def __init__(self, builder, loader, evaluationDb, evaluator):
         '''
         Constructor
         '''
@@ -23,19 +23,19 @@ class ConcreteApplication(object):
         assert isinstance(builder, ConcreteBuilder)
         assert isinstance(loader, ConcreteLoader)
         assert isinstance(evaluationDb, ConcreteEvaluationDb)
-        assert isinstance(evaluatorDummy, SacEvaluatorDummy)
+        assert isinstance(evaluator, SacEvaluator)
         
         self.builder = builder
         self.loader = loader
         self.evaluationDb = evaluationDb        
-        self.evaluatorDummy = evaluatorDummy
+        self.evaluator = evaluator
         
         
     def runBuild(self, buildParameter):
         
         self.builder.build(buildParameter)
         
-    def runEvaluationWithSimulationDummy(self, evaluateMethods, buildParameterLabel = "%", epoch = None, buildParameterKey = None, agentKey = None):
+    def runEvaluationWithSimulation(self, evaluateMethods, buildParameterLabel = "%", epoch = None, buildParameterKey = None, agentKey = None):
         
         for evaluateMethod in evaluateMethods:
             assert isinstance(evaluateMethod, SacEvaluateMethod)
@@ -46,7 +46,7 @@ class ConcreteApplication(object):
             evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods
                 if not self.evaluationDb.exists(agentKey = agent.getAgentKey(), epoch = epoch, evaluatorClass = evaluateMethod.__class__.__name__)]
             
-            for evaluateMethod, stats in self.evaluatorDummy.evaluate(agent, environment, evaluateMethodsNotYetDone):
+            for evaluateMethod, stats in self.evaluator.evaluate(agent, environment, evaluateMethodsNotYetDone):
                 cntCallSimulation += 1
 
                 self.evaluationDb.save(agentKey = agent.getAgentKey()

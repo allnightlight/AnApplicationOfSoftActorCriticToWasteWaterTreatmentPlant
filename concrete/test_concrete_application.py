@@ -31,9 +31,9 @@ class Test(unittest.TestCase):
         for buildParameter in self.factory.generateBuildParameter():
             self.app.runBuild(buildParameter)
             
-        assert self.app.runEvaluationWithSimulationDummy(evaluateMethods = self.factory.createEvaluateMethods()) > 0
+        assert self.app.runEvaluationWithSimulation(evaluateMethods = self.factory.createEvaluateMethods()) > 0
         
-        assert self.app.runEvaluationWithSimulationDummy(evaluateMethods = self.factory.createEvaluateMethods()) == 0
+        assert self.app.runEvaluationWithSimulation(evaluateMethods = self.factory.createEvaluateMethods()) == 0
         
         assert len(self.app.exportEvaluationTable()) > 0
 
