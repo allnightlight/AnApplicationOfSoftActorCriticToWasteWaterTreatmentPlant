@@ -127,7 +127,7 @@ class ConcreteFactoryForTest(object):
         return ConcreteTrainer(agent = agent
                                , environment = environment
                                , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
-                               , simulatorFactory = SacSimulatorFactory()
+                               , simulatorFactory = SacSimulatorFactory(nSimulationStep=1)
                                , nStepEnvironment = 1
                                , nStepGradient = 1
                                , nIntervalUpdateStateValueFunction = 1
