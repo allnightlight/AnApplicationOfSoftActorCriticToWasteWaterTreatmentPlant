@@ -15,7 +15,7 @@ from sac.sac_replay_buffer import SacReplayBuffer
 from sac.sac_trainer import SacTrainer
 from sac.sac_value_function_approximator import SacValueFunctionApproximator
 from sac.sac_simulator import SacSimulator
-from sac.sac_evaluator import SacEvaluator, SacEvaluatorDummy
+from sac.sac_evaluator import SacEvaluator
 from sac.sac_with_deterministic_action import SacSimulatorWithDeterministicAction
 from sac.sac_with_stochastic_action import SacSimulatorWithStochasticAction
 from sac.sac_simulator_factory import SacSimulatorFactory
@@ -91,7 +91,7 @@ class SacFactoryForTest(object):
                                                    , nSimulationStep = self.nSimulationStep)
 
     def createEvaluator(self):
-        return SacEvaluatorDummy(simulatorFactory = self.createSimulatorFactory())
+        return SacEvaluator(simulatorFactory = self.createSimulatorFactory())
     
     def createSimulatorFactory(self):
         

@@ -6,7 +6,7 @@ Created on 2020/11/29
 import unittest
 
 from sac.sac_factory_for_test import SacFactoryForTest
-from sac.sac_evaluator import SacEvaluatorDummy
+from sac.sac_evaluator import SacEvaluator
 from sac.sac_evaluate_method import SacEvaluateMethod
 
 
@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
         
         evaluator = self.factory.createEvaluator()
         
-        assert isinstance(evaluator, SacEvaluatorDummy)
+        assert isinstance(evaluator, SacEvaluator)
         
         for evaluateMethod, stats in evaluator.evaluate(agent = self.factory.createAgent()
                            , environment = self.factory.createEnvironment()
