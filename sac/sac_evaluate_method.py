@@ -1,15 +1,14 @@
 '''
-Created on 2020/11/29
+Created on 2020/12/04
 
 @author: ukai
 '''
 from sac.sac_batch_data_agent import SacBatchDataAgent
 from sac.sac_batch_data_environment import SacBatchDataEnvironment
 from sac.sac_batch_data_reward import SacBatchDataReward
-from sac.sac_simulator_factory import SacSimulatorFactory
 
 
-class SacEvaluator(object):
+class SacEvaluateMethod(object):
     '''
     classdocs
     '''
@@ -28,24 +27,3 @@ class SacEvaluator(object):
             cnt += 1
             
         return dict(count = cnt)
-    
-    
-class SacEvaluatorDummy(object):
-    '''
-    classdocs
-    '''
-
-    def __init__(self, simulatorFactory):
-        
-        assert isinstance(simulatorFactory, SacSimulatorFactory)
-        self.simulatorFactory = simulatorFactory
-        
-
-    def evaluate(self, agent, environment, evaluateMethods):
-        simulator = self.simulatorFactory.create(agent, environment)
-        simulator.reset()
-        
-        g = [*simulator.generateSeries()]
-        
-        for evaluateMethod in evaluateMethods:
-            yield evaluateMethod, evaluateMethod.evaluate(g) 
