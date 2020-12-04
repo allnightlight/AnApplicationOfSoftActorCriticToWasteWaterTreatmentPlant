@@ -45,7 +45,11 @@ class Work001Utility(object):
                               , discountFactor = discountFactor
                               , alphaTemp = alphaTemp
                               , updatePolicyByAdvantage = updatePolicyByAdvantage
-                              , saveFolderPath = "checkpoint")
+                              , saveFolderPath = "checkpoint"
+                              , learningRateForUpdateActionValueFunction = 1e-3
+                              , learningRateForUpdatePolicy = 1e-3
+                              , learningRateForUpdateStateValueFunction = 1e-3)
+
         
         return Work001Utility(nMv, nPv, nFeature, agent, nIter, showLog)
 

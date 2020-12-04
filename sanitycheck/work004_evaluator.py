@@ -9,9 +9,10 @@ from sac.sac_batch_data_agent import SacBatchDataAgent
 from sac.sac_batch_data_environment import SacBatchDataEnvironment
 from sac.sac_batch_data_reward import SacBatchDataReward
 from sac.sac_evaluator import SacEvaluator
+from sac.sac_evaluate_method import SacEvaluateMethod
 
 
-class Work004Evaluator(SacEvaluator):
+class Work004Evaluator(SacEvaluateMethod):
     '''
     classdocs
     '''

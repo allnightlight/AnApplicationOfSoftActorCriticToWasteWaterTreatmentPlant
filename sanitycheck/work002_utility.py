@@ -13,6 +13,7 @@ from sac.sac_environment import SacEnvironment
 from sac.sac_replay_buffer import SacReplayBuffer
 from sac.sac_trainer import SacTrainer
 from sanitycheck.work001_utility import Work001Utility
+from sac.sac_simulator_factory import SacSimulatorFactory
 
 
 class Work002Utility(object):
@@ -41,11 +42,15 @@ class Work002Utility(object):
                     , discountFactor = discountFactor
                     , alphaTemp = alphaTemp
                     , updatePolicyByAdvantage = updatePolicyByAdvantage
-                    , saveFolderPath = "./checkpoint")
+                    , saveFolderPath = "./checkpoint"
+                    , learningRateForUpdateActionValueFunction = 1e-3
+                    , learningRateForUpdatePolicy = 1e-3
+                    , learningRateForUpdateStateValueFunction = 1e-3)
         
         trainer = SacTrainer(agent = agent
                             , environment = environment
                             , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
+                            , simulatorFactory = SacSimulatorFactory(nSimulationStep = 1)
                             , nStepEnvironment = 1
                             , nStepGradient = 1
                             , nIntervalUpdateStateValueFunction = nIntervalUpdateStateValueFunction
