@@ -31,6 +31,7 @@ from sac.sac_evaluator import SacEvaluator
 from concrete.concrete_evaluator_suite import ConcreteEvaluatorSuite
 from concrete.concrete_evaluation_db import ConcreteEvaluationDb
 from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
+from sac.sac_simulator_factory import SacSimulatorFactory
 
 
 class ConcreteFactoryForTest(object):
@@ -126,6 +127,7 @@ class ConcreteFactoryForTest(object):
         return ConcreteTrainer(agent = agent
                                , environment = environment
                                , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
+                               , simulatorFactory = SacSimulatorFactory()
                                , nStepEnvironment = 1
                                , nStepGradient = 1
                                , nIntervalUpdateStateValueFunction = 1
