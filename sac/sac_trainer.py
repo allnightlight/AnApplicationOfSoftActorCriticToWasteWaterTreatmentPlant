@@ -27,7 +27,7 @@ class SacTrainer(object):
         self.environment = environment
         
         assert isinstance(simulatorFactory, SacSimulatorFactory)
-        self.simulator = simulatorFactory.create(agent, environment, nSimulationStep=1)
+        self.simulator = simulatorFactory.create(agent, environment)
         
         assert isinstance(self.simulator, SacSimulatorAbstract)
         

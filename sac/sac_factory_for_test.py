@@ -74,7 +74,7 @@ class SacFactoryForTest(object):
         return SacTrainer(agent = self.createAgent()
                        , environment = self.createEnvironment()
                        , replayBuffer = SacReplayBuffer(bufferSize = self.bufferSize)
-                       , simulatorFactory = SacSimulatorFactory()
+                       , simulatorFactory = SacSimulatorFactory(nSimulationStep=1)
                        , nStepEnvironment = self.nStepEnvironment
                        , nStepGradient = self.nStepGradient
                        , nIntervalUpdateStateValueFunction = self.nIntervalUpdateStateValueFunction
@@ -94,4 +94,4 @@ class SacFactoryForTest(object):
     
     def createSimulatorFactory(self):
         
-        return SacSimulatorFactory()
+        return SacSimulatorFactory(nSimulationStep=1)

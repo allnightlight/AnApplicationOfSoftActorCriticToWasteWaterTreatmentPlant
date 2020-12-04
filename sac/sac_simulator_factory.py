@@ -10,7 +10,9 @@ class SacSimulatorFactory(object):
     classdocs
     '''
 
+    def __init__(self, nSimulationStep):
+        self.nSimulationStep = nSimulationStep
 
-    def create(self, agent, environment, nSimulationStep):
+    def create(self, agent, environment):
         
-        return SacSimulatorWithStochasticAction(agent, environment, nSimulationStep)
+        return SacSimulatorWithStochasticAction(agent, environment, self.nSimulationStep)
