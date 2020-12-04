@@ -6,6 +6,8 @@ Created on 2020/11/29
 import unittest
 
 from sac.sac_factory_for_test import SacFactoryForTest
+from sac.sac_evaluator import SacEvaluator
+from sac.sac_evaluate_method import SacEvaluateMethod
 
 
 class Test(unittest.TestCase):
@@ -18,28 +20,18 @@ class Test(unittest.TestCase):
     def test001(self):
         
         evaluator = self.factory.createEvaluator()
-        simulator = self.factory.createSimulator()
         
-        n = 10
+        assert isinstance(evaluator, SacEvaluator)
         
-        simulator.reset()
-        
-        g = iter([simulator.stepWithDeterministicAction() for _ in range(n) ])
-        
-        res = evaluator.evaluate(g)
-        
-        assert isinstance(res, dict)
-        assert res["count"] == n
-        
-        simulator.reset()
-        
-        g = iter([simulator.stepWithStochasticAction() for _ in range(n) ])
-        
-        res = evaluator.evaluate(g)
-        
-        assert isinstance(res, dict)
-        assert res["count"] == n
-        
+        for evaluateMethod, stats in evaluator.evaluate(agent = self.factory.createAgent()
+                           , environment = self.factory.createEnvironment()
+                           , evaluateMethods = self.factory.createEvaluateMethods()):
+            
+            assert isinstance(evaluateMethod, SacEvaluateMethod)
+            
+            assert isinstance(stats, dict)
+            assert stats["count"] == self.factory.nSimulationStep
+            
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

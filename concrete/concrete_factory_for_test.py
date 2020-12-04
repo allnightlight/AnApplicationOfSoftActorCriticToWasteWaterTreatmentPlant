@@ -12,8 +12,10 @@ from concrete.concrete_batch_data_environment import ConcreteBatchDataEnvironmen
 from concrete.concrete_batch_data_feature import ConcreteBatchDataFeature
 from concrete.concrete_batch_data_reward import ConcreteBatchDataReward
 from concrete.concrete_build_parameter import ConcreteBuildParameter
+from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
 from concrete.concrete_builder import ConcreteBuilder
 from concrete.concrete_environment import ConcreteEnvironment
+from concrete.concrete_evaluation_db import ConcreteEvaluationDb
 from concrete.concrete_feature_extractor001 import ConcreteFeatureExtractor001
 from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
 from concrete.concrete_loader import ConcreteLoader
@@ -21,16 +23,16 @@ from concrete.concrete_plant001 import ConcretePlant001
 from concrete.concrete_plant002 import ConcretePlant002
 from concrete.concrete_plant003 import ConcretePlant003
 from concrete.concrete_policy import ConcretePolicy
+from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulatorFactoryForEvaluation
 from concrete.concrete_trainer import ConcreteTrainer
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 from framework.mylogger import MyLogger
 from framework.store import Store
 import numpy as np
-from sac.sac_replay_buffer import SacReplayBuffer
+from sac.sac_evaluate_method import SacEvaluateMethod
 from sac.sac_evaluator import SacEvaluator
-from concrete.concrete_evaluator_suite import ConcreteEvaluatorSuite
-from concrete.concrete_evaluation_db import ConcreteEvaluationDb
-from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
+from sac.sac_replay_buffer import SacReplayBuffer
+from sac.sac_simulator_factory import SacSimulatorFactory
 
 
 class ConcreteFactoryForTest(object):
@@ -126,6 +128,7 @@ class ConcreteFactoryForTest(object):
         return ConcreteTrainer(agent = agent
                                , environment = environment
                                , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
+                               , simulatorFactory = SacSimulatorFactory(nSimulationStep=1)
                                , nStepEnvironment = 1
                                , nStepGradient = 1
                                , nIntervalUpdateStateValueFunction = 1
@@ -204,16 +207,13 @@ class ConcreteFactoryForTest(object):
         store = Store(dbPath, trainLogFolderPath)
         builder = ConcreteBuilder(store, logger = MyLogger(console_print = console_print))
         loader = ConcreteLoader(store)
-        evaluatorSuite = ConcreteEvaluatorSuite([SacEvaluator(),])
         evaluationDb = ConcreteEvaluationDb(evaluationDbPath = "evaluationDb.sqlite", buildParameterFactory = ConcreteBuildParameterFactory())
         evaluationDb.initDb()
         
-        return ConcreteApplication(builder, loader, evaluatorSuite, evaluationDb), store, evaluationDb
+        return ConcreteApplication(builder, loader, evaluationDb, evaluator=SacEvaluator(simulatorFactory = ConcreteSimulatorFactoryForEvaluation(nSimulationStep=1))), store, evaluationDb
         
-        
-    def createConcreteEvaluatorSuite(self):
-        
-        return ConcreteEvaluatorSuite(evaluators = [SacEvaluator(),])
-    
     def createConcreteEvaluationDb(self):
         return ConcreteEvaluationDb(evaluationDbPath = "test.sqlite")
+    
+    def createEvaluateMethods(self):
+        return [SacEvaluateMethod(), SacEvaluateMethod(),]

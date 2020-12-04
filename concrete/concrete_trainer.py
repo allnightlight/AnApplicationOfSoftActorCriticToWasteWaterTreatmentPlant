@@ -11,6 +11,6 @@ class ConcreteTrainer(SacTrainer, Trainer):
     classdocs
     '''
     
-    def __init__(self, agent, environment, replayBuffer, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, nIterationPerEpoch):
-        SacTrainer.__init__(self, agent, environment, replayBuffer, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, nIterationPerEpoch)
+    def __init__(self, agent, environment, replayBuffer, simulatorFactory, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, nIterationPerEpoch):
+        SacTrainer.__init__(self, agent, environment, replayBuffer, simulatorFactory, nStepEnvironment, nStepGradient, nIntervalUpdateStateValueFunction, nIterationPerEpoch)
         Trainer.__init__(self, agent, environment)

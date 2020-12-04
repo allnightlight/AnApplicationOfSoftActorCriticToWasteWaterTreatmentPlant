@@ -16,6 +16,10 @@ from sac.sac_trainer import SacTrainer
 from sac.sac_value_function_approximator import SacValueFunctionApproximator
 from sac.sac_simulator import SacSimulator
 from sac.sac_evaluator import SacEvaluator
+from sac.sac_with_deterministic_action import SacSimulatorWithDeterministicAction
+from sac.sac_with_stochastic_action import SacSimulatorWithStochasticAction
+from sac.sac_simulator_factory import SacSimulatorFactory
+from sac.sac_evaluate_method import SacEvaluateMethod
 
 
 class SacFactoryForTest(object):
@@ -31,7 +35,8 @@ class SacFactoryForTest(object):
             , discountFactor = 0.99
             , alphaTemp = 1.0
             , updatePolicyByAdvantage = False
-            , nIterationPerEpoch = 9):
+            , nIterationPerEpoch = 9
+            , nSimulationStep = 10):
 
         self.nStepEnvironment = nStepEnvironment
         self.nStepGradient = nStepGradient
@@ -41,6 +46,7 @@ class SacFactoryForTest(object):
         self.discountFactor = discountFactor
         self.updatePolicyByAdvantage = updatePolicyByAdvantage
         self.nIterationPerEpoch = nIterationPerEpoch
+        self.nSimulationStep = nSimulationStep
 
     def createBatchDataAgent(self):
         return SacBatchDataAgent()
@@ -69,14 +75,27 @@ class SacFactoryForTest(object):
         return SacTrainer(agent = self.createAgent()
                        , environment = self.createEnvironment()
                        , replayBuffer = SacReplayBuffer(bufferSize = self.bufferSize)
+                       , simulatorFactory = SacSimulatorFactory(nSimulationStep=1)
                        , nStepEnvironment = self.nStepEnvironment
                        , nStepGradient = self.nStepGradient
                        , nIntervalUpdateStateValueFunction = self.nIntervalUpdateStateValueFunction
                        , nIterationPerEpoch = self.nIterationPerEpoch)
         
-    def createSimulator(self):
-        return SacSimulator(agent = self.createAgent()
-                            , environment = self.createEnvironment())
+    def generateSimulator(self):
+        yield SacSimulatorWithDeterministicAction(agent = self.createAgent()
+                                                   , environment = self.createEnvironment()
+                                                   , nSimulationStep = self.nSimulationStep)
         
+        yield SacSimulatorWithStochasticAction(agent = self.createAgent()
+                                                   , environment = self.createEnvironment()
+                                                   , nSimulationStep = self.nSimulationStep)
+
     def createEvaluator(self):
-        return SacEvaluator()
+        return SacEvaluator(simulatorFactory = self.createSimulatorFactory())
+    
+    def createSimulatorFactory(self):
+        
+        return SacSimulatorFactory(nSimulationStep=self.nSimulationStep)
+    
+    def createEvaluateMethods(self):
+        return [SacEvaluateMethod(), SacEvaluateMethod()]
