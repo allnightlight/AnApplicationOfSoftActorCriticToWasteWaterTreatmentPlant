@@ -37,6 +37,18 @@ class Test(unittest.TestCase):
 
         assert len(self.app.exportEvaluationTable()) > 0
 
+    def test002(self):
+        
+        assert isinstance(self.app, ConcreteApplication)
+        
+        for buildParameter in self.factory.generateBuildParameter():
+            self.app.runBuild(buildParameter)
+            
+        assert self.app.runEvaluationWithSimulationDummy(evaluateMethods = self.factory.createEvaluateMethods()) > 0
+        
+        assert self.app.runEvaluationWithSimulationDummy(evaluateMethods = self.factory.createEvaluateMethods()) == 0
+        
+        assert len(self.app.exportEvaluationTable()) > 0
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

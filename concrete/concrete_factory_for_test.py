@@ -27,11 +27,12 @@ from framework.mylogger import MyLogger
 from framework.store import Store
 import numpy as np
 from sac.sac_replay_buffer import SacReplayBuffer
-from sac.sac_evaluator import SacEvaluator
+from sac.sac_evaluator import SacEvaluator, SacEvaluatorDummy
 from concrete.concrete_evaluator_suite import ConcreteEvaluatorSuite
 from concrete.concrete_evaluation_db import ConcreteEvaluationDb
 from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
 from sac.sac_simulator_factory import SacSimulatorFactory
+from sac.sac_evaluate_method import SacEvaluateMethod
 
 
 class ConcreteFactoryForTest(object):
@@ -210,7 +211,7 @@ class ConcreteFactoryForTest(object):
         evaluationDb = ConcreteEvaluationDb(evaluationDbPath = "evaluationDb.sqlite", buildParameterFactory = ConcreteBuildParameterFactory())
         evaluationDb.initDb()
         
-        return ConcreteApplication(builder, loader, evaluatorSuite, evaluationDb), store, evaluationDb
+        return ConcreteApplication(builder, loader, evaluatorSuite, evaluationDb, evaluatorDummy=SacEvaluatorDummy(simulatorFactory = SacSimulatorFactory(nSimulationStep=1))), store, evaluationDb
         
         
     def createConcreteEvaluatorSuite(self):
@@ -219,3 +220,6 @@ class ConcreteFactoryForTest(object):
     
     def createConcreteEvaluationDb(self):
         return ConcreteEvaluationDb(evaluationDbPath = "test.sqlite")
+    
+    def createEvaluateMethods(self):
+        return [SacEvaluateMethod(), SacEvaluateMethod(),]
