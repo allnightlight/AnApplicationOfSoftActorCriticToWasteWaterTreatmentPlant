@@ -23,6 +23,7 @@ class Test(unittest.TestCase):
         
         cls.store.removeHistory()
         cls.evaluationDb.removeRemainedFiles()
+        cls.factory.clean()
 
     def test001(self):
         
