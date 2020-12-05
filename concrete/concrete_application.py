@@ -57,6 +57,6 @@ class ConcreteApplication(object):
                                        , stats = stats)                        
         return cntCallSimulation
                 
-    def exportEvaluationTable(self, buildParameterLabel = None):
+    def exportEvaluationTable(self, buildParameterLabel = "%", agentKey = None, epoch = None, evaluatorClass = None):
         
-        return self.evaluationDb.export(buildParameterLabel)
+        return self.evaluationDb.export(buildParameterLabel, agentKey, epoch, evaluatorClass)

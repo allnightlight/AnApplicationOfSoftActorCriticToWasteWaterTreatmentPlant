@@ -113,40 +113,41 @@ Select count(*)
         
         return count > 0
     
-    def export(self, buildParameterLabel = None):
+    def export(self, buildParameterLabel, agentKey, epoch, evaluatorClass):
         
         conn = sqlite3.connect(self.evaluationDbPath)
         cur = conn.cursor()
         
         sql1 = """        
-Select agentKey, epoch, buildParameterLabel, buildParameterMemnto from Agent
-"""
-        if buildParameterLabel is not None:
-            sql1 += "Where buildParameterLabel like \"%s\"" % buildParameterLabel
-   
-        sql2 = """        
-Select e.name, e.value
+Select a.agentKey
+    , a.epoch
+    , a.buildParameterLabel
+    , a.buildParameterMemnto
+    , e.name
+    , e.value
     From Agent a
         Join Evaluation e
             On a.id == e.idAgent
-    Where a.agentKey = ?
-        And a.epoch = ?
-        """
+    Where a.buildParameterLabel like \"%s\"
+        """ % buildParameterLabel 
 
+        if evaluatorClass is not None:
+            sql1 += "And e.evaluatorClass = \"%s\"" % evaluatorClass
+        if epoch is not None:
+            sql1 += "And a.epoch = %d" % epoch
+        if agentKey is not None:
+            sql1 += "And a.agentKey = %d" % agentKey
+   
         cur.execute(sql1)
         target = [*cur.fetchall()]
         
         tbl = []
-        for agentKey, epoch, buildParameterLabel, buildParameterMemnto in target:            
+        for agentKey, epoch, buildParameterLabel, buildParameterMemnto, name, value in target:            
             
             buildParameter = self.buildParameterFactory.create()
             buildParameter.loadMemento(buildParameterMemnto)
             
-            head = {"agentKey": agentKey, "epoch": epoch, **buildParameter.__dict__}
-
-            cur.execute(sql2, (agentKey, epoch))            
-            for name, value in cur.fetchall():
-                tbl.append({**head, "evaluationName": name, "evaluationValue": value})
+            tbl.append({"agentKey": agentKey, "epoch": epoch, **buildParameter.__dict__, "evaluationName": name, "evaluationValue": value})
         
         conn.close()
 
