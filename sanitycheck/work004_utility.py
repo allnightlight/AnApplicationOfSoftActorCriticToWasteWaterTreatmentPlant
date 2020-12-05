@@ -16,7 +16,8 @@ from framework.store import Store
 from sac.sac_evaluator import SacEvaluator
 import os
 from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulatorFactoryForEvaluation
-from sanitycheck.work004_config import evaluateMethods, generateBuildParameter
+from sanitycheck.work004_config import evaluateMethods, generateBuildParameter,\
+    buildParameterLabel, nSimulationStep
 
 
 class Work004Utility(object):
@@ -25,7 +26,7 @@ class Work004Utility(object):
     '''
     
     @classmethod
-    def create(cls, nAgent = 2**10, nEpoch = 2**11, nSimulationStep = 2**7):
+    def create(cls):
         
         store = Store(dbPath = "trained_agent.sqlite", trainLogFolderPath = "tmpTrainLog")        
         builder = ConcreteBuilder(store)
@@ -38,29 +39,25 @@ class Work004Utility(object):
         
         evaluator = SacEvaluator(simulatorFactory = ConcreteSimulatorFactoryForEvaluation(nSimulationStep = nSimulationStep))
         
-        return Work004Utility(app =ConcreteApplication(builder, loader, evaluationDb, evaluator) 
-                              , nAgent = nAgent
-                              , nEpoch = nEpoch), store, evaluationDb
+        return Work004Utility(app =ConcreteApplication(builder, loader, evaluationDb, evaluator)), store, evaluationDb
 
-    def __init__(self, app, nAgent, nEpoch):
+    def __init__(self, app):
         '''
         Constructor
         '''
         
         assert isinstance(app, ConcreteApplication)
         self.app = app
-        self.nAgent = nAgent
-        self.nEpoch = nEpoch
         
     def build(self):
         
-        for buildParameter in generateBuildParameter(nAgent = self.nAgent, nEpoch = self.nEpoch):
+        for buildParameter in generateBuildParameter():
             self.app.runBuild(buildParameter)
         
     def evaluate(self):
         
-        self.app.runEvaluationWithSimulation(evaluateMethods=evaluateMethods)
-        tbl = self.app.exportEvaluationTable()
+        self.app.runEvaluationWithSimulation(evaluateMethods=evaluateMethods, buildParameterLabel=buildParameterLabel)
+        tbl = self.app.exportEvaluationTable(buildParameterLabel=buildParameterLabel)
         
         tbl = pandas.concat([pandas.DataFrame([row]) for row in tbl], axis=0)
                 

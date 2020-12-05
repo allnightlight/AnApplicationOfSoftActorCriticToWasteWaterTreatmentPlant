@@ -13,7 +13,7 @@ class Test(unittest.TestCase):
     def setUpClass(cls):
         super(Test, cls).setUpClass()
         
-        cls.app, cls.store, cls.evaluationDb = Work004Utility.create(nAgent = 3, nEpoch = 2**1)
+        cls.app, cls.store, cls.evaluationDb = Work004Utility.create()
         
     @classmethod
     def tearDownClass(cls):
