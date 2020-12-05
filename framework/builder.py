@@ -51,8 +51,6 @@ class Builder(object):
         trainer.trainPreprocess()
         
         epoch = 0
-        self.save(agent, buildParameter, epoch)
-        self.logger.info(agent, buildParameter, environment, epoch, trainer)
             
         while True:
             if epoch >= nEpoch:
