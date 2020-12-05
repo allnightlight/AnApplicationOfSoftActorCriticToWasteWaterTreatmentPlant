@@ -66,17 +66,22 @@ class Test(unittest.TestCase):
             buildParameter = ConcreteBuildParameter()        
             self.db.save(agentKey=agentKey, epoch=epoch, buildParameterLabel=buildParameterLabel, buildParameterMemnto=buildParameter.createMemento(), stats = stats, evaluatorClass=evaluatorClass)
 
-        tbl = self.db.export()
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = None, epoch = None, evaluatorClass = "evaluator001")
         
         assert len(tbl) == nRow * len(stats)
                 
-        tbl = self.db.export("test 0")
+        tbl = self.db.export(buildParameterLabel = "test 0", agentKey = None, epoch = None, evaluatorClass = None)
                 
         assert len(tbl) == len(stats), len(tbl)
 
-        tbl = self.db.export("test%")
+        tbl = self.db.export("test%", agentKey = None, epoch = None, evaluatorClass = None)
                 
         assert len(tbl) == len(stats) * nRow, len(tbl)
+        
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = None, evaluatorClass = None)
+                
+        assert len(tbl) == len(stats), len(tbl)
+
         
         
 if __name__ == "__main__":

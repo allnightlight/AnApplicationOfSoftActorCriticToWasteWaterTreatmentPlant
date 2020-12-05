@@ -136,7 +136,7 @@ Select a.agentKey
         if epoch is not None:
             sql1 += "And a.epoch = %d" % epoch
         if agentKey is not None:
-            sql1 += "And a.agentKey = %d" % agentKey
+            sql1 += "And a.agentKey = \"%s\"" % agentKey
    
         cur.execute(sql1)
         target = [*cur.fetchall()]
