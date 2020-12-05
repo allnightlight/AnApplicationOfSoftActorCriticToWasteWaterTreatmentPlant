@@ -132,12 +132,12 @@ Select a.agentKey
         """ % buildParameterLabel 
 
         if evaluatorClass is not None:
-            sql1 += "And e.evaluatorClass = \"%s\"" % evaluatorClass
+            sql1 += " And e.evaluatorClass = \"%s\"" % evaluatorClass
         if epoch is not None:
-            sql1 += "And a.epoch = %d" % epoch
+            sql1 += " And a.epoch = %d" % epoch
         if agentKey is not None:
-            sql1 += "And a.agentKey = \"%s\"" % agentKey
-   
+            sql1 += " And a.agentKey = \"%s\"" % agentKey
+            
         cur.execute(sql1)
         target = [*cur.fetchall()]
         
