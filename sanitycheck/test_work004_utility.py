@@ -29,6 +29,9 @@ class Test(unittest.TestCase):
     def test002(self):
         self.app.evaluate()
         
+    def test003(self):
+        self.app.exportSimulationResultAsFigure(agentKey = None, epoch = None)
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

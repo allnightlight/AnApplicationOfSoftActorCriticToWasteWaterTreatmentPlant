@@ -18,6 +18,7 @@ import os
 from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulatorFactoryForEvaluation
 from sanitycheck.work004_config import evaluateMethods, generateBuildParameter,\
     buildParameterLabel, nSimulationStep
+from concrete.concrete_evaluate_method001 import ConcreteEvaluateMethod001
 
 
 class Work004Utility(object):
@@ -39,15 +40,17 @@ class Work004Utility(object):
         
         evaluator = SacEvaluator(simulatorFactory = ConcreteSimulatorFactoryForEvaluation(nSimulationStep = nSimulationStep))
         
-        return Work004Utility(app =ConcreteApplication(builder, loader, evaluationDb, evaluator)), store, evaluationDb
+        return Work004Utility(app =ConcreteApplication(builder, loader, evaluationDb, evaluator), figSize = [12,8], figFolderPath = "./fig"), store, evaluationDb
 
-    def __init__(self, app):
+    def __init__(self, app, figSize, figFolderPath):
         '''
         Constructor
         '''
         
         assert isinstance(app, ConcreteApplication)
         self.app = app
+        self.figFolderPath = figFolderPath
+        self.figSize = figSize
         
     def build(self):
         
@@ -69,3 +72,13 @@ class Work004Utility(object):
         print(">> Evaluated simulation result was exported into the file: %s" % fileName)
         
         return fileName
+    
+    def exportSimulationResultAsFigure(self, agentKey, epoch):
+        
+        self.app.runEvaluationWithSimulation(evaluateMethods = [ConcreteEvaluateMethod001(self.figSize, self.figFolderPath, useDeterministicAction = True)]
+                                             , epoch = epoch, agentKey = agentKey)        
+        tbl = self.app.exportEvaluationTable(buildParameterLabel="%", agentKey=agentKey, epoch=epoch, evaluatorClass="ConcreteEvaluateMethod001")
+        figFilePath = tbl[0]["evaluationValue"]
+        print(">> Exported the simulation result in the file: %s" % figFilePath)
+        
+        return figFilePath
