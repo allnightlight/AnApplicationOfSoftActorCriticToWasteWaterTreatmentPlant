@@ -33,6 +33,10 @@ from sac.sac_evaluate_method import SacEvaluateMethod
 from sac.sac_evaluator import SacEvaluator
 from sac.sac_replay_buffer import SacReplayBuffer
 from sac.sac_simulator_factory import SacSimulatorFactory
+from concrete.concrete_evaluate_method001 import ConcreteEvaluateMethod001
+import os
+import shutil
+from concrete.concrete_evaluate_method002 import ConcreteEvaluateMethod002
 
 
 class ConcreteFactoryForTest(object):
@@ -41,7 +45,7 @@ class ConcreteFactoryForTest(object):
     '''
 
 
-    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0, updatePolicyByAdvantage = False):
+    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0, updatePolicyByAdvantage = False, figFolderPath = "./fig", dataFolderPath = "./data"):
         
         self.nMv = nMv
         self.nPv = nPv
@@ -52,6 +56,8 @@ class ConcreteFactoryForTest(object):
         self.nHidden = nHidden
         self.alphaTemp = alphaTemp
         self.updatePolicyByAdvantage = updatePolicyByAdvantage
+        self.figFolderPath = figFolderPath
+        self.dataFolderPath = dataFolderPath
         
     def createBatchDataEnvironment(self):
         
@@ -216,4 +222,12 @@ class ConcreteFactoryForTest(object):
         return ConcreteEvaluationDb(evaluationDbPath = "test.sqlite")
     
     def createEvaluateMethods(self):
-        return [SacEvaluateMethod(), SacEvaluateMethod(),]
+        return [SacEvaluateMethod(), SacEvaluateMethod(), ConcreteEvaluateMethod001(figFolderPath = self.figFolderPath, figSize=[8, 6]), ConcreteEvaluateMethod002(dataFolderPath = self.dataFolderPath)]
+    
+    def clean(self):
+        
+        if os.path.exists(self.figFolderPath):
+            shutil.rmtree(self.figFolderPath)
+            
+        if os.path.exists(self.dataFolderPath):
+            shutil.rmtree(self.dataFolderPath)

@@ -14,7 +14,6 @@ from sac.sac_policy import SacPolicy
 from sac.sac_replay_buffer import SacReplayBuffer
 from sac.sac_trainer import SacTrainer
 from sac.sac_value_function_approximator import SacValueFunctionApproximator
-from sac.sac_simulator import SacSimulator
 from sac.sac_evaluator import SacEvaluator
 from sac.sac_with_deterministic_action import SacSimulatorWithDeterministicAction
 from sac.sac_with_stochastic_action import SacSimulatorWithStochasticAction
