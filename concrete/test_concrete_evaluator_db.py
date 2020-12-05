@@ -82,7 +82,13 @@ class Test(unittest.TestCase):
                 
         assert len(tbl) == len(stats), len(tbl)
 
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = 123, evaluatorClass = None)
+                
+        assert len(tbl) == len(stats), len(tbl)
         
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = 123, evaluatorClass = "evaluator001")
+                
+        assert len(tbl) == len(stats), len(tbl)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
