@@ -192,16 +192,18 @@ class ConcreteFactoryForTest(object):
                                      , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))            
             
     def generateBuildParameter(self):
-        
-        yield ConcreteBuildParameter(nIntervalSave = 1
-            , nEpoch = 2**2
-            , label = "test"
-            , nSampleOfActionsInValueFunctionApproximator = 2**1
-            , nStepEnvironment = 1
-            , nStepGradient = 1
-            , nIntervalUpdateStateValueFunction = 1
-            , nIterationPerEpoch = 1
-            , bufferSizeReplayBuffer = 2**10)
+
+        for plantClass in ("ConcretePlant001", "ConcretePlant002", "ConcretePlant003", "ConcretePlant004"):        
+            yield ConcreteBuildParameter(nIntervalSave = 1
+                , nEpoch = 2**2
+                , label = "test"
+                , nSampleOfActionsInValueFunctionApproximator = 2**1
+                , nStepEnvironment = 1
+                , nStepGradient = 1
+                , nIntervalUpdateStateValueFunction = 1
+                , nIterationPerEpoch = 1
+                , bufferSizeReplayBuffer = 2**10
+                , plantClass=plantClass)
         
     def createStore(self):
         return Store(dbPath = "testDb.sqlite", trainLogFolderPath = "testTrainLog")
