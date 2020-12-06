@@ -33,8 +33,8 @@ class Test(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         super(Test, cls).tearDownClass()
-        if os.path.exists(cls.dbPath):
-            os.remove(cls.dbPath)
+#         if os.path.exists(cls.dbPath):
+#             os.remove(cls.dbPath)
     
     def setUp(self):
         unittest.TestCase.setUp(self)
@@ -63,10 +63,13 @@ class Test(unittest.TestCase):
             self.builder.build(buildParameter)
             self.builder.build(buildParameter)
             
-        assert isinstance(self.loader, Loader)        
+        assert isinstance(self.loader, Loader)
+        cnt = 0   
         for agent, buildParameter, epoch, environment, trainer in self.loader.load("test%", None):
             assert isinstance(agent, Agent)
             assert isinstance(buildParameter, BuildParameter)
+            cnt += 1
+        assert cnt > 0
         
         
 if __name__ == "__main__":
