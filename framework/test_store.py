@@ -70,7 +70,8 @@ class Test(unittest.TestCase):
                 
                 store.append(storeField)
 
-        store.update_db()
+        assert store.update_db() > 0
+        assert store.update_db() == 0
         
         for storeField in store.restore("test%", epoch = epoch):
             assert isinstance(storeField, StoreField)
