@@ -114,24 +114,51 @@ class Store(object):
             conn.commit()
             conn.close()
 
+        def myExists(dbPath, build_parameter_key, build_parameter_label, build_parameter_memento, agent_memento, epoch, agent_key):
+            
+            conn = sqlite3.connect(dbPath)
+            cur = conn.cursor()
+        
+            cur.execute("""
+            Select count(*)
+                From TrainLog
+                Where epoch = ?
+                And agent_key = ?
+            """, (epoch, agent_key,))
+            
+            cnt, = cur.fetchone()
+            
+            conn.close()
+            
+            return cnt > 0
+
         if not os.path.exists(self.dbPath):
             create_db(self.dbPath)
         
+        cntUpdate = 0
         for trainLogFilePath in glob.glob(os.path.join(self.trainLogFolderPath, "*")):
             with open(trainLogFilePath, "r") as fp:
                 dataFromFile = json.load(fp)
-                myupdate(self.dbPath
-                         , dataFromFile["buildParameterKey"]
-                         , dataFromFile["buildParameterLabel"]
-                         , dataFromFile["buildParameterMemento"]
-                         , dataFromFile["agentMemento"]
-                         , dataFromFile["epoch"]
-                         , dataFromFile["agentKey"])
-            try:
-                os.remove(trainLogFilePath)
-            except :
-                traceback.print_exc()
-
+                
+            if myExists(self.dbPath
+                     , dataFromFile["buildParameterKey"]
+                     , dataFromFile["buildParameterLabel"]
+                     , dataFromFile["buildParameterMemento"]
+                     , dataFromFile["agentMemento"]
+                     , dataFromFile["epoch"]
+                     , dataFromFile["agentKey"]):
+                continue
+            
+            myupdate(self.dbPath
+                     , dataFromFile["buildParameterKey"]
+                     , dataFromFile["buildParameterLabel"]
+                     , dataFromFile["buildParameterMemento"]
+                     , dataFromFile["agentMemento"]
+                     , dataFromFile["epoch"]
+                     , dataFromFile["agentKey"])
+            cntUpdate += 1
+        
+        return cntUpdate
 
     def restore(self, buildParameterLabel="%", epoch = None, buildParameterKey = None, agentKey = None):
                 
