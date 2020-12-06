@@ -48,7 +48,7 @@ class Test(unittest.TestCase):
             
             assert isinstance(agent, ConcreteAgent)
             assert isinstance(buildParameter, ConcreteBuildParameter)
-            assert epoch >= 0
+            assert epoch > 0
             assert isinstance(environment, ConcreteEnvironment)
             assert isinstance(trainer, ConcreteTrainer)
             
