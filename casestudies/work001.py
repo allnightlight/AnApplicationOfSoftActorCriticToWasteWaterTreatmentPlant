@@ -12,13 +12,24 @@ from concrete.concrete_build_parameter import ConcreteBuildParameter
 
 class Work001(WorkTemplate):
     '''
-    classdocs
+    
+    Work001 inspects the sensitivity of the reward to the following hyper parameters:
+    
+    * epoch
+    * alphaTemp
+    * nSampleOfActionsInValueFunctionApproximator
+    * nStepGradient
+    * nIntervalUpdateStateValueFunction
+    * learningRateForUpdateStateValueFunction
+    
+    Note, it uses plant004, of which the cost is the summation of DO and the excess of NH4 over the threshold,  
+    and the agent without any feature extractor, which means the feature is the PV.
     '''
 
     def generateBuildParameter(self):
         
         for _ in range(self.nAgent):
-            buildParameter = ConcreteBuildParameter(nIntervalSave = self.nEpoch//2
+            yield ConcreteBuildParameter(nIntervalSave = self.nEpoch//2
                                             , nEpoch = self.nEpoch
                                             , label = self.workName
                                             , plantClass = "ConcretePlant004"
@@ -38,4 +49,3 @@ class Work001(WorkTemplate):
                                             , learningRateForUpdatePolicy = 1e-3
                                             , learningRateForUpdateStateValueFunction = float(np.random.choice([1e-3,])))
         
-        yield buildParameter
