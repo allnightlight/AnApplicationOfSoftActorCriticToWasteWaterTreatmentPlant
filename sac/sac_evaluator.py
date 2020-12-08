@@ -17,6 +17,10 @@ class SacEvaluator(object):
         
 
     def evaluate(self, agent, environment, evaluateMethods):
+        
+        if len(evaluateMethods) == 0:
+            return
+        
         simulator = self.simulatorFactory.create(agent, environment)
         simulator.reset()
         

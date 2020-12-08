@@ -31,7 +31,20 @@ class Test(unittest.TestCase):
             
             assert isinstance(stats, dict)
             assert stats["count"] == self.factory.nSimulationStep
+
+    def test002(self):
+        
+        evaluator = self.factory.createEvaluator()
+        
+        assert isinstance(evaluator, SacEvaluator)
+        
+        cnt = 0
+        for evaluateMethod, stats in evaluator.evaluate(agent = self.factory.createAgent()
+                           , environment = self.factory.createEnvironment()
+                           , evaluateMethods = []):
             
+            cnt += 1
+        assert cnt == 0
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
