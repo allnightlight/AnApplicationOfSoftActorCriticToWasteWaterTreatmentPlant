@@ -23,7 +23,8 @@ class Test(unittest.TestCase):
                                     , nAgent = 3
                                     , saveFolderPathAgent = "checkpoint"
                                     , updateEvaluationInterval = timedelta(seconds = 1)
-                                    , nUpdateEvaluation = 2)
+                                    , nUpdateEvaluation = 2
+                                    , showProgress = False)
 
         cls.runners.append(Runner(work))
 
@@ -34,7 +35,8 @@ class Test(unittest.TestCase):
                                     , saveFolderPathAgent = "checkpoint"
                                     , updateEvaluationInterval = timedelta(seconds = 1)
                                     , nUpdateEvaluation = 1
-                                    , nSampleOverLearningCurve = 2)
+                                    , nSampleOverLearningCurve = 2
+                                    , showProgress = False)
 
         cls.runners.append(Runner(work))
         

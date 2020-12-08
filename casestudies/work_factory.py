@@ -25,7 +25,7 @@ class WorkFactory(object):
     '''
 
 
-    def create(self, workName, nSimulationStep = 96*12, nEpoch = 2**12, nAgent = 2**10, saveFolderPathAgent = "checkpoint",  updateEvaluationInterval = timedelta(seconds = 5), nUpdateEvaluation = None, figSize = [12,8], figFolderPath = "./fig", nSampleOverLearningCurve = 2**3):
+    def create(self, workName, nSimulationStep = 96*12, nEpoch = 2**12, nAgent = 2**10, saveFolderPathAgent = "checkpoint",  updateEvaluationInterval = timedelta(seconds = 5), nUpdateEvaluation = None, figSize = [12,8], figFolderPath = "./fig", nSampleOverLearningCurve = 2**3, showProgress = True):
         
         store = Store(dbPath = "trained_agent.sqlite", trainLogFolderPath = "tmpTrainLog")        
         builder = ConcreteBuilder(store)
@@ -38,7 +38,7 @@ class WorkFactory(object):
         
         evaluator = SacEvaluator(simulatorFactory = ConcreteSimulatorFactoryForEvaluation(nSimulationStep = nSimulationStep))
 
-        app = ConcreteApplication(builder, loader, evaluationDb, evaluator)
+        app = ConcreteApplication(builder, loader, evaluationDb, evaluator, showProgress)
 
 #         workInstance = WorkTemplate(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
 
