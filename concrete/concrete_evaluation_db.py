@@ -5,6 +5,7 @@ Created on 2020/12/02
 '''
 import sqlite3
 import os
+import traceback
 
 class ConcreteEvaluationDb(object):
     '''
@@ -86,17 +87,23 @@ Insert or Ignore Into Evaluation (idAgent, evaluatorClass, name, value)
 
     def saveGeneratedStats(self, statsGenerator):
         
-        conn = sqlite3.connect(self.evaluationDbPath)
-        cur = conn.cursor()
-        
+        conn = None
         nUpdate = 0
-        for agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, stats in statsGenerator:
-            for name in stats:
-                self.saveSingleRow(cur, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, name, stats[name])
-                nUpdate += 1
+        try:
+            conn = sqlite3.connect(self.evaluationDbPath)
+            cur = conn.cursor()
 
-        conn.commit()
-        conn.close()
+            for agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, stats in statsGenerator:
+                for name in stats:
+                    self.saveSingleRow(cur, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, name, stats[name])
+                    nUpdate += 1
+    
+            conn.commit()            
+        except:
+            traceback.print_exc()
+        finally:
+            if conn is not None:
+                conn.close()
         
         return nUpdate
 
