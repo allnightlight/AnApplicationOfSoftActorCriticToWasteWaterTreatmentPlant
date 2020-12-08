@@ -98,12 +98,12 @@ Insert or Ignore Into Evaluation (idAgent, evaluatorClass, name, value)
                     self.saveSingleRow(cur, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, name, stats[name])
                     nUpdate += 1
     
-            conn.commit()            
-        except:
-            traceback.print_exc()
-        finally:
+            conn.commit()
+            conn.close()                                    
+        except Exception as inst:
             if conn is not None:
                 conn.close()
+            raise inst
         
         return nUpdate
 
