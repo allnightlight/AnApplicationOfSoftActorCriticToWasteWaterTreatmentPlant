@@ -57,10 +57,8 @@ Create Table Evaluation(
         
         pass
     
-    def save(self, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, stats):
-        
-        conn = sqlite3.connect(self.evaluationDbPath)
-        cur = conn.cursor()
+    
+    def saveSingleRow(self, cur, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, name, value):
         
         sql1 = """        
 Insert Or Ignore Into Agent (agentKey, epoch, buildParameterLabel, buildParameterMemnto)
@@ -84,11 +82,36 @@ Insert or Ignore Into Evaluation (idAgent, evaluatorClass, name, value)
         cur.execute(sql2, (agentKey, epoch))
         agentId, = cur.fetchone()
         
+        cur.execute(sql3, (agentId, evaluatorClass, name, value))
+
+    def save(self, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, stats):
+        
+        conn = sqlite3.connect(self.evaluationDbPath)
+        cur = conn.cursor()
+        
         for name in stats:
-            cur.execute(sql3, (agentId, evaluatorClass, name, stats[name]))
+            self.saveSingleRow(cur, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, name, stats[name])
         
         conn.commit()
         conn.close()
+        
+    def saveGeneratedStats(self, statsGenerator):
+        
+        conn = sqlite3.connect(self.evaluationDbPath)
+        cur = conn.cursor()
+        
+        nUpdate = 0
+        for agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, stats in statsGenerator:
+            for name in stats:
+                self.saveSingleRow(cur, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, name, stats[name])
+                nUpdate += 1
+
+        conn.commit()
+        conn.close()
+        
+        return nUpdate
+
+    
     
     def exists(self, agentKey, epoch, evaluatorClass = None):
         

@@ -89,6 +89,54 @@ class Test(unittest.TestCase):
         tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = 123, evaluatorClass = "evaluator001")
                 
         assert len(tbl) == len(stats), len(tbl)
+
+
+    def test004(self):
+        
+        assert isinstance(self.db, ConcreteEvaluationDb)
+        
+        self.db.initDb()
+        
+        nRow = 3
+        stats = {"count": 123, "XXX": 456}
+        
+        def gen():
+            
+            for k1 in range(nRow):
+                agentKey = "abc %d" % k1
+                buildParameterLabel = "test %d" % k1
+                epoch = 123
+                evaluatorClass = "evaluator001"
+                
+                buildParameter = ConcreteBuildParameter()
+                yield agentKey, epoch, buildParameterLabel, buildParameter.createMemento(), evaluatorClass, stats         
+        
+        assert self.db.saveGeneratedStats(gen()) > 0
+
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = None, epoch = None, evaluatorClass = "evaluator001")
+        
+        assert len(tbl) == nRow * len(stats)
+                
+        tbl = self.db.export(buildParameterLabel = "test 0", agentKey = None, epoch = None, evaluatorClass = None)
+                
+        assert len(tbl) == len(stats), len(tbl)
+
+        tbl = self.db.export("test%", agentKey = None, epoch = None, evaluatorClass = None)
+                
+        assert len(tbl) == len(stats) * nRow, len(tbl)
+        
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = None, evaluatorClass = None)
+                
+        assert len(tbl) == len(stats), len(tbl)
+
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = 123, evaluatorClass = None)
+                
+        assert len(tbl) == len(stats), len(tbl)
+        
+        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = 123, evaluatorClass = "evaluator001")
+                
+        assert len(tbl) == len(stats), len(tbl)
+        
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
