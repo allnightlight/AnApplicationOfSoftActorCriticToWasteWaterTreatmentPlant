@@ -84,7 +84,7 @@ class WorkTemplate(object):
     def exportSimulationResultAsFigure(self, agentKey, epoch):
         
         self.app.runEvaluationWithSimulation(evaluateMethods = [ConcreteEvaluateMethod001(self.figSize, self.figFolderPath, useDeterministicAction = True)]
-                                             , epoch = epoch, agentKey = agentKey)        
+                                             , epochGiven = epoch, agentKey = agentKey)        
         tbl = self.app.exportEvaluationTable(buildParameterLabel="%", agentKey=agentKey, epoch=epoch, evaluatorClass="ConcreteEvaluateMethod001")
         for row in tbl:
             figFilePath = row["evaluationValue"]
@@ -96,7 +96,7 @@ class WorkTemplate(object):
     def exportSimulationResultAsCsvFormatFile(self, agentKey, epoch):
         
         self.app.runEvaluationWithSimulation(evaluateMethods = [ConcreteEvaluateMethod002(self.figFolderPath)]
-                                             , epoch = epoch, agentKey = agentKey)
+                                             , epochGiven = epoch, agentKey = agentKey)
         tbl = self.app.exportEvaluationTable(buildParameterLabel="%", agentKey=agentKey, epoch=epoch, evaluatorClass="ConcreteEvaluateMethod002")
         
         for row in tbl:
