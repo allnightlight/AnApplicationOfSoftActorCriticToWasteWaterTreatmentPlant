@@ -16,6 +16,7 @@ from framework.store import Store
 from sac.sac_evaluator import SacEvaluator
 from concrete.concrete_application import ConcreteApplication
 from casestudies.work001 import Work001
+from casestudies.work002 import Work002
 
 
 class WorkFactory(object):
@@ -24,7 +25,7 @@ class WorkFactory(object):
     '''
 
 
-    def create(self, workName, nSimulationStep = 96*12, nEpoch = 2**12, nAgent = 2**10, saveFolderPathAgent = "checkpoint",  updateEvaluationInterval = timedelta(seconds = 5), nUpdateEvaluation = None, figSize = [12,8], figFolderPath = "./fig"):
+    def create(self, workName, nSimulationStep = 96*12, nEpoch = 2**12, nAgent = 2**10, saveFolderPathAgent = "checkpoint",  updateEvaluationInterval = timedelta(seconds = 5), nUpdateEvaluation = None, figSize = [12,8], figFolderPath = "./fig", nSampleOverLearningCurve = 2**3):
         
         store = Store(dbPath = "trained_agent.sqlite", trainLogFolderPath = "tmpTrainLog")        
         builder = ConcreteBuilder(store)
@@ -44,6 +45,10 @@ class WorkFactory(object):
         if workName == "work001":
                     
             workInstance = Work001(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work002":
+                    
+            workInstance = Work002(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath, nSampleOverLearningCurve = nSampleOverLearningCurve)
 
         assert isinstance(workInstance, WorkTemplate)         
         return  workInstance

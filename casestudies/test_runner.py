@@ -26,6 +26,17 @@ class Test(unittest.TestCase):
                                     , nUpdateEvaluation = 2)
 
         cls.runners.append(Runner(work))
+
+        work = WorkFactory().create(workName = "work002"
+                                    , nSimulationStep = 2**3
+                                    , nEpoch = 2**3
+                                    , nAgent = 1
+                                    , saveFolderPathAgent = "checkpoint"
+                                    , updateEvaluationInterval = timedelta(seconds = 1)
+                                    , nUpdateEvaluation = 1
+                                    , nSampleOverLearningCurve = 2)
+
+        cls.runners.append(Runner(work))
         
         
     @classmethod
