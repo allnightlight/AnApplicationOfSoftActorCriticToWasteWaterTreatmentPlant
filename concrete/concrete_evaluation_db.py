@@ -84,17 +84,6 @@ Insert or Ignore Into Evaluation (idAgent, evaluatorClass, name, value)
         
         cur.execute(sql3, (agentId, evaluatorClass, name, value))
 
-    def save(self, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, stats):
-        
-        conn = sqlite3.connect(self.evaluationDbPath)
-        cur = conn.cursor()
-        
-        for name in stats:
-            self.saveSingleRow(cur, agentKey, epoch, buildParameterLabel, buildParameterMemnto, evaluatorClass, name, stats[name])
-        
-        conn.commit()
-        conn.close()
-        
     def saveGeneratedStats(self, statsGenerator):
         
         conn = sqlite3.connect(self.evaluationDbPath)

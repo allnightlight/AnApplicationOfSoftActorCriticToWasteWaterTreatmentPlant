@@ -39,57 +39,15 @@ class Test(unittest.TestCase):
         epoch = 123
         evaluatorClass = "evaluator001"
         
-        self.db.save(agentKey=agentKey, epoch=epoch, buildParameterLabel="test", buildParameterMemnto="who are you?", stats = {"count": 123, "XXX": 456}, evaluatorClass=evaluatorClass)
+        def gen():
+            yield agentKey, epoch, "test", "who are you?", evaluatorClass, {"count": 123, "XXX": 456}
+        
+        self.db.saveGeneratedStats(gen())
         
         assert self.db.exists(agentKey, epoch, evaluatorClass)
         assert self.db.exists(agentKey, epoch + 1, evaluatorClass) == False
         assert self.db.exists(agentKey + "hoge", epoch, evaluatorClass) == False
         assert self.db.exists(agentKey, epoch) 
-        
-        
-    def test003(self):
-        
-        assert isinstance(self.db, ConcreteEvaluationDb)
-        
-        self.db.initDb()
-        
-        nRow = 3
-        
-        stats = {"count": 123, "XXX": 456}
-        
-        for k1 in range(nRow):
-            agentKey = "abc %d" % k1
-            buildParameterLabel = "test %d" % k1
-            epoch = 123
-            evaluatorClass = "evaluator001"
-            
-            buildParameter = ConcreteBuildParameter()        
-            self.db.save(agentKey=agentKey, epoch=epoch, buildParameterLabel=buildParameterLabel, buildParameterMemnto=buildParameter.createMemento(), stats = stats, evaluatorClass=evaluatorClass)
-
-        tbl = self.db.export(buildParameterLabel = "%", agentKey = None, epoch = None, evaluatorClass = "evaluator001")
-        
-        assert len(tbl) == nRow * len(stats)
-                
-        tbl = self.db.export(buildParameterLabel = "test 0", agentKey = None, epoch = None, evaluatorClass = None)
-                
-        assert len(tbl) == len(stats), len(tbl)
-
-        tbl = self.db.export("test%", agentKey = None, epoch = None, evaluatorClass = None)
-                
-        assert len(tbl) == len(stats) * nRow, len(tbl)
-        
-        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = None, evaluatorClass = None)
-                
-        assert len(tbl) == len(stats), len(tbl)
-
-        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = 123, evaluatorClass = None)
-                
-        assert len(tbl) == len(stats), len(tbl)
-        
-        tbl = self.db.export(buildParameterLabel = "%", agentKey = "abc 0", epoch = 123, evaluatorClass = "evaluator001")
-                
-        assert len(tbl) == len(stats), len(tbl)
-
 
     def test004(self):
         

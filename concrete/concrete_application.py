@@ -35,27 +35,23 @@ class ConcreteApplication(object):
         
         self.builder.build(buildParameter)
         
-    def runEvaluationWithSimulation(self, evaluateMethods, buildParameterLabel = "%", epoch = None, buildParameterKey = None, agentKey = None):
+    def runEvaluationWithSimulation(self, evaluateMethods, buildParameterLabel = "%", epochGiven = None, buildParameterKey = None, agentKey = None):
         
         for evaluateMethod in evaluateMethods:
             assert isinstance(evaluateMethod, SacEvaluateMethod)
 
-        cntCallSimulation = 0
-        for agent, buildParameter, epoch, environment, _ in self.loader.load(buildParameterLabel, epoch, buildParameterKey, agentKey):
+        def generateStats():
             
-            evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods
-                if not self.evaluationDb.exists(agentKey = agent.getAgentKey(), epoch = epoch, evaluatorClass = evaluateMethod.__class__.__name__)]
-            
-            for evaluateMethod, stats in self.evaluator.evaluate(agent, environment, evaluateMethodsNotYetDone):
-                cntCallSimulation += 1
-
-                self.evaluationDb.save(agentKey = agent.getAgentKey()
-                                       , epoch = epoch
-                                       , buildParameterLabel = buildParameterLabel
-                                       , buildParameterMemnto = buildParameter.createMemento()
-                                       , evaluatorClass = evaluateMethod.__class__.__name__
-                                       , stats = stats)                        
-        return cntCallSimulation
+            for agent, buildParameter, epoch, environment, _ in self.loader.load(buildParameterLabel, epochGiven, buildParameterKey, agentKey):
+                
+                evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods
+                    if not self.evaluationDb.exists(agentKey = agent.getAgentKey(), epoch = epoch, evaluatorClass = evaluateMethod.__class__.__name__)]
+                
+                for evaluateMethod, stats in self.evaluator.evaluate(agent, environment, evaluateMethodsNotYetDone):
+                    
+                    yield agent.getAgentKey(), epoch, buildParameterLabel, buildParameter.createMemento(), evaluateMethod.__class__.__name__, stats
+                    
+        return self.evaluationDb.saveGeneratedStats(generateStats())
                 
     def exportEvaluationTable(self, buildParameterLabel = "%", agentKey = None, epoch = None, evaluatorClass = None):
         
