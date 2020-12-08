@@ -218,7 +218,7 @@ class ConcreteFactoryForTest(object):
         evaluationDb = ConcreteEvaluationDb(evaluationDbPath = "evaluationDb.sqlite", buildParameterFactory = ConcreteBuildParameterFactory())
         evaluationDb.initDb()
         
-        return ConcreteApplication(builder, loader, evaluationDb, evaluator=SacEvaluator(simulatorFactory = ConcreteSimulatorFactoryForEvaluation(nSimulationStep=1)), showProgress = False), store, evaluationDb
+        return ConcreteApplication(builder, loader, evaluationDb, evaluator=SacEvaluator(simulatorFactory = ConcreteSimulatorFactoryForEvaluation(nSimulationStep=1)), showProgress = False, maxNumOfEvaluateAgents = None), store, evaluationDb
         
     def createConcreteEvaluationDb(self):
         return ConcreteEvaluationDb(evaluationDbPath = "test.sqlite")
