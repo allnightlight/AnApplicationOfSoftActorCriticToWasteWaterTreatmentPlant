@@ -16,7 +16,7 @@ class ConcreteApplication(object):
     '''
     
 
-    def __init__(self, builder, loader, evaluationDb, evaluator, showProgress):
+    def __init__(self, builder, loader, evaluationDb, evaluator, showProgress, maxNumOfEvaluateAgents):
         '''
         Constructor
         '''
@@ -31,6 +31,7 @@ class ConcreteApplication(object):
         self.evaluationDb = evaluationDb        
         self.evaluator = evaluator
         self.showProgress = showProgress
+        self.maxNumOfEvaluateAgents = maxNumOfEvaluateAgents
         
         
     def runBuild(self, buildParameter):
@@ -41,27 +42,32 @@ class ConcreteApplication(object):
         
         for evaluateMethod in evaluateMethods:
             assert isinstance(evaluateMethod, SacEvaluateMethod)
-
-        def generateStats():
-
-            if self.showProgress:
-                sys.stdout.write(">> Start Evaluation ...")
+        
+        if self.showProgress:
+            sys.stdout.write(">> Start Evaluation ...")
+        
+        cnt = 0
+        statsArr = []
+        for agent, buildParameter, epoch, environment, _ in self.loader.load(buildParameterLabel, epochGiven, buildParameterKey, agentKey):
             
-            for agent, buildParameter, epoch, environment, _ in self.loader.load(buildParameterLabel, epochGiven, buildParameterKey, agentKey):
-                if self.showProgress:
-                    sys.stdout.write("\r>> buildParameterLabel:{buildParameterLabel}, agent:{agent}, epoch:{epoch}".format(buildParameterLabel=buildParameter.label, agent=agent.getAgentKey(), epoch=epoch))
-                
-                evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods
-                    if not self.evaluationDb.exists(agentKey = agent.getAgentKey(), epoch = epoch, evaluatorClass = evaluateMethod.__class__.__name__)]
-                
-                for evaluateMethod, stats in self.evaluator.evaluate(agent, environment, evaluateMethodsNotYetDone):
-                    
-                    yield agent.getAgentKey(), epoch, buildParameterLabel, buildParameter.createMemento(), evaluateMethod.__class__.__name__, stats
-
+            if self.maxNumOfEvaluateAgents is not None and not cnt < self.maxNumOfEvaluateAgents:
+                break
+            
             if self.showProgress:
-                sys.stdout.write("\r>> Finished evaluation.")
-                    
-        return self.evaluationDb.saveGeneratedStats(generateStats())
+                sys.stdout.write("\r>> buildParameterLabel:{buildParameterLabel}, agent:{agent}, epoch:{epoch}".format(buildParameterLabel=buildParameter.label, agent=agent.getAgentKey(), epoch=epoch))
+            
+            evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods
+                if not self.evaluationDb.exists(agentKey = agent.getAgentKey(), epoch = epoch, evaluatorClass = evaluateMethod.__class__.__name__)]
+            
+            if len(evaluateMethodsNotYetDone) == 0:
+                continue
+            
+            for evaluateMethod, stats in self.evaluator.evaluate(agent, environment, evaluateMethodsNotYetDone):                    
+                statsArr.append((agent.getAgentKey(), epoch, buildParameterLabel, buildParameter.createMemento(), evaluateMethod.__class__.__name__, stats))
+            
+            cnt += 1
+                                    
+        return self.evaluationDb.saveGeneratedStats(statsArr)
                 
     def exportEvaluationTable(self, buildParameterLabel = "%", agentKey = None, epoch = None, evaluatorClass = None):
         
