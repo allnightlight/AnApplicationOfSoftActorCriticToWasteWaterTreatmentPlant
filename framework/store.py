@@ -50,9 +50,9 @@ class Store(object):
         with open(trainLogFilePath, "w") as fp:
             json.dump(dataToSave, fp)
             
-    
+            
     def update_db(self):
-        
+
         def create_db(dbPath):
             conn = sqlite3.connect(dbPath)
             cur = conn.cursor()
@@ -83,10 +83,8 @@ class Store(object):
             conn.commit()
             conn.close()
 
-        def myupdate(dbPath, build_parameter_key, build_parameter_label, build_parameter_memento, agent_memento, epoch, agent_key):
-            conn = sqlite3.connect(dbPath)
-            cur = conn.cursor()
-        
+        def myupdate(cur, build_parameter_key, build_parameter_label, build_parameter_memento, agent_memento, epoch, agent_key):
+            
             cur.execute("""
             Insert Or Ignore Into BuildParameter (
                 build_parameter_key
@@ -111,54 +109,44 @@ class Store(object):
                 ) values (?,?,?,?)
             """, (build_parameter_id, agent_memento, epoch,agent_key,))
             
-            conn.commit()
-            conn.close()
-
-        def myExists(dbPath, build_parameter_key, build_parameter_label, build_parameter_memento, agent_memento, epoch, agent_key):
-            
-            conn = sqlite3.connect(dbPath)
-            cur = conn.cursor()
-        
-            cur.execute("""
-            Select count(*)
-                From TrainLog
-                Where epoch = ?
-                And agent_key = ?
-            """, (epoch, agent_key,))
-            
-            cnt, = cur.fetchone()
-            
-            conn.close()
-            
-            return cnt > 0
-
         if not os.path.exists(self.dbPath):
             create_db(self.dbPath)
         
-        cntUpdate = 0
-        for trainLogFilePath in glob.glob(os.path.join(self.trainLogFolderPath, "*")):
-            with open(trainLogFilePath, "r") as fp:
-                dataFromFile = json.load(fp)
-                
-            if myExists(self.dbPath
-                     , dataFromFile["buildParameterKey"]
-                     , dataFromFile["buildParameterLabel"]
-                     , dataFromFile["buildParameterMemento"]
-                     , dataFromFile["agentMemento"]
-                     , dataFromFile["epoch"]
-                     , dataFromFile["agentKey"]):
-                continue
-            
-            myupdate(self.dbPath
-                     , dataFromFile["buildParameterKey"]
-                     , dataFromFile["buildParameterLabel"]
-                     , dataFromFile["buildParameterMemento"]
-                     , dataFromFile["agentMemento"]
-                     , dataFromFile["epoch"]
-                     , dataFromFile["agentKey"])
-            cntUpdate += 1
+        trainLogFiles = glob.glob(os.path.join(self.trainLogFolderPath, "*"))
         
+        conn = None
+        cntUpdate = 0
+        try:
+            conn = sqlite3.connect(self.dbPath)
+            cur = conn.cursor()
+
+            for trainLogFilePath in trainLogFiles:
+                with open(trainLogFilePath, "r") as fp:
+                    dataFromFile = json.load(fp)
+                
+                myupdate(cur
+                         , dataFromFile["buildParameterKey"]
+                         , dataFromFile["buildParameterLabel"]
+                         , dataFromFile["buildParameterMemento"]
+                         , dataFromFile["agentMemento"]
+                         , dataFromFile["epoch"]
+                         , dataFromFile["agentKey"])
+
+                cntUpdate += 1
+
+            conn.commit()
+            
+            for trainLogFilePath in trainLogFiles:
+                os.remove(trainLogFilePath)
+                        
+        except:
+            traceback.print_exc()
+        finally:
+            if conn is not None:
+                conn.close()
+                
         return cntUpdate
+
 
     def restore(self, buildParameterLabel="%", epoch = None, buildParameterKey = None, agentKey = None):
                 
