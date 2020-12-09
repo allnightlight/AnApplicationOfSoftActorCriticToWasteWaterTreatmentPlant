@@ -94,7 +94,7 @@ class ConcreteAgent(SacAgent, Agent):
             , (self.featureExtractor, "feature")]:
 
             if not isinstance(obj, ConcreteFeatureExtractor002):        
-                obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix)))
+                obj.load_weights(os.path.join(self.saveFolderPath, "{prefix}_{label}.ckpt".format(label = label, prefix = saveFilePrefix))).expect_partial()
             
     def createMemento(self):
         agentMemento = Utils.generateRandomString(16)
