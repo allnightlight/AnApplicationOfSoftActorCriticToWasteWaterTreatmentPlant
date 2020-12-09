@@ -6,7 +6,11 @@ Created on 2020/12/07
 from datetime import timedelta
 import os
 
+from casestudies.work001 import Work001
+from casestudies.work002 import Work002
+from casestudies.work003 import Work003
 from casestudies.work_template import WorkTemplate
+from concrete.concrete_application import ConcreteApplication
 from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
 from concrete.concrete_builder import ConcreteBuilder
 from concrete.concrete_evaluation_db import ConcreteEvaluationDb
@@ -14,9 +18,6 @@ from concrete.concrete_loader import ConcreteLoader
 from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulatorFactoryForEvaluation
 from framework.store import Store
 from sac.sac_evaluator import SacEvaluator
-from concrete.concrete_application import ConcreteApplication
-from casestudies.work001 import Work001
-from casestudies.work002 import Work002
 
 
 class WorkFactory(object):
@@ -49,6 +50,10 @@ class WorkFactory(object):
         if workName == "work002":
                     
             workInstance = Work002(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath, nSampleOverLearningCurve = nSampleOverLearningCurve)
+
+        if workName == "work003":
+                    
+            workInstance = Work003(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
 
         assert isinstance(workInstance, WorkTemplate)         
         return  workInstance
