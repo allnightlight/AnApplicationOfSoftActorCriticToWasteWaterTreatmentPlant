@@ -18,6 +18,7 @@ from concrete.concrete_loader import ConcreteLoader
 from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulatorFactoryForEvaluation
 from framework.store import Store
 from sac.sac_evaluator import SacEvaluator
+from casestudies.work900 import Work900
 
 
 class WorkFactory(object):
@@ -26,7 +27,7 @@ class WorkFactory(object):
     '''
 
 
-    def create(self, workName, nSimulationStep = 96*12, nEpoch = 2**12, nAgent = 2**10, saveFolderPathAgent = "checkpoint",  updateEvaluationInterval = timedelta(seconds = 5), nUpdateEvaluation = None, figSize = [12,8], figFolderPath = "./fig", nSampleOverLearningCurve = 2**3, showProgress = True, maxNumOfEvaluateAgents = 2**4):
+    def create(self, workName, nSimulationStep = 96*12, nEpoch = None, nAgent = 2**10, saveFolderPathAgent = "checkpoint",  updateEvaluationInterval = timedelta(seconds = 5), nUpdateEvaluation = None, figSize = [12,8], figFolderPath = "./fig", nSampleOverLearningCurve = 2**3, showProgress = True, maxNumOfEvaluateAgents = 2**4):
         
         store = Store(dbPath = "trained_agent.sqlite", trainLogFolderPath = "tmpTrainLog")        
         builder = ConcreteBuilder(store)
@@ -43,6 +44,8 @@ class WorkFactory(object):
 
 #         workInstance = WorkTemplate(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
 
+        workInstance = None
+        
         if workName == "work001":
                     
             workInstance = Work001(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
@@ -54,6 +57,10 @@ class WorkFactory(object):
         if workName == "work003":
                     
             workInstance = Work003(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+            
+        if workName == "work900":
+                    
+            workInstance = Work900(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
 
         assert isinstance(workInstance, WorkTemplate)         
         return  workInstance
