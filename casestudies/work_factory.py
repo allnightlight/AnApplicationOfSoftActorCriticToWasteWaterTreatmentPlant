@@ -15,6 +15,7 @@ from casestudies.work902 import Work902
 from casestudies.work903 import Work903
 from casestudies.work904 import Work904
 from casestudies.work905 import Work905
+from casestudies.work906 import Work906
 from casestudies.work_template import WorkTemplate
 from concrete.concrete_application import ConcreteApplication
 from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
@@ -24,7 +25,7 @@ from concrete.concrete_loader import ConcreteLoader
 from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulatorFactoryForEvaluation
 from framework.store import Store
 from sac.sac_evaluator import SacEvaluator
-from casestudies.work906 import Work906
+from casestudies.work004 import Work004
 
 
 class WorkFactory(object):
@@ -63,6 +64,10 @@ class WorkFactory(object):
         if workName == "work003":
                     
             workInstance = Work003(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work004":
+                    
+            workInstance = Work004(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
             
         if workName == "work900":
                     
