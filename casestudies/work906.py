@@ -41,7 +41,7 @@ class Work906(WorkTemplate):
                                             , label = self.workName
                                             , plantClass = "ConcretePlant001"
                                             , discountFactor = 0.9 # Q(s,a) = (1-gamma) * reward(s,a) + gamma * V(s+)
-                                            , alphaTemp = float(np.random.choice([1e-1, 1e+1,]))
+                                            , alphaTemp = float(np.random.choice([1e-3, 1e-2,]))
                                             , saveFolderPathAgent = self.saveFolderPathAgent
                                             , nFeature = 1
                                             , nSampleOfActionsInValueFunctionApproximator = int(np.random.choice([2**0,]))
