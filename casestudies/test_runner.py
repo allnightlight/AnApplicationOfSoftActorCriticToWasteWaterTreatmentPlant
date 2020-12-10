@@ -59,10 +59,21 @@ class Test(unittest.TestCase):
                                     , saveFolderPathAgent = "checkpoint"
                                     , updateEvaluationInterval = timedelta(seconds = 1)
                                     , nUpdateEvaluation = 1
-                                    , nSampleOverLearningCurve = 2
                                     , showProgress = False)
 
         cls.runners.append(Runner(work))
+        
+        work = WorkFactory().create(workName = "work901"
+                            , nSimulationStep = 2**1
+                            , nEpoch = 2**1
+                            , nAgent = 1
+                            , saveFolderPathAgent = "checkpoint"
+                            , updateEvaluationInterval = timedelta(seconds = 1)
+                            , nUpdateEvaluation = 1
+                            , showProgress = False)
+
+        cls.runners.append(Runner(work))
+
         
         
     @classmethod
