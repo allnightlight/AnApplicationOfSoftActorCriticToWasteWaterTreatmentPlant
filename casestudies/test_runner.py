@@ -74,6 +74,17 @@ class Test(unittest.TestCase):
 
         cls.runners.append(Runner(work))
 
+        work = WorkFactory().create(workName = "work902"
+                            , nSimulationStep = 2**1
+                            , nEpoch = 2**1
+                            , nAgent = 1
+                            , saveFolderPathAgent = "checkpoint"
+                            , updateEvaluationInterval = timedelta(seconds = 1)
+                            , nUpdateEvaluation = 1
+                            , showProgress = False)
+
+        cls.runners.append(Runner(work))
+
         
         
     @classmethod
