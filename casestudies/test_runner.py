@@ -54,7 +54,7 @@ class Test(unittest.TestCase):
 
         work = WorkFactory().create(workName = "work900"
                                     , nSimulationStep = 2**3
-                                    , nEpoch = 1
+                                    , nEpoch = 2**1
                                     , nAgent = 1
                                     , saveFolderPathAgent = "checkpoint"
                                     , updateEvaluationInterval = timedelta(seconds = 1)
