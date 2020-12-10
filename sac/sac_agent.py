@@ -104,7 +104,7 @@ class SacAgent(object):
         self.applyGradientSomeoneToReduce(
             fh = lambda : self.getErrForUpdateActionValueFunction(batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep)
             , trainableVariables = self.getTrainableVariablesForUpdateActionValueFunction()
-            , optimizer = self.getOptimizerForUpdateStateValueFunction())
+            , optimizer = self.getOptimizerForUpdateActionValueFunction())
 
     # << protected, abstract>>
     def getOptimizerForUpdateActionValueFunction(self):
