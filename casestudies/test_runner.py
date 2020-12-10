@@ -52,39 +52,17 @@ class Test(unittest.TestCase):
 
         cls.runners.append(Runner(work))
 
-        work = WorkFactory().create(workName = "work900"
-                                    , nSimulationStep = 2**3
-                                    , nEpoch = 2**1
-                                    , nAgent = 1
-                                    , saveFolderPathAgent = "checkpoint"
-                                    , updateEvaluationInterval = timedelta(seconds = 1)
-                                    , nUpdateEvaluation = 1
-                                    , showProgress = False)
-
-        cls.runners.append(Runner(work))
-        
-        work = WorkFactory().create(workName = "work901"
-                            , nSimulationStep = 2**1
-                            , nEpoch = 2**1
-                            , nAgent = 1
-                            , saveFolderPathAgent = "checkpoint"
-                            , updateEvaluationInterval = timedelta(seconds = 1)
-                            , nUpdateEvaluation = 1
-                            , showProgress = False)
-
-        cls.runners.append(Runner(work))
-
-        work = WorkFactory().create(workName = "work902"
-                            , nSimulationStep = 2**1
-                            , nEpoch = 2**1
-                            , nAgent = 1
-                            , saveFolderPathAgent = "checkpoint"
-                            , updateEvaluationInterval = timedelta(seconds = 1)
-                            , nUpdateEvaluation = 1
-                            , showProgress = False)
-
-        cls.runners.append(Runner(work))
-
+        for workName in ["work900", "work901", "work902", "work903",]:
+            work = WorkFactory().create(workName = workName
+                                , nSimulationStep = 2**1
+                                , nEpoch = 2**1
+                                , nAgent = 1
+                                , saveFolderPathAgent = "checkpoint"
+                                , updateEvaluationInterval = timedelta(seconds = 1)
+                                , nUpdateEvaluation = 1
+                                , showProgress = False)
+    
+            cls.runners.append(Runner(work))
         
         
     @classmethod
