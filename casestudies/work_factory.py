@@ -14,6 +14,7 @@ from casestudies.work901 import Work901
 from casestudies.work902 import Work902
 from casestudies.work903 import Work903
 from casestudies.work904 import Work904
+from casestudies.work905 import Work905
 from casestudies.work_template import WorkTemplate
 from concrete.concrete_application import ConcreteApplication
 from concrete.concrete_build_parameter_factory import ConcreteBuildParameterFactory
@@ -81,6 +82,10 @@ class WorkFactory(object):
         if workName == "work904":
                     
             workInstance = Work904(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work905":
+                    
+            workInstance = Work905(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
 
         assert isinstance(workInstance, WorkTemplate)         
         return  workInstance
