@@ -26,6 +26,7 @@ from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulator
 from framework.store import Store
 from sac.sac_evaluator import SacEvaluator
 from casestudies.work004 import Work004
+from casestudies.work907 import Work907
 
 
 class WorkFactory(object):
@@ -96,6 +97,10 @@ class WorkFactory(object):
         if workName == "work906":
                     
             workInstance = Work906(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work907":
+                    
+            workInstance = Work907(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
 
         assert isinstance(workInstance, WorkTemplate)         
         return  workInstance
