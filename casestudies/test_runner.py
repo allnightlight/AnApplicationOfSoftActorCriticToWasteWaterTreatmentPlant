@@ -52,7 +52,7 @@ class Test(unittest.TestCase):
 
         cls.runners.append(Runner(work))
 
-        for workName in ["work900", "work901", "work902", "work903", "work904", "work905", "work906", "work004", "work907"]:
+        for workName in ["work900", "work901", "work902", "work903", "work904", "work905", "work906", "work004", "work907", "work908"]:
             work = WorkFactory().create(workName = workName
                                 , nSimulationStep = 2**1
                                 , nEpoch = 2**1

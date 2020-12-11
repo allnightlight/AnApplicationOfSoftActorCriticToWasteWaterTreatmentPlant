@@ -27,6 +27,7 @@ from framework.store import Store
 from sac.sac_evaluator import SacEvaluator
 from casestudies.work004 import Work004
 from casestudies.work907 import Work907
+from casestudies.work908 import Work908
 
 
 class WorkFactory(object):
@@ -101,6 +102,10 @@ class WorkFactory(object):
         if workName == "work907":
                     
             workInstance = Work907(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work908":
+                    
+            workInstance = Work908(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
 
         assert isinstance(workInstance, WorkTemplate)         
         return  workInstance
