@@ -22,7 +22,6 @@ from concrete.concrete_loader import ConcreteLoader
 from concrete.concrete_plant001 import ConcretePlant001
 from concrete.concrete_plant002 import ConcretePlant002
 from concrete.concrete_plant003 import ConcretePlant003
-from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_simulator_factory_for_evaluation import ConcreteSimulatorFactoryForEvaluation
 from concrete.concrete_trainer import ConcreteTrainer
 from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
@@ -37,6 +36,8 @@ from concrete.concrete_evaluate_method001 import ConcreteEvaluateMethod001
 import os
 import shutil
 from concrete.concrete_evaluate_method002 import ConcreteEvaluateMethod002
+from concrete.concrete_policy002 import ConcretePolicy002
+from concrete.concrete_policy001 import ConcretePolicy001
 
 
 class ConcreteFactoryForTest(object):
@@ -82,9 +83,10 @@ class ConcreteFactoryForTest(object):
         
         return ConcreteBatchDataReward(reward = 1.0)
     
-    def createPolicy(self):
+    def generatePolicy(self):
         
-        return ConcretePolicy(nMv = self.nMv)
+        yield ConcretePolicy001(nMv = self.nMv)
+        yield ConcretePolicy002(nMv = self.nMv)
     
     def createValueFunctionApproximator(self):
         
@@ -100,7 +102,7 @@ class ConcreteFactoryForTest(object):
     
     def createAgent(self):
         
-        return ConcreteAgent(policy = self.createPolicy()
+        return ConcreteAgent(policy = ConcretePolicy001(nMv = self.nMv)
                              , valueFunctionApproximator = self.createValueFunctionApproximator()
                              , featureExtractor = self.createFeatureExtractor()
                              , discountFactor = 0.99
@@ -109,9 +111,9 @@ class ConcreteFactoryForTest(object):
                              , saveFolderPath = "./test"
                              , learningRateForUpdateActionValueFunction = 1e-3
                              , learningRateForUpdatePolicy = 1e-3
-                             , learningRateForUpdateStateValueFunction = 1e-3)
-            
-    def createTrainer(self):
+                             , learningRateForUpdateStateValueFunction = 1e-3)            
+
+    def generateTrainer(self):
         
         environment = ConcreteEnvironment(plant = ConcretePlant001()) 
         
@@ -119,26 +121,28 @@ class ConcreteFactoryForTest(object):
         nSampleOfActionsInValueFunctionApproximator = 2**3
         nFeature = 2**0
         
-        agent = ConcreteAgent(policy = ConcretePolicy(nMv = environment.getNmv())
-                              , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
-                              , featureExtractor = ConcreteFeatureExtractor001(nFeature)
-                              , discountFactor = 0.99
-                              , alphaTemp = 1.0
-                              , updatePolicyByAdvantage = True
-                              , saveFolderPath = "./test"
-                              , learningRateForUpdateActionValueFunction = 1e-3
-                              , learningRateForUpdatePolicy = 1e-3
-                              , learningRateForUpdateStateValueFunction = 1e-3)
-
-        
-        return ConcreteTrainer(agent = agent
-                               , environment = environment
-                               , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
-                               , simulatorFactory = SacSimulatorFactory(nSimulationStep=1)
-                               , nStepEnvironment = 1
-                               , nStepGradient = 1
-                               , nIntervalUpdateStateValueFunction = 1
-                               , nIterationPerEpoch = 10)
+        for policy in [ConcretePolicy001(nMv = environment.getNmv()), ConcretePolicy002(nMv = environment.getNmv()),]:
+            
+            agent = ConcreteAgent(policy = policy
+                                  , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
+                                  , featureExtractor = ConcreteFeatureExtractor001(nFeature)
+                                  , discountFactor = 0.99
+                                  , alphaTemp = 1.0
+                                  , updatePolicyByAdvantage = True
+                                  , saveFolderPath = "./test"
+                                  , learningRateForUpdateActionValueFunction = 1e-3
+                                  , learningRateForUpdatePolicy = 1e-3
+                                  , learningRateForUpdateStateValueFunction = 1e-3)
+    
+            
+            yield ConcreteTrainer(agent = agent
+                                   , environment = environment
+                                   , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
+                                   , simulatorFactory = SacSimulatorFactory(nSimulationStep=1)
+                                   , nStepEnvironment = 1
+                                   , nStepGradient = 1
+                                   , nIntervalUpdateStateValueFunction = 1
+                                   , nIterationPerEpoch = 10)
         
     def createPlant001(self):
         

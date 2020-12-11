@@ -18,15 +18,15 @@ class Test(unittest.TestCase):
 
     def test001(self):
         
-        policy = self.factory.createPolicy()
+        for policy in self.factory.generatePolicy():
         
-        batchDataAgent = policy.call(self.factory.createBatchDataFeature())
-        
-        assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
-        
-        assert batchDataAgent.getSampledAction().shape == (self.factory.nBatch, self.factory.nMv)
-        assert batchDataAgent.getEntropy().shape == (self.factory.nBatch, 1)
-        assert batchDataAgent.generateSamples(1).__next__().shape == (self.factory.nBatch, self.factory.nMv)
+            batchDataAgent = policy.call(self.factory.createBatchDataFeature())
+            
+            assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
+            
+            assert batchDataAgent.getSampledAction().shape == (self.factory.nBatch, self.factory.nMv)
+            assert batchDataAgent.getEntropy().shape == (self.factory.nBatch, 1)
+            assert batchDataAgent.generateSamples(1).__next__().shape == (self.factory.nBatch, self.factory.nMv)
         
         
 

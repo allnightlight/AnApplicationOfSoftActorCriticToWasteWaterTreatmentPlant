@@ -30,7 +30,8 @@ class ConcreteBuildParameter(BuildParameter):
                  , featureExtractorClass = "ConcreteFeatureExtractor002"
                  , learningRateForUpdateActionValueFunction = 1e-3
                  , learningRateForUpdatePolicy = 1e-3
-                 , learningRateForUpdateStateValueFunction = 1e-3):
+                 , learningRateForUpdateStateValueFunction = 1e-3
+                 , policyClass = "ConcretePolicy001"):
         
         BuildParameter.__init__(self, nIntervalSave=nIntervalSave, nEpoch=nEpoch, label=label)
         
@@ -50,4 +51,5 @@ class ConcreteBuildParameter(BuildParameter):
         self.learningRateForUpdateActionValueFunction = learningRateForUpdateActionValueFunction
         self.learningRateForUpdatePolicy = learningRateForUpdatePolicy
         self.learningRateForUpdateStateValueFunction = learningRateForUpdateStateValueFunction
+        self.policyClass = policyClass
 
