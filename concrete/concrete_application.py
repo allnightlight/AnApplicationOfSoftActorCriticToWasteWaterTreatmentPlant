@@ -45,6 +45,8 @@ class ConcreteApplication(object):
         
         if self.showProgress:
             sys.stdout.write(">> Start Evaluation ...")
+            
+        pairs = self.evaluationDb.getPairsOfAgentKeyEpochEvaluatorClass()
         
         cnt = 0
         statsArr = []
@@ -53,14 +55,13 @@ class ConcreteApplication(object):
             if self.maxNumOfEvaluateAgents is not None and not cnt < self.maxNumOfEvaluateAgents:
                 break
             
-            if self.showProgress:
-                sys.stdout.write("\r>> buildParameterLabel:{buildParameterLabel}, agent:{agent}, epoch:{epoch}".format(buildParameterLabel=buildParameter.label, agent=agent.getAgentKey(), epoch=epoch))
-            
-            evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods
-                if not self.evaluationDb.exists(agentKey = agent.getAgentKey(), epoch = epoch, evaluatorClass = evaluateMethod.__class__.__name__)]
+            evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods if not (agent.getAgentKey(), epoch, evaluateMethod.__class__.__name__) in pairs]
             
             if len(evaluateMethodsNotYetDone) == 0:
                 continue
+
+            if self.showProgress:
+                sys.stdout.write("\r>> buildParameterLabel:{buildParameterLabel}, agent:{agent}, epoch:{epoch}".format(buildParameterLabel=buildParameter.label, agent=agent.getAgentKey(), epoch=epoch))
             
             for evaluateMethod, stats in self.evaluator.evaluate(agent, environment, evaluateMethodsNotYetDone):                    
                 statsArr.append((agent.getAgentKey(), epoch, buildParameterLabel, buildParameter.createMemento(), evaluateMethod.__class__.__name__, stats))

@@ -38,16 +38,22 @@ class Test(unittest.TestCase):
         agentKey = "abc"
         epoch = 123
         evaluatorClass = "evaluator001"
+        stats = {"count": 123, "XXX": 456}
         
         def gen():
-            yield agentKey, epoch, "test", "who are you?", evaluatorClass, {"count": 123, "XXX": 456}
+            yield agentKey, epoch, "test", "who are you?", evaluatorClass, stats
         
         self.db.saveGeneratedStats(gen())
         
         assert self.db.exists(agentKey, epoch, evaluatorClass)
         assert self.db.exists(agentKey, epoch + 1, evaluatorClass) == False
         assert self.db.exists(agentKey + "hoge", epoch, evaluatorClass) == False
-        assert self.db.exists(agentKey, epoch) 
+        assert self.db.exists(agentKey, epoch)
+        
+        
+        pairs = self.db.getPairsOfAgentKeyEpochEvaluatorClass()
+        assert  (agentKey, epoch, evaluatorClass) in pairs
+        assert len(pairs) == len(stats)
 
     def test004(self):
         

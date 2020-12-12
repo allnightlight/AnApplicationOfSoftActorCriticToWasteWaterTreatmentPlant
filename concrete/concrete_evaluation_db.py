@@ -108,6 +108,25 @@ Insert or Ignore Into Evaluation (idAgent, evaluatorClass, name, value)
         return nUpdate
 
     
+    def getPairsOfAgentKeyEpochEvaluatorClass(self):
+        
+        conn = sqlite3.connect(self.evaluationDbPath)
+        cur = conn.cursor()
+        
+        sql = """        
+Select a.agentKey, a.epoch, e.evaluatorClass
+    From Agent a
+        Join Evaluation e
+            On a.id == e.idAgent
+        """ 
+        
+        cur.execute(sql)
+        pairs = [*cur.fetchall()]
+        
+        conn.close()
+        
+        return pairs
+
     
     def exists(self, agentKey, epoch, evaluatorClass = None):
         
