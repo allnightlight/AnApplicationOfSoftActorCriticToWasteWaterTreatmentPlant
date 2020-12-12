@@ -30,6 +30,7 @@ from casestudies.work907 import Work907
 from casestudies.work908 import Work908
 from casestudies.work005 import Work005
 from casestudies.work006 import Work006
+from casestudies.work007 import Work007
 
 
 class WorkFactory(object):
@@ -80,6 +81,10 @@ class WorkFactory(object):
         if workName == "work006":
                     
             workInstance = Work006(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work007":
+                    
+            workInstance = Work007(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
             
         if workName == "work900":
                     
