@@ -50,26 +50,27 @@ class ConcreteApplication(object):
         
         cnt = 0
         statsArr = []
-        for agent, buildParameter, epoch, environment, _ in self.loader.load(buildParameterLabel, epochGiven, buildParameterKey, agentKey):
+        for agentKey, epochFound in self.loader.getPairsOfAgentKeyAndEpoch(buildParameterLabel, epochGiven, buildParameterKey, agentKey):
             
             if self.maxNumOfEvaluateAgents is not None and not cnt < self.maxNumOfEvaluateAgents:
                 break
             
-            evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods if not (agent.getAgentKey(), epoch, evaluateMethod.__class__.__name__) in pairs]
+            evaluateMethodsNotYetDone = [evaluateMethod for evaluateMethod in evaluateMethods if not (agentKey, epochFound, evaluateMethod.__class__.__name__) in pairs]            
             
+            if len(evaluateMethodsNotYetDone) == 0:
+                continue
+            else:
+                cnt += 1
+
+            # The unique pair of agent at the epoch will be found:
+            agent, buildParameter, epoch, environment, _ = self.loader.load(buildParameterLabel=buildParameterLabel, epoch = epochFound, buildParameterKey = buildParameterKey, agentKey = agentKey).__next__()
+
             if self.showProgress:
                 sys.stdout.write("\r>> buildParameterLabel:{buildParameterLabel}, agent:{agent}, epoch:{epoch}".format(buildParameterLabel=buildParameter.label, agent=agent.getAgentKey(), epoch=epoch))
             
-            if len(evaluateMethodsNotYetDone) == 0:
-                if self.showProgress:
-                    sys.stdout.write(" skipped") 
-                continue
-            
             for evaluateMethod, stats in self.evaluator.evaluate(agent, environment, evaluateMethodsNotYetDone):                    
                 statsArr.append((agent.getAgentKey(), epoch, buildParameterLabel, buildParameter.createMemento(), evaluateMethod.__class__.__name__, stats))
-            
-            cnt += 1
-                                    
+                                                
         return self.evaluationDb.saveGeneratedStats(statsArr)
                 
     def exportEvaluationTable(self, buildParameterLabel = "%", agentKey = None, epoch = None, evaluatorClass = None):
