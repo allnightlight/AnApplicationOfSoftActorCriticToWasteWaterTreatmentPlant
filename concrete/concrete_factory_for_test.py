@@ -98,7 +98,7 @@ class ConcreteFactoryForTest(object):
     
     def createValueFunctionApproximator(self):
         
-        return ConcreteValueFunctionApproximator(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden)
+        return ConcreteValueFunctionApproximator(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden, nRedundancy=self.nRedundancy)
     
     def createFeatureExtractor(self):
         
@@ -132,7 +132,7 @@ class ConcreteFactoryForTest(object):
         for policy in [ConcretePolicy001(nMv = environment.getNmv()), ConcretePolicy002(nMv = environment.getNmv()),]:
             
             agent = ConcreteAgent(policy = policy
-                                  , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
+                                  , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden, self.nRedundancy)
                                   , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                                   , discountFactor = 0.99
                                   , alphaTemp = 1.0

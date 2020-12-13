@@ -18,7 +18,7 @@ class ConcreteValueFunctionApproximator(SacValueFunctionApproximator, tensorflow
     '''
 
 
-    def __init__(self, nFeature, nMv, nSampleOfActionsInValueFunctionApproximator, nHidden):
+    def __init__(self, nFeature, nMv, nSampleOfActionsInValueFunctionApproximator, nHidden, nRedundancy):
         super(ConcreteValueFunctionApproximator, self).__init__()
         
         self.nMv = nMv
@@ -27,12 +27,12 @@ class ConcreteValueFunctionApproximator(SacValueFunctionApproximator, tensorflow
         self.featureAndAction2value = tensorflow.keras.Sequential((
             tensorflow.keras.Input(shape = (nFeature + nMv,))
             , tensorflow.keras.layers.Dense(nHidden, activation="relu")
-            , tensorflow.keras.layers.Dense(1))) 
+            , tensorflow.keras.layers.Dense(nRedundancy))) 
         
       
     def call(self, _Feature, _SampledAction):
         
-        return self.featureAndAction2value(tensorflow.concat((_Feature, _SampledAction), axis=-1)) # (..., 1)   
+        return self.featureAndAction2value(tensorflow.concat((_Feature, _SampledAction), axis=-1)) # (..., nRedundancy)   
         
     def getActionValue(self, batchDataFeature, batchDataAgent):
         
@@ -57,7 +57,7 @@ class ConcreteValueFunctionApproximator(SacValueFunctionApproximator, tensorflow
         
         ActionValues = []
         for _SampledAction in batchDataAgent.generateSamples(self.nSample):
-            ActionValues.append(self.call(_Feature, _SampledAction))        
+            ActionValues.append(tensorflow.reduce_min(self.call(_Feature, _SampledAction), axis=-1, keepdims=True))        
         _ActionValueAveraged = tensorflow.reduce_mean(tensorflow.concat(ActionValues, axis=-1), axis=-1, keepdims=True) # (..., 1)
        
         return ConcreteBatchDataValue(_Value = _ActionValueAveraged)

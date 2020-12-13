@@ -30,18 +30,20 @@ class Test(unittest.TestCase):
         
         assert isinstance(batchDataValue, ConcreteBatchDataValue)
         assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
+        assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, self.factory.nRedundancy)
 
         batchDataValue = valueFunctionApproximator.getStateValue(batchDataFeature = self.factory.createBatchDataFeature())
         
         assert isinstance(batchDataValue, ConcreteBatchDataValue)
         assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
+        assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, self.factory.nRedundancy)
 
         batchDataValue = valueFunctionApproximator.getAveragedActionValue(batchDataFeature = self.factory.createBatchDataFeature()
                                        , batchDataAgent = self.factory.createBatchDataAgent())
         
         assert isinstance(batchDataValue, ConcreteBatchDataValue)
         assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
-
+        assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, 1)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
