@@ -11,6 +11,7 @@ from builtins import isinstance
 from concrete.concrete_batch_data_agent import ConcreteBatchDataAgent
 import tensorflow
 import numpy as np
+from concrete.concrete_batch_data_value import ConcreteBatchDataValue
 
 
 class Test(unittest.TestCase):
@@ -53,8 +54,17 @@ class Test(unittest.TestCase):
             assert isinstance(_SampledAction, tensorflow.Tensor)
             assert _SampledAction.shape == (self.factory.nBatch, self.factory.nMv)
             
-    
+    def test003(self):
+        
+        
+        batchDataValue = self.factory.createBatchDataValue()
+        
+        assert isinstance(batchDataValue, ConcreteBatchDataValue) 
 
+        assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, self.factory.nRedundancy)
+        assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
+        
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']
     unittest.main()

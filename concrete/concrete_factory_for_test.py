@@ -38,6 +38,7 @@ import shutil
 from concrete.concrete_evaluate_method002 import ConcreteEvaluateMethod002
 from concrete.concrete_policy002 import ConcretePolicy002
 from concrete.concrete_policy001 import ConcretePolicy001
+from concrete.concrete_batch_data_value import ConcreteBatchDataValue
 
 
 class ConcreteFactoryForTest(object):
@@ -46,7 +47,7 @@ class ConcreteFactoryForTest(object):
     '''
 
 
-    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0, updatePolicyByAdvantage = False, figFolderPath = "./fig", dataFolderPath = "./data"):
+    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0, updatePolicyByAdvantage = False, figFolderPath = "./fig", dataFolderPath = "./data", nRedundancy = 2):
         
         self.nMv = nMv
         self.nPv = nPv
@@ -59,6 +60,7 @@ class ConcreteFactoryForTest(object):
         self.updatePolicyByAdvantage = updatePolicyByAdvantage
         self.figFolderPath = figFolderPath
         self.dataFolderPath = dataFolderPath
+        self.nRedundancy = nRedundancy
         
     def createBatchDataEnvironment(self):
         
@@ -82,6 +84,12 @@ class ConcreteFactoryForTest(object):
     def createBatchDataReward(self):
         
         return ConcreteBatchDataReward(reward = 1.0)
+    
+    def createBatchDataValue(self):
+        
+        _Value = tensorflow.random.normal(shape = (self.nBatch, self.nRedundancy))
+        
+        return ConcreteBatchDataValue(_Value = _Value)
     
     def generatePolicy(self):
         
