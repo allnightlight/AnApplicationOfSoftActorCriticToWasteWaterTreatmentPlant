@@ -31,7 +31,8 @@ class ConcreteBuildParameter(BuildParameter):
                  , learningRateForUpdateActionValueFunction = 1e-3
                  , learningRateForUpdatePolicy = 1e-3
                  , learningRateForUpdateStateValueFunction = 1e-3
-                 , policyClass = "ConcretePolicy001"):
+                 , policyClass = "ConcretePolicy001"
+                 , nQfunctionRedundancy = 1):
         
         BuildParameter.__init__(self, nIntervalSave=nIntervalSave, nEpoch=nEpoch, label=label)
         
@@ -52,4 +53,5 @@ class ConcreteBuildParameter(BuildParameter):
         self.learningRateForUpdatePolicy = learningRateForUpdatePolicy
         self.learningRateForUpdateStateValueFunction = learningRateForUpdateStateValueFunction
         self.policyClass = policyClass
+        self.nQfunctionRedundancy = nQfunctionRedundancy
 

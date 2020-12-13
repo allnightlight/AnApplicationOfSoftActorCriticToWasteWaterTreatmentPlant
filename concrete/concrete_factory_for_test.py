@@ -215,7 +215,21 @@ class ConcreteFactoryForTest(object):
                 , nIntervalUpdateStateValueFunction = 1
                 , nIterationPerEpoch = 1
                 , bufferSizeReplayBuffer = 2**10
-                , plantClass=plantClass)
+                , plantClass=plantClass
+                , nQfunctionRedundancy=1)
+            
+            yield ConcreteBuildParameter(nIntervalSave = 1
+                , nEpoch = 2**2
+                , label = "test"
+                , nSampleOfActionsInValueFunctionApproximator = 2**1
+                , nStepEnvironment = 1
+                , nStepGradient = 1
+                , nIntervalUpdateStateValueFunction = 1
+                , nIterationPerEpoch = 1
+                , bufferSizeReplayBuffer = 2**10
+                , plantClass=plantClass
+                , nQfunctionRedundancy=2)
+
         
     def createStore(self):
         return Store(dbPath = "testDb.sqlite", trainLogFolderPath = "testTrainLog")
