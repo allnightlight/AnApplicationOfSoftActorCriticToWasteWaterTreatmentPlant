@@ -7,6 +7,7 @@ import unittest
 from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 from sac.sac_trainer import SacTrainer
 import numpy
+from sac.sac_replay_buffer import SacReplayBuffer
 
 
 class Test(unittest.TestCase):
@@ -58,6 +59,23 @@ class Test(unittest.TestCase):
             for X in trainer.environment.bufferPv:
                 assert isinstance(X, numpy.ndarray) and X is not None
 
+    def test003(self):
+
+        nStepGradient = 2**3
+                
+        for replayBuffer in self.factory.generateReplayBuffer():
+            assert isinstance(replayBuffer, SacReplayBuffer)
+            
+            replayBuffer.reset()
+            
+            for _ in range(self.factory.nBatch * nStepGradient):
+                replayBuffer.append(self.factory.createBatchDataEnvironment()
+                    , self.factory.createBatchDataAgent()
+                    , self.factory.createBatchDataReward()
+                    , self.factory.createBatchDataEnvironment())
+
+            res = [arg for arg in replayBuffer.generateStateActionRewardAndNextState(nStepGradient)]
+            assert len(res) == nStepGradient, len(res)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

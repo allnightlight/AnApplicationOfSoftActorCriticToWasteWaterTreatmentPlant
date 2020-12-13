@@ -32,7 +32,9 @@ class ConcreteBuildParameter(BuildParameter):
                  , learningRateForUpdatePolicy = 1e-3
                  , learningRateForUpdateStateValueFunction = 1e-3
                  , policyClass = "ConcretePolicy001"
-                 , nQfunctionRedundancy = 1):
+                 , nQfunctionRedundancy = 1
+                 , replayBufferClass = "SacReplayBuffer"
+                 , nBatch = 2**0):
         
         BuildParameter.__init__(self, nIntervalSave=nIntervalSave, nEpoch=nEpoch, label=label)
         
@@ -54,4 +56,6 @@ class ConcreteBuildParameter(BuildParameter):
         self.learningRateForUpdateStateValueFunction = learningRateForUpdateStateValueFunction
         self.policyClass = policyClass
         self.nQfunctionRedundancy = nQfunctionRedundancy
+        self.replayBufferClass = replayBufferClass
+        self.nBatch = nBatch
 
