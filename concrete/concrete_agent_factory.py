@@ -56,7 +56,8 @@ class ConcreteAgentFactory(AgentFactory):
         return ConcreteValueFunctionApproximator(nFeature = nFeature
                                                  , nMv = environment.getNmv()
                                                  , nSampleOfActionsInValueFunctionApproximator = buildParameter.nSampleOfActionsInValueFunctionApproximator
-                                                 , nHidden = buildParameter.nHiddenValueFunctionApproximator)
+                                                 , nHidden = buildParameter.nHiddenValueFunctionApproximator
+                                                 , nRedundancy = buildParameter.nQfunctionRedundancy)
     
     def createFeatureExtractor(self, buildParameter, environment):
         return ConcreteFeatureExtractor002(nFeature = environment.getNmv())

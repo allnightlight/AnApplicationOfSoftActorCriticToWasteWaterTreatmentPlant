@@ -38,6 +38,7 @@ import shutil
 from concrete.concrete_evaluate_method002 import ConcreteEvaluateMethod002
 from concrete.concrete_policy002 import ConcretePolicy002
 from concrete.concrete_policy001 import ConcretePolicy001
+from concrete.concrete_batch_data_value import ConcreteBatchDataValue
 
 
 class ConcreteFactoryForTest(object):
@@ -46,7 +47,7 @@ class ConcreteFactoryForTest(object):
     '''
 
 
-    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0, updatePolicyByAdvantage = False, figFolderPath = "./fig", dataFolderPath = "./data"):
+    def __init__(self, nMv = 3, nPv = 2, nFeature = 4, nBatch = 1, nSampleOfActionsInValueFunctionApproximator = 3, nFeatureHorizon = 2, nHidden = 2**2, alphaTemp = 1.0, updatePolicyByAdvantage = False, figFolderPath = "./fig", dataFolderPath = "./data", nRedundancy = 2):
         
         self.nMv = nMv
         self.nPv = nPv
@@ -59,6 +60,7 @@ class ConcreteFactoryForTest(object):
         self.updatePolicyByAdvantage = updatePolicyByAdvantage
         self.figFolderPath = figFolderPath
         self.dataFolderPath = dataFolderPath
+        self.nRedundancy = nRedundancy
         
     def createBatchDataEnvironment(self):
         
@@ -83,6 +85,12 @@ class ConcreteFactoryForTest(object):
         
         return ConcreteBatchDataReward(reward = 1.0)
     
+    def createBatchDataValue(self):
+        
+        _Value = tensorflow.random.normal(shape = (self.nBatch, self.nRedundancy))
+        
+        return ConcreteBatchDataValue(_Value = _Value)
+    
     def generatePolicy(self):
         
         yield ConcretePolicy001(nMv = self.nMv)
@@ -90,7 +98,7 @@ class ConcreteFactoryForTest(object):
     
     def createValueFunctionApproximator(self):
         
-        return ConcreteValueFunctionApproximator(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden)
+        return ConcreteValueFunctionApproximator(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden, nRedundancy=self.nRedundancy)
     
     def createFeatureExtractor(self):
         
@@ -124,7 +132,7 @@ class ConcreteFactoryForTest(object):
         for policy in [ConcretePolicy001(nMv = environment.getNmv()), ConcretePolicy002(nMv = environment.getNmv()),]:
             
             agent = ConcreteAgent(policy = policy
-                                  , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden)
+                                  , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden, self.nRedundancy)
                                   , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                                   , discountFactor = 0.99
                                   , alphaTemp = 1.0
@@ -207,7 +215,21 @@ class ConcreteFactoryForTest(object):
                 , nIntervalUpdateStateValueFunction = 1
                 , nIterationPerEpoch = 1
                 , bufferSizeReplayBuffer = 2**10
-                , plantClass=plantClass)
+                , plantClass=plantClass
+                , nQfunctionRedundancy=1)
+            
+            yield ConcreteBuildParameter(nIntervalSave = 1
+                , nEpoch = 2**2
+                , label = "test"
+                , nSampleOfActionsInValueFunctionApproximator = 2**1
+                , nStepEnvironment = 1
+                , nStepGradient = 1
+                , nIntervalUpdateStateValueFunction = 1
+                , nIterationPerEpoch = 1
+                , bufferSizeReplayBuffer = 2**10
+                , plantClass=plantClass
+                , nQfunctionRedundancy=2)
+
         
     def createStore(self):
         return Store(dbPath = "testDb.sqlite", trainLogFolderPath = "testTrainLog")

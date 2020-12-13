@@ -12,3 +12,7 @@ class SacBatchDataValue(object):
     # <<abstract>>
     def getValue(self):
         return 1.
+    
+    # <<abstract>>
+    def getValueWithRedundancy(self):
+        return 2.
