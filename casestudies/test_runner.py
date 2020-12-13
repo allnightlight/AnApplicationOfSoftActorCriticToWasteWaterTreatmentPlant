@@ -25,9 +25,9 @@ class Test(unittest.TestCase):
                                     , updateEvaluationInterval = timedelta(seconds = 1)
                                     , nUpdateEvaluation = 2
                                     , showProgress = False)
-   
+    
         cls.runners.append(Runner(work))
-   
+    
         work = WorkFactory().create(workName = "work002"
                                     , nSimulationStep = 2**3
                                     , nEpoch = 2**3
@@ -37,9 +37,9 @@ class Test(unittest.TestCase):
                                     , nUpdateEvaluation = 1
                                     , nSampleOverLearningCurve = 2
                                     , showProgress = False)
-   
+    
         cls.runners.append(Runner(work))
-   
+    
         work = WorkFactory().create(workName = "work003"
                                     , nSimulationStep = 2**3
                                     , nEpoch = 2**2
@@ -49,9 +49,9 @@ class Test(unittest.TestCase):
                                     , nUpdateEvaluation = 1
                                     , nSampleOverLearningCurve = 2
                                     , showProgress = False)
-   
+    
         cls.runners.append(Runner(work))
-   
+    
         for workName in ["work006", "work007", "work008", "work009", "work010"]:
             work = WorkFactory().create(workName = workName 
                                     , nSimulationStep = 2**0
@@ -61,10 +61,10 @@ class Test(unittest.TestCase):
                                     , updateEvaluationInterval = timedelta(seconds = 1)
                                     , nUpdateEvaluation = 0
                                     , showProgress = False)
-   
+    
         cls.runners.append(Runner(work))
-   
-   
+    
+    
         for workName in ["work900", "work901", "work902", "work903", "work904", "work905", "work906", "work004", "work907", "work908", "work909", "work005"]:
             work = WorkFactory().create(workName = workName
                                 , nSimulationStep = 2**1
@@ -74,9 +74,9 @@ class Test(unittest.TestCase):
                                 , updateEvaluationInterval = timedelta(seconds = 1)
                                 , nUpdateEvaluation = 1
                                 , showProgress = False)
-       
+        
             cls.runners.append(Runner(work))
-
+ 
         work = WorkFactory().create(workName = "work011" 
                                 , nSimulationStep = 2**0
                                 , nEpoch = 2**6
@@ -85,9 +85,9 @@ class Test(unittest.TestCase):
                                 , updateEvaluationInterval = timedelta(seconds = 1)
                                 , nUpdateEvaluation = 0
                                 , showProgress = False)
-  
+   
         cls.runners.append(Runner(work))
-
+ 
         work = WorkFactory().create(workName = "work012" 
                                 , nSimulationStep = 2**0
                                 , nEpoch = 2**1
@@ -96,7 +96,18 @@ class Test(unittest.TestCase):
                                 , updateEvaluationInterval = timedelta(seconds = 1)
                                 , nUpdateEvaluation = 0
                                 , showProgress = False)
-  
+   
+        cls.runners.append(Runner(work))
+
+        work = WorkFactory().create(workName = "work013" 
+                                , nSimulationStep = 2**0
+                                , nEpoch = 2**1
+                                , nAgent = 1
+                                , saveFolderPathAgent = "checkpoint"
+                                , updateEvaluationInterval = timedelta(seconds = 1)
+                                , nUpdateEvaluation = 0
+                                , showProgress = False)
+   
         cls.runners.append(Runner(work))
 
         
