@@ -28,7 +28,8 @@ class ConcreteValueFunctionApproximator(SacValueFunctionApproximator, tensorflow
             tensorflow.keras.Input(shape = (nFeature + nMv,))
             , tensorflow.keras.layers.Dense(nHidden, activation="relu")
             , tensorflow.keras.layers.Dense(nRedundancy))) 
-        
+
+        self.bias = tensorflow.Variable(tensorflow.random.normal(shape=(nMv,))) # (1, nMv)
       
     def call(self, _Feature, _SampledAction):
         
@@ -44,7 +45,7 @@ class ConcreteValueFunctionApproximator(SacValueFunctionApproximator, tensorflow
     def getStateValue(self, batchDataFeature):
         
         _Feature = batchDataFeature.getFeature() # (..., nFeature)
-        _SampledAction = tensorflow.zeros(shape = (*_Feature.shape[:-1], self.nMv)) # (..., nMv)
+        _SampledAction = tensorflow.ones(shape=(*_Feature.shape[:-1], 1)) *  self.bias # (..., nMv)
                 
         return ConcreteBatchDataValue(_Value = self.call(_Feature, _SampledAction))
         
