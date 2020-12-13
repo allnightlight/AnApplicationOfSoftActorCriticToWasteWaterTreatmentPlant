@@ -120,4 +120,4 @@ class SacAgent(object):
         batchDataActionValue = self.valueFunctionApproximator.getActionValue(self.featureExtractor.call(batchDataEnvironment), batchDataAgent)
         batchDataStateValueNext = self.valueFunctionApproximator.getStateValue(self.featureExtractor.call(batchDataEnvironmentNextStep))
         
-        return (batchDataActionValue.getValue() - ((1-self.discountFactor) * batchDataReward.getValue() + self.discountFactor * batchDataStateValueNext.getValue())).__abs__()
+        return (batchDataActionValue.getValueWithRedundancy() - ((1-self.discountFactor) * batchDataReward.getValue() + self.discountFactor * batchDataStateValueNext.getValue())).__abs__()
