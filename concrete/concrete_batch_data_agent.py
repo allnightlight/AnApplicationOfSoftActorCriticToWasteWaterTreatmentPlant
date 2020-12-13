@@ -12,12 +12,15 @@ class ConcreteBatchDataAgent(SacBatchDataAgent):
     '''
 
 
-    def __init__(self, _Mean, _LogSd):
+    def __init__(self, _Mean, _LogSd, sampledAction = None):
         SacBatchDataAgent.__init__(self)
         self._Mean = _Mean # (..., nMv)
         self._LogSd = _LogSd # (..., nMv)
         
-        self.sampledAction = self.getSample() # (..., nMv)
+        if sampledAction is None:
+            self.sampledAction = self.getSample() # (..., nMv)
+        else:
+            self.sampledAction = sampledAction # (..., nMv)
         
     def getSampledActionOnEnvironment(self):
         """

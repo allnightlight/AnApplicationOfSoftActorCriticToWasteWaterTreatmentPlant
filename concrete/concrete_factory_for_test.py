@@ -39,6 +39,7 @@ from concrete.concrete_evaluate_method002 import ConcreteEvaluateMethod002
 from concrete.concrete_policy002 import ConcretePolicy002
 from concrete.concrete_policy001 import ConcretePolicy001
 from concrete.concrete_batch_data_value import ConcreteBatchDataValue
+from concrete.concrete_replay_buffer001 import ConcreteReplayBuffer001
 
 
 class ConcreteFactoryForTest(object):
@@ -83,7 +84,7 @@ class ConcreteFactoryForTest(object):
 
     def createBatchDataReward(self):
         
-        return ConcreteBatchDataReward(reward = 1.0)
+        return ConcreteBatchDataReward(reward = np.random.randn(1,1).astype(np.float32))
     
     def createBatchDataValue(self):
         
@@ -142,10 +143,10 @@ class ConcreteFactoryForTest(object):
                                   , learningRateForUpdatePolicy = 1e-3
                                   , learningRateForUpdateStateValueFunction = 1e-3)
     
-            
-            yield ConcreteTrainer(agent = agent
+            for replayBuffer in [SacReplayBuffer(bufferSize = 2**10), ConcreteReplayBuffer001(bufferSize=2**10, nBatch=self.nBatch)]:
+                yield ConcreteTrainer(agent = agent
                                    , environment = environment
-                                   , replayBuffer = SacReplayBuffer(bufferSize = 2**10)
+                                   , replayBuffer = replayBuffer
                                    , simulatorFactory = SacSimulatorFactory(nSimulationStep=1)
                                    , nStepEnvironment = 1
                                    , nStepGradient = 1
@@ -204,6 +205,20 @@ class ConcreteFactoryForTest(object):
                                      , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))            
             
     def generateBuildParameter(self):
+        
+        yield ConcreteBuildParameter(nIntervalSave = 1
+            , nEpoch = 2**2
+            , label = "test"
+            , nSampleOfActionsInValueFunctionApproximator = 2**1
+            , nStepEnvironment = 1
+            , nStepGradient = 1
+            , nIntervalUpdateStateValueFunction = 1
+            , nIterationPerEpoch = 1
+            , bufferSizeReplayBuffer = 2**10
+            , plantClass="ConcretePlant001"
+            , nQfunctionRedundancy=2
+            , replayBufferClass="ConcreteReplayBuffer001"
+            , nBatch=2**3)
 
         for plantClass in ("ConcretePlant001", "ConcretePlant002", "ConcretePlant003", "ConcretePlant004"):        
             yield ConcreteBuildParameter(nIntervalSave = 1
@@ -259,3 +274,8 @@ class ConcreteFactoryForTest(object):
             
         if os.path.exists(self.dataFolderPath):
             shutil.rmtree(self.dataFolderPath)
+            
+            
+    def generateReplayBuffer(self):
+        yield SacReplayBuffer(bufferSize = 2**10)
+        yield ConcreteReplayBuffer001(bufferSize = 2**10, nBatch = self.nBatch)
