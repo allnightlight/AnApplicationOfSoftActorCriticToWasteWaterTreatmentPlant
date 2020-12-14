@@ -21,6 +21,7 @@ from casestudies.work012 import Work012
 from casestudies.work013 import Work013
 from casestudies.work014 import Work014
 from casestudies.work015 import Work015
+from casestudies.work016 import Work016
 from casestudies.work900 import Work900
 from casestudies.work901 import Work901
 from casestudies.work902 import Work902
@@ -127,6 +128,10 @@ class WorkFactory(object):
         if workName == "work015":
                     
             workInstance = Work015(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work016":
+                    
+            workInstance = Work016(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
                         
         if workName == "work900":
                     
