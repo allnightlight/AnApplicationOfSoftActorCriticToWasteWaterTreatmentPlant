@@ -34,7 +34,8 @@ class ConcreteBuildParameter(BuildParameter):
                  , policyClass = "ConcretePolicy001"
                  , nQfunctionRedundancy = 1
                  , replayBufferClass = "SacReplayBuffer"
-                 , nBatch = 2**0):
+                 , nBatch = 2**0
+                 , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator001"):
         
         BuildParameter.__init__(self, nIntervalSave=nIntervalSave, nEpoch=nEpoch, label=label)
         
@@ -58,4 +59,5 @@ class ConcreteBuildParameter(BuildParameter):
         self.nQfunctionRedundancy = nQfunctionRedundancy
         self.replayBufferClass = replayBufferClass
         self.nBatch = nBatch
+        self.valueFunctionApproximatorClass = valueFunctionApproximatorClass
 

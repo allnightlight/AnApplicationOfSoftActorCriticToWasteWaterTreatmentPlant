@@ -40,6 +40,8 @@ from concrete.concrete_policy002 import ConcretePolicy002
 from concrete.concrete_policy001 import ConcretePolicy001
 from concrete.concrete_batch_data_value import ConcreteBatchDataValue
 from concrete.concrete_replay_buffer001 import ConcreteReplayBuffer001
+from concrete.concrete_value_function_approximator001 import ConcreteValueFunctionApproximator001
+from concrete.concrete_value_function_approximator002 import ConcreteValueFunctionApproximator002
 
 
 class ConcreteFactoryForTest(object):
@@ -99,7 +101,12 @@ class ConcreteFactoryForTest(object):
     
     def createValueFunctionApproximator(self):
         
-        return ConcreteValueFunctionApproximator(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden, nRedundancy=self.nRedundancy)
+        return ConcreteValueFunctionApproximator002(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden, nRedundancy=self.nRedundancy)
+
+    def generateValueFunctionApproximator(self):
+        
+        yield ConcreteValueFunctionApproximator001(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden, nRedundancy=self.nRedundancy)
+        yield ConcreteValueFunctionApproximator002(nFeature = self.nFeature, nMv = self.nMv, nSampleOfActionsInValueFunctionApproximator = self.nSampleOfActionsInValueFunctionApproximator, nHidden = self.nHidden, nRedundancy=self.nRedundancy)
     
     def createFeatureExtractor(self):
         
@@ -133,7 +140,7 @@ class ConcreteFactoryForTest(object):
         for policy in [ConcretePolicy001(nMv = environment.getNmv()), ConcretePolicy002(nMv = environment.getNmv()),]:
             
             agent = ConcreteAgent(policy = policy
-                                  , valueFunctionApproximator = ConcreteValueFunctionApproximator(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden, self.nRedundancy)
+                                  , valueFunctionApproximator = ConcreteValueFunctionApproximator002(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden, self.nRedundancy)
                                   , featureExtractor = ConcreteFeatureExtractor001(nFeature)
                                   , discountFactor = 0.99
                                   , alphaTemp = 1.0
@@ -205,6 +212,21 @@ class ConcreteFactoryForTest(object):
                                      , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))            
             
     def generateBuildParameter(self):
+
+        yield ConcreteBuildParameter(nIntervalSave = 1
+            , nEpoch = 2**2
+            , label = "test"
+            , nSampleOfActionsInValueFunctionApproximator = 2**1
+            , nStepEnvironment = 1
+            , nStepGradient = 1
+            , nIntervalUpdateStateValueFunction = 1
+            , nIterationPerEpoch = 1
+            , bufferSizeReplayBuffer = 2**10
+            , plantClass="ConcretePlant001"
+            , nQfunctionRedundancy=2
+            , replayBufferClass="ConcreteReplayBuffer001"
+            , nBatch=2**3
+            , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator002")
         
         yield ConcreteBuildParameter(nIntervalSave = 1
             , nEpoch = 2**2
