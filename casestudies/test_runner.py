@@ -121,6 +121,17 @@ class Test(unittest.TestCase):
    
         cls.runners.append(Runner(work))
 
+        work = WorkFactory().create(workName = "work910" 
+                                , nSimulationStep = 2**0
+                                , nEpoch = 2**4
+                                , nAgent = 1
+                                , saveFolderPathAgent = "checkpoint"
+                                , updateEvaluationInterval = timedelta(seconds = 1)
+                                , nUpdateEvaluation = 0
+                                , showProgress = False)
+   
+        cls.runners.append(Runner(work))
+
         
     @classmethod
     def tearDownClass(cls):
