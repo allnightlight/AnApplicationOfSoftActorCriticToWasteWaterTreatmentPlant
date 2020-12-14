@@ -21,29 +21,28 @@ class Test(unittest.TestCase):
 
     def test001(self):
         
-        valueFunctionApproximator = self.factory.createValueFunctionApproximator()
+        for valueFunctionApproximator in self.factory.generateValueFunctionApproximator():
         
-        assert isinstance(valueFunctionApproximator, ConcreteValueFunctionApproximator)
-        
-        batchDataValue = valueFunctionApproximator.getActionValue(batchDataFeature = self.factory.createBatchDataFeature()
-                                       , batchDataAgent = self.factory.createBatchDataAgent())
-        
-        assert isinstance(batchDataValue, ConcreteBatchDataValue)
-        assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
-        assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, self.factory.nRedundancy)
-
-        batchDataValue = valueFunctionApproximator.getStateValue(batchDataFeature = self.factory.createBatchDataFeature())
-        
-        assert isinstance(batchDataValue, ConcreteBatchDataValue)
-        assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
-        assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, self.factory.nRedundancy)
-
-        batchDataValue = valueFunctionApproximator.getAveragedActionValue(batchDataFeature = self.factory.createBatchDataFeature()
-                                       , batchDataAgent = self.factory.createBatchDataAgent())
-        
-        assert isinstance(batchDataValue, ConcreteBatchDataValue)
-        assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
-        assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, 1)
+            assert isinstance(valueFunctionApproximator, ConcreteValueFunctionApproximator)
+            
+            batchDataValue = valueFunctionApproximator.getActionValue(batchDataFeature = self.factory.createBatchDataFeature()
+                                           , batchDataAgent = self.factory.createBatchDataAgent())
+            
+            assert isinstance(batchDataValue, ConcreteBatchDataValue)
+            assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
+            assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, self.factory.nRedundancy)
+    
+            batchDataValue = valueFunctionApproximator.getStateValue(batchDataFeature = self.factory.createBatchDataFeature())
+            
+            assert isinstance(batchDataValue, ConcreteBatchDataValue)
+            assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
+    
+            batchDataValue = valueFunctionApproximator.getAveragedActionValue(batchDataFeature = self.factory.createBatchDataFeature()
+                                           , batchDataAgent = self.factory.createBatchDataAgent())
+            
+            assert isinstance(batchDataValue, ConcreteBatchDataValue)
+            assert batchDataValue.getValue().shape == (self.factory.nBatch, 1)
+            assert batchDataValue.getValueWithRedundancy().shape == (self.factory.nBatch, 1)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

@@ -7,11 +7,11 @@ from concrete.concrete_agent import ConcreteAgent
 from concrete.concrete_build_parameter import ConcreteBuildParameter
 from concrete.concrete_environment import ConcreteEnvironment
 from concrete.concrete_feature_extractor002 import ConcreteFeatureExtractor002
-from concrete.concrete_policy import ConcretePolicy
 from concrete.concrete_policy001 import ConcretePolicy001
 from concrete.concrete_policy002 import ConcretePolicy002
-from concrete.concrete_value_function_approximator import ConcreteValueFunctionApproximator
 from framework.agent_factory import AgentFactory
+from concrete.concrete_value_function_approximator001 import ConcreteValueFunctionApproximator001
+from concrete.concrete_value_function_approximator002 import ConcreteValueFunctionApproximator002
 
 
 class ConcreteAgentFactory(AgentFactory):
@@ -52,8 +52,16 @@ class ConcreteAgentFactory(AgentFactory):
             nFeature = buildParameter.nFeature
         else:
             nFeature = environment.getNmv()
-        
-        return ConcreteValueFunctionApproximator(nFeature = nFeature
+
+        if buildParameter.valueFunctionApproximatorClass == "ConcreteValueFunctionApproximator001":        
+            return ConcreteValueFunctionApproximator001(nFeature = nFeature
+                                                 , nMv = environment.getNmv()
+                                                 , nSampleOfActionsInValueFunctionApproximator = buildParameter.nSampleOfActionsInValueFunctionApproximator
+                                                 , nHidden = buildParameter.nHiddenValueFunctionApproximator
+                                                 , nRedundancy = buildParameter.nQfunctionRedundancy)
+
+        if buildParameter.valueFunctionApproximatorClass == "ConcreteValueFunctionApproximator002":        
+            return ConcreteValueFunctionApproximator002(nFeature = nFeature
                                                  , nMv = environment.getNmv()
                                                  , nSampleOfActionsInValueFunctionApproximator = buildParameter.nSampleOfActionsInValueFunctionApproximator
                                                  , nHidden = buildParameter.nHiddenValueFunctionApproximator
