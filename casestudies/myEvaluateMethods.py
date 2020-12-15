@@ -18,7 +18,8 @@ class MyEvaluateMethod001(SacEvaluateMethod):
 
 
     def evaluate(self, simulationResultGenerator):
-                    
+              
+        pvs = []    
         rewards = []
         mvs = []
         sds = []
@@ -29,11 +30,13 @@ class MyEvaluateMethod001(SacEvaluateMethod):
             assert isinstance(batchDataReward, SacBatchDataReward)
             assert isinstance(batchDataEnvironmentNextStep, SacBatchDataEnvironment)
 
+            pvs.append(batchDataEnvironment.bufferPv[-1])
             rewards.append(batchDataReward.getValue())
             mvs.append(batchDataAgent._Mean.numpy())
             sds.append(np.exp(batchDataAgent._LogSd.numpy()))
             
         return {"mvAverage": float(np.mean(mvs))
             , "rewardAverage": float(np.mean(rewards))
-            , "mvSdAverage": float(np.mean(sds))}
+            , "mvSdAverage": float(np.mean(sds))
+            , "pvAverage": float(np.mean(pvs))}
         
