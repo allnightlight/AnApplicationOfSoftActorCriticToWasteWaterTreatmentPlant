@@ -11,8 +11,8 @@ class ConcretePlant004(ConcretePlant003):
     '''
 
 
-    def __init__(self, h=15 / 60 / 24, volume=12, flow=24, rho=1 / 24, pgain=100., amplitudePeriodicDv=1.0, SvNh4=3.0, timeIntegral=1 / 24 / 4, thresholdDo=1.5, maxDo=3.0, minDo=0.0):
-        ConcretePlant003.__init__(self, h=h, volume=volume, flow=flow, rho=rho, pgain=pgain, amplitudePeriodicDv=amplitudePeriodicDv, SvNh4=SvNh4, timeIntegral=timeIntegral, thresholdDo=thresholdDo, maxDo=maxDo, minDo=minDo)
+    def __init__(self, h=15 / 60 / 24, volume=12, flow=24, rho=1 / 24, pgain=100., amplitudePeriodicDv=1.0, SvNh4=3.0, timeIntegral=1 / 24 / 4, thresholdDo=1.5, maxDo=3.0, minDo=0.0, weightOnMv = 0.0):
+        ConcretePlant003.__init__(self, h=h, volume=volume, flow=flow, rho=rho, pgain=pgain, amplitudePeriodicDv=amplitudePeriodicDv, SvNh4=SvNh4, timeIntegral=timeIntegral, thresholdDo=thresholdDo, maxDo=maxDo, minDo=minDo, weightOnMv=weightOnMv)
         
     
     def getReward(self, xPrev, Do, xNext):
