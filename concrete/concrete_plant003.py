@@ -100,7 +100,7 @@ class ConcretePlant003(SacPlant):
         self.t = self.t + self.h
         self.x = self.odeHandler.y
                 
-        reward = (1-self.weightOnMv) * self.getReward(xPrev = xPrev, Do = Do, xNext = self.x) + self.weightOnMv * np.abs(u[0,0])  
+        reward = (1-self.weightOnMv) * self.getReward(xPrev = xPrev, Do = Do, xNext = self.x) - self.weightOnMv * np.abs(u[0,0])  
                 
         return ConcreteBatchDataReward(reward = np.array(reward).reshape(1,-1).astype(np.float32))
 
