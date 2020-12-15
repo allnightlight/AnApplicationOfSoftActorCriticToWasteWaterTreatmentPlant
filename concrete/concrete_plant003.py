@@ -18,7 +18,7 @@ class ConcretePlant003(SacPlant):
         "X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS".replace(" ", \
         "").split(",")
 
-    def __init__(self, h = 15/60/24, volume = 12, flow = 24, rho = 1/24, pgain = 100., amplitudePeriodicDv = 1.0, SvNh4 = 3.0, timeIntegral = 1/24/4, thresholdDo = 1.5, maxDo = 3.0, minDo = 0.0):
+    def __init__(self, h = 15/60/24, volume = 12, flow = 24, rho = 1/24, pgain = 100., amplitudePeriodicDv = 1.0, SvNh4 = 3.0, timeIntegral = 1/24/4, thresholdDo = 1.5, maxDo = 3.0, minDo = 0.0, weightOnMv = 0.0):
         super(ConcretePlant003, self).__init__()
         '''
         Constructor
@@ -44,6 +44,8 @@ class ConcretePlant003(SacPlant):
 
         self.isSoluble = np.array([elm[0] == 'S' for elm in self.asmVarNames]) # (nS + nX,)
         self.nAsm = len(self.asmVarNames)
+        
+        self.weightOnMv = weightOnMv
 
     def getPv(self):
             
@@ -98,7 +100,7 @@ class ConcretePlant003(SacPlant):
         self.t = self.t + self.h
         self.x = self.odeHandler.y
                 
-        reward = self.getReward(xPrev = xPrev, Do = Do, xNext = self.x) 
+        reward = (1-self.weightOnMv) * self.getReward(xPrev = xPrev, Do = Do, xNext = self.x) + self.weightOnMv * np.abs(u[0,0])  
                 
         return ConcreteBatchDataReward(reward = np.array(reward).reshape(1,-1).astype(np.float32))
 

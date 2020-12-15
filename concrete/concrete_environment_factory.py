@@ -32,9 +32,9 @@ class ConcreteEnvironmentFactory(EnvironmentFactory):
         if buildParameter.plantClass == "ConcretePlant002":
             return ConcretePlant002()
         if buildParameter.plantClass == "ConcretePlant003":
-            return ConcretePlant003(amplitudePeriodicDv=2.0)
+            return ConcretePlant003(amplitudePeriodicDv=2.0, weightOnMv=buildParameter.weightOnMv)
         if buildParameter.plantClass == "ConcretePlant004":
-            return ConcretePlant004(amplitudePeriodicDv=2.0)
+            return ConcretePlant004(amplitudePeriodicDv=2.0, weightOnMv=buildParameter.weightOnMv)
         
         assert False
         
