@@ -81,3 +81,12 @@ class ConcreteValueFunctionApproximator002(ConcreteValueFunctionApproximator):
        
         return ConcreteBatchDataValue(_Value = _ActionValueAveraged)
     
+    def getTrainableVariablesOfActionValueFunction(self):
+        if self.nRedundancy == 1:
+            return self.featureAndAction2actionValuePrimary.trainable_variables
+
+        if self.nRedundancy == 2:
+            return self.featureAndAction2actionValuePrimary.trainable_variables + self.featureAndAction2actionValueSecondary.trainable_variables
+    
+    def getTrainableVariablesOfStateValueFunction(self):
+        return self.feature2stateValue.trainable_variables

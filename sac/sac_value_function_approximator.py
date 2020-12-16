@@ -32,3 +32,11 @@ class SacValueFunctionApproximator(object):
     # <<abstract>>
     def getAveragedActionValue(self, batchDataFeature, batchDataAgent):
         return SacBatchDataValue()
+
+    # <<abstract>>
+    def getTrainableVariablesOfStateValueFunction(self):
+        return None
+    
+    # <<abstract>>
+    def getTrainableVariablesOfActionValueFunction(self):
+        return None

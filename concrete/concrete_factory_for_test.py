@@ -42,6 +42,7 @@ from concrete.concrete_batch_data_value import ConcreteBatchDataValue
 from concrete.concrete_replay_buffer001 import ConcreteReplayBuffer001
 from concrete.concrete_value_function_approximator001 import ConcreteValueFunctionApproximator001
 from concrete.concrete_value_function_approximator002 import ConcreteValueFunctionApproximator002
+from concrete.concrete_policy003 import ConcretePolicy003
 
 
 class ConcreteFactoryForTest(object):
@@ -98,6 +99,7 @@ class ConcreteFactoryForTest(object):
         
         yield ConcretePolicy001(nMv = self.nMv)
         yield ConcretePolicy002(nMv = self.nMv)
+        yield ConcretePolicy003(nMv = self.nMv)
     
     def createValueFunctionApproximator(self):
         
@@ -137,7 +139,7 @@ class ConcreteFactoryForTest(object):
         nSampleOfActionsInValueFunctionApproximator = 2**3
         nFeature = 2**0
         
-        for policy in [ConcretePolicy001(nMv = environment.getNmv()), ConcretePolicy002(nMv = environment.getNmv()),]:
+        for policy in [ConcretePolicy001(nMv = environment.getNmv()), ConcretePolicy002(nMv = environment.getNmv()), ConcretePolicy003(nMv = environment.getNmv()),]:
             
             agent = ConcreteAgent(policy = policy
                                   , valueFunctionApproximator = ConcreteValueFunctionApproximator002(nFeature, environment.getNmv(), nSampleOfActionsInValueFunctionApproximator, nHidden, self.nRedundancy)
