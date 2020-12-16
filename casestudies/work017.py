@@ -37,7 +37,7 @@ class Work017(WorkTemplate):
             policyClasses = ["ConcretePolicy001", "ConcretePolicy002",]
             policyClass = policyClasses[int(np.random.randint(len(policyClasses)))]
             
-            nQfunctionRedundancy = int(np.random.choice([1,2]))
+            nQfunctionRedundancy = int(np.random.choice([2,]))
             
             nBatch = 2**5
             nStepGradient = 1
