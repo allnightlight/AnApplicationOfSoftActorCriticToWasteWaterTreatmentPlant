@@ -34,6 +34,9 @@ class Work017(WorkTemplate):
             plantClasses = ["ConcretePlant003", "ConcretePlant004"]
             plantClass = plantClasses[int(np.random.randint(len(plantClasses)))]
             
+            policyClasses = ["ConcretePolicy001", "ConcretePolicy002",]
+            policyClass = policyClasses[int(np.random.randint(len(policyClasses)))]
+            
             nQfunctionRedundancy = int(np.random.choice([1,2]))
             
             nBatch = 2**5
@@ -61,7 +64,7 @@ class Work017(WorkTemplate):
                                 , learningRateForUpdateActionValueFunction = learningRateForUpdateActionValueFunction 
                                 , learningRateForUpdatePolicy = learningRateForUpdatePolicy
                                 , learningRateForUpdateStateValueFunction = learningRateForUpdateStateValueFunction
-                                , policyClass = "ConcretePolicy002"
+                                , policyClass = policyClass
                                 , replayBufferClass = "ConcreteReplayBuffer001"
                                 , nBatch = nBatch
                                 , nQfunctionRedundancy = nQfunctionRedundancy
