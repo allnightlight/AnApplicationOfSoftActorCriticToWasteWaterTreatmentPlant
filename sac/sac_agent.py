@@ -57,9 +57,9 @@ class SacAgent(object):
     def getOptimizerForUpdateStateValueFunction(self):
         return None
     
-    # <<protected, abstract>>
+    # <<private, final>>
     def getTrainableVariablesForUpdateStateValueFunction(self):
-        return None
+        return self.valueFunctionApproximator.getTrainableVariablesOfStateValueFunction()
         
     # <<private, final>>
     def getErrForUpdateStateValueFunction(self, batchDataEnvironment):
@@ -82,9 +82,9 @@ class SacAgent(object):
     def getOptimizerForUpdatePolicy(self):
         return None
     
-    # <<protected, abstract>>
+    # <<private, final>>
     def getTrainableVariablesForUpdatePolicy(self):
-        return None
+        return self.policy.getTrainableVariables()
     
     # <<private, final>>
     def getErrForUpdatePolicy(self, batchDataEnvironment):
@@ -110,9 +110,9 @@ class SacAgent(object):
     def getOptimizerForUpdateActionValueFunction(self):
         return None
         
-    # <<protected, abstract>>
+    # <<private, final>>
     def getTrainableVariablesForUpdateActionValueFunction(self):
-        return None
+        return self.valueFunctionApproximator.getTrainableVariablesOfActionValueFunction()
 
     # <<private, final>>
     def getErrForUpdateActionValueFunction(self, batchDataEnvironment, batchDataAgent, batchDataReward, batchDataEnvironmentNextStep):
