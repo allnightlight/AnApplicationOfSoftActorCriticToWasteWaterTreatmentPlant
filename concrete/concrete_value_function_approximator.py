@@ -27,4 +27,10 @@ class ConcreteValueFunctionApproximator(SacValueFunctionApproximator, tensorflow
         raise NotImplementedError()
     
     def getAveragedActionValue(self, batchDataFeature, batchDataAgent):
-        raise NotImplementedError()            
+        raise NotImplementedError()
+    
+    def getTrainableVariablesOfActionValueFunction(self):
+        return self.trainable_variables
+    
+    def getTrainableVariablesOfStateValueFunction(self):
+        return self.trainable_variables

@@ -22,3 +22,6 @@ class ConcretePolicy(SacPolicy, tensorflow.keras.Model):
         
     def call(self, batchDataFeature):
         raise NotImplementedError()
+    
+    def getTrainableVariables(self):
+        return self.trainable_variables
