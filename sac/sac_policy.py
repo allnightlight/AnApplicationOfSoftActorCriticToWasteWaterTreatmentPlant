@@ -17,3 +17,7 @@ class SacPolicy(object):
         assert isinstance(batchDataFeature, SacBatchDataFeature)
         
         return SacBatchDataAgent()
+    
+    # <<protected, abstract>>    
+    def getTrainableVariables(self):
+        return None
