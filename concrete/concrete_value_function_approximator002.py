@@ -32,10 +32,12 @@ class ConcreteValueFunctionApproximator002(ConcreteValueFunctionApproximator):
             , tensorflow.keras.layers.Dense(nHidden, activation="relu")
             , tensorflow.keras.layers.Dense(1))) 
 
-        self.featureAndAction2actionValueSecondary = tensorflow.keras.Sequential((
-            tensorflow.keras.Input(shape = (nFeature + nMv,))
-            , tensorflow.keras.layers.Dense(nHidden, activation="relu")
-            , tensorflow.keras.layers.Dense(1))) 
+        self.featureAndAction2actionValueSecondary = None
+        if nRedundancy == 2:
+            self.featureAndAction2actionValueSecondary = tensorflow.keras.Sequential((
+                tensorflow.keras.Input(shape = (nFeature + nMv,))
+                , tensorflow.keras.layers.Dense(nHidden, activation="relu")
+                , tensorflow.keras.layers.Dense(1))) 
 
         self.feature2stateValue = tensorflow.keras.Sequential((
             tensorflow.keras.Input(shape = (nFeature,))
