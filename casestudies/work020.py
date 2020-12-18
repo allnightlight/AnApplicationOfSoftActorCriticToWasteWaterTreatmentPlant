@@ -10,13 +10,13 @@ import numpy as np
 from concrete.concrete_build_parameter import ConcreteBuildParameter
 
 
-class Work019(WorkTemplate):
+class Work020(WorkTemplate):
     '''
 
-    2020-12-17
+    2020-12-18
 
-    To examine the effects of alphaTemp and weightOnMv
-    , with fixed hyperparameters other than the above two parameters.
+    To draw learning curves depending on alphaTemp,
+    build agents with weightOnMv = 0.5.
     
     '''
     
@@ -44,9 +44,9 @@ class Work019(WorkTemplate):
             learningRateForUpdateActionValueFunction = float(np.random.choice([1e-2,]))/nStepGradient
             learningRateForUpdateStateValueFunction = float(np.random.choice([1e-3,]))/nStepGradient
             alphaTemp = float(np.random.choice([0., 0.1, 0.5,]))
-            weightOnMv = float(np.random.choice([0., 0.1, 0.5,]))
+            weightOnMv = float(np.random.choice([0.5,]))
                 
-            yield ConcreteBuildParameter(nIntervalSave = nEpoch//(2**1)
+            yield ConcreteBuildParameter(nIntervalSave = nEpoch//(2**4)
                                 , nEpoch = nEpoch
                                 , label = self.workName
                                 , plantClass = plantClass
