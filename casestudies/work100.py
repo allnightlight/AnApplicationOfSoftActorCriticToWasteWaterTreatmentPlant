@@ -209,7 +209,7 @@ class Work100(object):
                 fig.clf()                
                 ax0 = fig.add_subplot(2,2,(1,3))                
                 self.showAdvantageOnMesh(*self.getAdvantageOnMesh(agent, nMesh), ax0, fig)
-                self.showResponseOnMesh(*self.getAgentResponse(agent, nMesh), ax0, fig) 
+                self.showResponseOnMesh(*self.getAgentResponse(agent, nMesh=2**7), ax0, fig) 
                 ax1 = fig.add_subplot(2,2,2)
                 ax2 = fig.add_subplot(2,2,4)
                 self.showTrainingData(*self.getTrainingData(environment, nLast = nInterval), ax1, ax2, fig) 
