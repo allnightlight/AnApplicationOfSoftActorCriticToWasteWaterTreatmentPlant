@@ -42,7 +42,7 @@ class Test(unittest.TestCase):
         fig = plt.figure()
         ax = fig.add_subplot(2,2,(1,3))
         work.showAdvantageOnMesh(Pv, Mv, Adv, ax, fig)
-        #plt.show()
+#         plt.show()
         plt.close(fig)
         
         Pv, Mv = work.getTrainingData(environment, nLast = None)
@@ -51,14 +51,15 @@ class Test(unittest.TestCase):
         ax1 = fig.add_subplot(2,2,2)
         ax2 = fig.add_subplot(2,2,4)
         work.showTrainingData(Pv, Mv, ax1, ax2, fig)
-        #plt.show()
+#         plt.show()
         plt.close(fig)        
         
     
     def test002(self):
         
         for figPath in self.work.work(self.buildParameter, nEpoch = self.nEpoch, nInterval=self.nInterval, nMesh=self.nMesh, prefix="test", figSize = [20, 8]):
-            os.remove(figPath)
+            #os.remove(figPath)
+            pass
             
             
     def test003(self):
@@ -68,6 +69,24 @@ class Test(unittest.TestCase):
         
         assert np.all(Do <= self.work.maxDo)
         assert np.all(Do >= self.work.minDo)
+        
+    def test004(self):
+        
+        work = self.work
+        
+        agent, environment, trainer = work.createAgentEnvironmentAndTrainer(self.buildParameter)
+
+        for _ in work.trainIterator(trainer, self.nEpoch):
+            pass
+        
+        Pv, Mv = work.getAgentResponse(agent, nMesh=2**7)
+        
+        fig = plt.figure()
+        ax = fig.add_subplot()
+        work.showResponseOnMesh(Pv, Mv, ax, fig)
+#         plt.show()
+        plt.close(fig)
+            
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test001']

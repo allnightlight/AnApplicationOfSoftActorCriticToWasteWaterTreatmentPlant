@@ -121,7 +121,7 @@ class Work100(object):
         assert isinstance(fig, plt.Figure)
         assert isinstance(ax, plt.Axes)
         
-        c = ax.pcolor(self.convertPv2Nh4(Pv), self.convertMv2Do(Mv), Adv)
+        c = ax.pcolor(self.convertPv2Nh4(Pv), self.convertMv2Do(Mv), Adv, cmap="gray")
         ax.set_xlabel("NH4")
         ax.set_ylabel("DO")    
         fig.colorbar(c, ax=ax)
@@ -152,12 +152,46 @@ class Work100(object):
         assert isinstance(ax1, plt.Axes)
         assert isinstance(ax2, plt.Axes)
         
-        ax1.plot(self.convertPv2Nh4(Pv))
+        t = np.arange(Pv.shape[0])
+        
+        ax1.axhline(self.Sv_Nh4, linestyle="--", color="k")
+        ax1.plot(t, self.convertPv2Nh4(Pv))
         ax1.set_ylabel("NH4")
+        ax1.set_xlim(t[0], t[-1])
         ax1.set_ylim(self.limNh4)
-        ax2.plot(self.convertMv2Do(Mv))
+        
+        
+        ax2.plot(t, self.convertMv2Do(Mv))
         ax2.set_ylabel("DO")
+        ax2.set_xlim(t[0], t[-1])
         ax2.set_ylim(self.limDo)
+        
+    def getAgentResponse(self, agent, nMesh):
+        
+        Pv = np.linspace(self.limNh4[0]-self.Sv_Nh4, self.limNh4[1]-self.Sv_Nh4, nMesh)
+        Pv = Pv.astype(np.float32)
+        Mv = np.zeros((nMesh,)).astype(np.float32)
+        
+        for k1 in range(nMesh):
+        
+            e = Pv[k1].reshape(1,1) # (1,1)
+            batchDataEnvironment = ConcreteBatchDataEnvironment(bufferPv = [e,], bufferMv = [])        
+            batchDataAgent = agent.getAction(batchDataEnvironment)
+            
+            assert isinstance(batchDataAgent, ConcreteBatchDataAgent)
+            
+            Mv[k1] = batchDataAgent.getDeterministicAction()[0,0]
+        
+        return Pv, Mv
+
+    def showResponseOnMesh(self, Pv, Mv, ax, fig):
+                
+        assert isinstance(fig, plt.Figure)
+        assert isinstance(ax, plt.Axes)
+        
+        ax.plot(self.convertPv2Nh4(Pv), self.convertMv2Do(Mv), color="red", linestyle="-", linewidth=2)
+        ax.set_xlabel("NH4")
+        ax.set_ylabel("DO")
         
     def watchLearningProcess(self, buildParameter, nEpoch, nInterval, fig, nMesh):
         
@@ -173,8 +207,9 @@ class Work100(object):
             if (k1 + 1) % nInterval == 0:
                 
                 fig.clf()                
-                ax0 = fig.add_subplot(2,2,(1,3))
-                self.showAdvantageOnMesh(*self.getAdvantageOnMesh(agent, nMesh), ax0, fig) 
+                ax0 = fig.add_subplot(2,2,(1,3))                
+                self.showAdvantageOnMesh(*self.getAdvantageOnMesh(agent, nMesh), ax0, fig)
+                self.showResponseOnMesh(*self.getAgentResponse(agent, nMesh), ax0, fig) 
                 ax1 = fig.add_subplot(2,2,2)
                 ax2 = fig.add_subplot(2,2,4)
                 self.showTrainingData(*self.getTrainingData(environment, nLast = nInterval), ax1, ax2, fig) 
