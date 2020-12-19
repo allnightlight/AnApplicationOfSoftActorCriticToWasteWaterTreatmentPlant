@@ -221,11 +221,14 @@ class Work100(object):
             , nEpoch = 96 * 28
             , nInterval = 96
             , nMesh = 2**4
-            , prefix = Utils.generateRandomString(16)
+            , prefix = None
             , figSize = [20, 8]):
         
         if not os.path.exists(self.figFolder):
             os.mkdir(self.figFolder)
+            
+        if prefix is None:
+            prefix = Utils.generateRandomString(16)
         
         fig = plt.figure(figsize=figSize)
         
