@@ -46,6 +46,7 @@ from sac.sac_evaluator import SacEvaluator
 from casestudies.work018 import Work018
 from casestudies.work019 import Work019
 from casestudies.work020 import Work020
+from casestudies.work021 import Work021
 
 
 class WorkFactory(object):
@@ -152,6 +153,10 @@ class WorkFactory(object):
         if workName == "work020":
                     
             workInstance = Work020(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
+
+        if workName == "work021":
+                    
+            workInstance = Work021(app, store, evaluationDb, nEpoch, nAgent, saveFolderPathAgent, updateEvaluationInterval, nUpdateEvaluation, figSize, figFolderPath)
                         
         if workName == "work900":
                     
