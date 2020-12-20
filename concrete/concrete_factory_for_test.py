@@ -43,6 +43,8 @@ from concrete.concrete_replay_buffer001 import ConcreteReplayBuffer001
 from concrete.concrete_value_function_approximator001 import ConcreteValueFunctionApproximator001
 from concrete.concrete_value_function_approximator002 import ConcreteValueFunctionApproximator002
 from concrete.concrete_policy003 import ConcretePolicy003
+from concrete.concrete_policy004 import ConcretePolicy004
+from concrete.concrete_policy005 import ConcretePolicy005
 
 
 class ConcreteFactoryForTest(object):
@@ -100,6 +102,8 @@ class ConcreteFactoryForTest(object):
         yield ConcretePolicy001(nMv = self.nMv)
         yield ConcretePolicy002(nMv = self.nMv)
         yield ConcretePolicy003(nMv = self.nMv)
+        yield ConcretePolicy004(nFeature = self.nFeature, nMv = self.nMv, nHidden = self.nHidden)
+        yield ConcretePolicy005(nFeature = self.nFeature, nMv = self.nMv, nHidden = self.nHidden)
     
     def createValueFunctionApproximator(self):
         
@@ -214,6 +218,24 @@ class ConcreteFactoryForTest(object):
                                      , _LogSd = tensorflow.random.normal(shape = (nBatch, nMv)))            
             
     def generateBuildParameter(self):
+        
+        yield ConcreteBuildParameter(nIntervalSave = 1
+            , nEpoch = 2**2
+            , label = "test"
+            , nSampleOfActionsInValueFunctionApproximator = 2**1
+            , nStepEnvironment = 1
+            , nStepGradient = 1
+            , nIntervalUpdateStateValueFunction = 1
+            , nIterationPerEpoch = 1
+            , bufferSizeReplayBuffer = 2**10
+            , plantClass="ConcretePlant003"
+            , nQfunctionRedundancy=2
+            , replayBufferClass="ConcreteReplayBuffer001"
+            , nBatch=2**3
+            , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator001"
+            , weightOnMv=0.5
+            , policyClass = "ConcretePolicy004"
+            , nFeature=1)
 
         yield ConcreteBuildParameter(nIntervalSave = 1
             , nEpoch = 2**2
@@ -229,7 +251,26 @@ class ConcreteFactoryForTest(object):
             , replayBufferClass="ConcreteReplayBuffer001"
             , nBatch=2**3
             , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator001"
-            , weightOnMv=0.5)
+            , weightOnMv=0.5
+            , policyClass = "ConcretePolicy005"
+            , nFeature=1)
+
+        yield ConcreteBuildParameter(nIntervalSave = 1
+            , nEpoch = 2**2
+            , label = "test"
+            , nSampleOfActionsInValueFunctionApproximator = 2**1
+            , nStepEnvironment = 1
+            , nStepGradient = 1
+            , nIntervalUpdateStateValueFunction = 1
+            , nIterationPerEpoch = 1
+            , bufferSizeReplayBuffer = 2**10
+            , plantClass="ConcretePlant003"
+            , nQfunctionRedundancy=2
+            , replayBufferClass="ConcreteReplayBuffer001"
+            , nBatch=2**3
+            , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator001"
+            , weightOnMv=0.5
+            , nFeature=1)
 
         yield ConcreteBuildParameter(nIntervalSave = 1
             , nEpoch = 2**2
@@ -244,7 +285,8 @@ class ConcreteFactoryForTest(object):
             , nQfunctionRedundancy=2
             , replayBufferClass="ConcreteReplayBuffer001"
             , nBatch=2**3
-            , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator002")
+            , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator002"
+            , nFeature=1)
         
         yield ConcreteBuildParameter(nIntervalSave = 1
             , nEpoch = 2**2
@@ -258,7 +300,8 @@ class ConcreteFactoryForTest(object):
             , plantClass="ConcretePlant001"
             , nQfunctionRedundancy=2
             , replayBufferClass="ConcreteReplayBuffer001"
-            , nBatch=2**3)
+            , nBatch=2**3
+            , nFeature=1)
 
         for plantClass in ("ConcretePlant001", "ConcretePlant002", "ConcretePlant003", "ConcretePlant004"):        
             yield ConcreteBuildParameter(nIntervalSave = 1
@@ -271,7 +314,8 @@ class ConcreteFactoryForTest(object):
                 , nIterationPerEpoch = 1
                 , bufferSizeReplayBuffer = 2**10
                 , plantClass=plantClass
-                , nQfunctionRedundancy=1)
+                , nQfunctionRedundancy=1
+                , nFeature=1)
             
             yield ConcreteBuildParameter(nIntervalSave = 1
                 , nEpoch = 2**2
@@ -283,7 +327,8 @@ class ConcreteFactoryForTest(object):
                 , nIterationPerEpoch = 1
                 , bufferSizeReplayBuffer = 2**10
                 , plantClass=plantClass
-                , nQfunctionRedundancy=2)
+                , nQfunctionRedundancy=2
+                , nFeature=1)
 
         
     def createStore(self):

@@ -19,7 +19,7 @@ class ConcreteBuildParameter(BuildParameter):
                  , discountFactor = 0.9
                  , alphaTemp = 1.0
                  , saveFolderPathAgent = "checkpoint"
-                 , nFeature = 2**3
+                 , nFeature = 2**0
                  , nSampleOfActionsInValueFunctionApproximator = 2**2
                  , nHiddenValueFunctionApproximator = 2**5
                  , nStepEnvironment = 1
@@ -36,7 +36,8 @@ class ConcreteBuildParameter(BuildParameter):
                  , replayBufferClass = "SacReplayBuffer"
                  , nBatch = 2**0
                  , valueFunctionApproximatorClass = "ConcreteValueFunctionApproximator001"
-                 , weightOnMv = 0.0):
+                 , weightOnMv = 0.0
+                 , nHiddenAgent = 2**5):
         
         BuildParameter.__init__(self, nIntervalSave=nIntervalSave, nEpoch=nEpoch, label=label)
         
@@ -62,4 +63,5 @@ class ConcreteBuildParameter(BuildParameter):
         self.nBatch = nBatch
         self.valueFunctionApproximatorClass = valueFunctionApproximatorClass
         self.weightOnMv = weightOnMv
+        self.nHiddenAgent = nHiddenAgent
 

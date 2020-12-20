@@ -12,6 +12,8 @@ from concrete.concrete_policy002 import ConcretePolicy002
 from framework.agent_factory import AgentFactory
 from concrete.concrete_value_function_approximator001 import ConcreteValueFunctionApproximator001
 from concrete.concrete_value_function_approximator002 import ConcreteValueFunctionApproximator002
+from concrete.concrete_policy004 import ConcretePolicy004
+from concrete.concrete_policy005 import ConcretePolicy005
 
 
 class ConcreteAgentFactory(AgentFactory):
@@ -42,7 +44,16 @@ class ConcreteAgentFactory(AgentFactory):
         if buildParameter.policyClass == "ConcretePolicy001":
             policy = ConcretePolicy001(nMv = environment.getNmv())
         if buildParameter.policyClass == "ConcretePolicy002":
-            policy = ConcretePolicy002(nMv = environment.getNmv())
+            policy = ConcretePolicy002(nMv = environment.getNmv())            
+        if buildParameter.policyClass == "ConcretePolicy004":
+            policy = ConcretePolicy004(nFeature = buildParameter.nFeature
+                                       , nMv = environment.getNmv()
+                                       , nHidden = buildParameter.nHiddenAgent)
+        if buildParameter.policyClass == "ConcretePolicy005":
+            policy = ConcretePolicy005(nFeature = buildParameter.nFeature
+                                       , nMv = environment.getNmv()
+                                       , nHidden = buildParameter.nHiddenAgent)
+
         assert policy is not None
         return policy
     
@@ -68,4 +79,6 @@ class ConcreteAgentFactory(AgentFactory):
                                                  , nRedundancy = buildParameter.nQfunctionRedundancy)
     
     def createFeatureExtractor(self, buildParameter, environment):
-        return ConcreteFeatureExtractor002(nFeature = environment.getNmv())
+        
+        assert buildParameter.nFeature == environment.getNpv(), "If you like to use ConcreteFeatureExtractor002, you have to choose nFeature = nPv."
+        return ConcreteFeatureExtractor002(nFeature = environment.getNpv())
