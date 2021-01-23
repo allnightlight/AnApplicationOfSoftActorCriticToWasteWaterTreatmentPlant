@@ -11,6 +11,7 @@ from concrete.concrete_factory_for_test import ConcreteFactoryForTest
 import numpy as np
 from sac.sac_batch_data_environment import SacBatchDataEnvironment
 from sac.sac_environment import SacEnvironment
+from concrete.wwtp_domain_knowledge import WwtpDomainKnowledge
 
 
 class Test(unittest.TestCase):
@@ -141,7 +142,21 @@ class Test(unittest.TestCase):
             batchDataReward = environment.updateWithStochasticAction(batchDataAgent)
              
             assert isinstance(batchDataReward, ConcreteBatchDataReward)
-         
+            
+    
+    def test007(self):
+        
+        domainKnoledge = self.factory.createWwtpDomainKnowledge()
+        
+        assert len(domainKnoledge.getAsmVarNames()) == len(domainKnoledge.getDefaultInflow())
+        
+        assert len(domainKnoledge.getSteadyStateOfAerobicTank()) == len(domainKnoledge.getAsmVarNames())
+        
+        assert len(domainKnoledge.getBiologicalProcess(*domainKnoledge.getSteadyStateOfAerobicTank())) == len(domainKnoledge.getAsmVarNames())
+
+        for x in domainKnoledge.getBiologicalProcess(*domainKnoledge.getSteadyStateOfAerobicTank()):
+            assert not np.isnan(x)
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

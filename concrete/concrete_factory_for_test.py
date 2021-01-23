@@ -45,6 +45,7 @@ from concrete.concrete_value_function_approximator002 import ConcreteValueFuncti
 from concrete.concrete_policy003 import ConcretePolicy003
 from concrete.concrete_policy004 import ConcretePolicy004
 from concrete.concrete_policy005 import ConcretePolicy005
+from concrete.wwtp_domain_knowledge import WwtpDomainKnowledge
 
 
 class ConcreteFactoryForTest(object):
@@ -364,3 +365,7 @@ class ConcreteFactoryForTest(object):
     def generateReplayBuffer(self):
         yield SacReplayBuffer(bufferSize = 2**10)
         yield ConcreteReplayBuffer001(bufferSize = 2**10, nBatch = self.nBatch)
+        
+    def createWwtpDomainKnowledge(self) -> WwtpDomainKnowledge:
+        return WwtpDomainKnowledge()
+        
