@@ -4,16 +4,26 @@ Created on 2021/01/23
 @author: ukai
 '''
 
+import numpy as np
+
 class WwtpDomainKnowledge(object):
     '''
     classdocs
     '''
 
-    def __init__(self):
+    def __init__(self, timeIntegral = 1/24/4, pgain = 100.):
         
         self._asmVarNames = "S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, "\
         "X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS".replace(" ", \
-        "").split(",") 
+        "").split(",")
+        
+        self._isSoluble = np.array([elm[0] == 'S' for elm in self._asmVarNames]) # (nS + nX,)
+        self.pgain = pgain
+        self.timeIntegral = timeIntegral 
+
+
+    def getIsSoluble(self):
+        return self._isSoluble
 
     def getAsmVarNames(self):
         return self._asmVarNames
@@ -48,6 +58,18 @@ class WwtpDomainKnowledge(object):
             Inflow_S_NH4,Inflow_S_NO3,Inflow_S_O2,Inflow_S_PO4,Inflow_X_AUT, \
             Inflow_X_H,Inflow_X_I,Inflow_X_PAO,Inflow_X_PHA,Inflow_X_PP, \
             Inflow_X_S,Inflow_X_TSS
+    
+    
+    def getBiologicalProcessWithDoControl(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, 
+        S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS, errIntegral, Do):
+        
+        dxAsmdt = np.array(self.getBiologicalProcess(S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS))
+        
+        err = Do - S_O2
+        dxAsmdt[self._asmVarNames.index("S_O2")] += self.pgain * max(err + errIntegral, 0)  # (,)        
+        derrIntegraldt = err/self.timeIntegral
+        
+        return dxAsmdt, derrIntegraldt
     
     def getBiologicalProcess(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, 
         S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS):

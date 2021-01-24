@@ -16,7 +16,7 @@ class ConcretePlant003(SacPlant):
     classdocs
     '''
 
-    def __init__(self, h = 15/60/24, volume = 12, flow = 24, rho = 1/24, pgain = 100., amplitudePeriodicDv = 1.0, SvNh4 = 3.0, timeIntegral = 1/24/4, thresholdDo = 1.5, maxDo = 3.0, minDo = 0.0, weightOnMv = 0.0, domainKnoledge = WwtpDomainKnowledge()):
+    def __init__(self, h = 15/60/24, volume = 12, flow = 24, rho = 1/24, amplitudePeriodicDv = 1.0, SvNh4 = 3.0, thresholdDo = 1.5, maxDo = 3.0, minDo = 0.0, weightOnMv = 0.0, domainKnoledge = WwtpDomainKnowledge()):
         super(ConcretePlant003, self).__init__()
         '''
         Constructor
@@ -32,17 +32,13 @@ class ConcretePlant003(SacPlant):
         self.flow = flow
         self.volume = volume
         self.rho = rho
-        self.pgain = pgain
-        self.timeIntegral = timeIntegral 
         self.amplitudePeriodicDv = amplitudePeriodicDv
-        self.idxSO2 = self.domainKnoledge.getAsmVarNames().index("S_O2")
         self.idxNH4 = self.domainKnoledge.getAsmVarNames().index("S_NH4")
         self.SvNh4 = SvNh4
         self.thresholdDo = thresholdDo
         self.maxDo = maxDo
         self.minDo = minDo
-
-        self.isSoluble = np.array([elm[0] == 'S' for elm in self.domainKnoledge.getAsmVarNames()]) # (nS + nX,)
+        
         self.nAsm = len(self.domainKnoledge.getAsmVarNames())
         
         self.weightOnMv = weightOnMv
@@ -120,6 +116,7 @@ class ConcretePlant003(SacPlant):
         # Dv: (*, ), Mv: (*, )
         
         xAsm = x[:self.nAsm] # (nAsm,)
+        errIntegral = x[self.nAsm] # (,)
         xAsmInflow = Dv # (nAsm,)
         Do = Mv # (,)
         
@@ -141,18 +138,13 @@ class ConcretePlant003(SacPlant):
         # dSO2/dt += Gain * max(DO - SO2, 0)
         
         dxAsmdt += xAsmInflow/retentionTime # (nAsm,)
-        dxAsmdt[self.isSoluble] -= xAsm[self.isSoluble]/retentionTime # (nS,)
-        dxAsmdt[~self.isSoluble] -= self.rho * xAsm[~self.isSoluble]/retentionTime # (nX,)
+        dxAsmdt[self.domainKnoledge.getIsSoluble()] -= xAsm[self.domainKnoledge.getIsSoluble()]/retentionTime # (nS,)
+        dxAsmdt[~self.domainKnoledge.getIsSoluble()] -= self.rho * xAsm[~self.domainKnoledge.getIsSoluble()]/retentionTime # (nX,)
         
-        dxAsmdtAsm= np.array(self.domainKnoledge.getBiologicalProcess(*xAsm)) # (nAsm,)         
-        dxAsmdt += dxAsmdtAsm # (nAsm,)
-
-        e = Do - xAsm[self.idxSO2]
-        eCum = x[self.nAsm] # cumulated error
+        dxAsmdtAsm, derrIntegraldt = self.domainKnoledge.getBiologicalProcessWithDoControl(*xAsm, errIntegral, Do)        
+        dxAsmdt += np.array(dxAsmdtAsm) # (nAsm,)
         
-        dxAsmdt[self.idxSO2] += self.pgain * max(e + eCum, 0)  # (,)
-
-        dxdt[self.nAsm] = e/self.timeIntegral
+        dxdt[self.nAsm] = derrIntegraldt
         
         return dxdt # (nAsm,)
     
