@@ -343,7 +343,7 @@ class WwtpDomainKnowledge(object):
         return S_NH4
     
     def getTn(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS):
-        return S_NH4 + S_N2 + S_NO3
+        return S_NH4 + S_NO3
     
     def getCod(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS):
         return S_A + S_F + S_I
