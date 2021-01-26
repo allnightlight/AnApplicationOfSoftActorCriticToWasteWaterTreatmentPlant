@@ -156,6 +156,11 @@ class Test(unittest.TestCase):
 
         for x in domainKnoledge.getBiologicalProcess(*domainKnoledge.getSteadyStateOfAerobicTank()):
             assert not np.isnan(x)
+            
+        assert not np.isnan(domainKnoledge.getMlss(*domainKnoledge.getSteadyStateOfAerobicTank()))
+        assert not np.isnan(domainKnoledge.getCod(*domainKnoledge.getSteadyStateOfAerobicTank()))
+        assert not np.isnan(domainKnoledge.getTn(*domainKnoledge.getSteadyStateOfAerobicTank()))
+        assert not np.isnan(domainKnoledge.getNh4(*domainKnoledge.getSteadyStateOfAerobicTank()))
 
 
 if __name__ == "__main__":

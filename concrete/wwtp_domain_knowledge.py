@@ -58,8 +58,7 @@ class WwtpDomainKnowledge(object):
             Inflow_S_NH4,Inflow_S_NO3,Inflow_S_O2,Inflow_S_PO4,Inflow_X_AUT, \
             Inflow_X_H,Inflow_X_I,Inflow_X_PAO,Inflow_X_PHA,Inflow_X_PP, \
             Inflow_X_S,Inflow_X_TSS
-    
-    
+        
     def getBiologicalProcessWithDoControl(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, 
         S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS, errIntegral, Do):
         
@@ -339,3 +338,15 @@ class WwtpDomainKnowledge(object):
         d_X_TSS += (R19) * (i_TSSXI*f_XI+i_TSSXS*(1-f_XI)-i_TSSBM)
 
         return d_S_A, d_S_ALK, d_S_F, d_S_I, d_S_N2, d_S_NH4, d_S_NO3, d_S_O2, d_S_PO4, d_X_AUT, d_X_H, d_X_I, d_X_PAO, d_X_PHA, d_X_PP, d_X_S, d_X_TSS
+
+    def getNh4(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS):
+        return S_NH4
+    
+    def getTn(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS):
+        return S_NH4 + S_N2 + S_NO3
+    
+    def getCod(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS):
+        return S_A + S_F + S_I
+    
+    def getMlss(self, S_A, S_ALK, S_F, S_I, S_N2, S_NH4, S_NO3, S_O2, S_PO4, X_AUT, X_H, X_I, X_PAO, X_PHA, X_PP, X_S, X_TSS):
+        return X_AUT + X_H + X_I + X_PAO + X_PHA + X_PP + X_S + X_TSS
