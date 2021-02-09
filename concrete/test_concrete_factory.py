@@ -11,6 +11,8 @@ from concrete.concrete_agent_factory import ConcreteAgentFactory
 from concrete.concrete_agent import ConcreteAgent
 from concrete.concrete_trainer import ConcreteTrainer
 from concrete.concrete_trainer_factory import ConcreteTrainerFactory
+from concrete.concrete_build_parameter import ConcreteBuildParameter
+import traceback
 
 
 class Test(unittest.TestCase):
@@ -38,6 +40,27 @@ class Test(unittest.TestCase):
         trainer = self.trainerFactory.create(buildParameter, agent, environment)
         
         assert isinstance(trainer, ConcreteTrainer)
+
+    def test002(self):
+        
+        buildParameter: ConcreteBuildParameter = self.buildParameterFactory.create()
+        environment: ConcreteEnvironment = self.environmentFactory.create(buildParameter)
+        
+        try:
+            buildParameter.featureExtractorClass = "ConcreteFeatureExtractor001"        
+            self.agentFactory.create(buildParameter, environment)
+            assert False
+        except :
+            traceback.print_exc()
+            assert True
+
+        buildParameter.featureExtractorClass = "ConcreteFeatureExtractor002"        
+        self.agentFactory.create(buildParameter, environment)
+        assert True
+
+        buildParameter.nFeature = 99
+        self.agentFactory.create(buildParameter, environment)
+        assert True
         
 
 if __name__ == "__main__":
