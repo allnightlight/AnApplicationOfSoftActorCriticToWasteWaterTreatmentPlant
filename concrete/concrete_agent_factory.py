@@ -62,7 +62,7 @@ class ConcreteAgentFactory(AgentFactory):
         if buildParameter.featureExtractorClass != "ConcreteFeatureExtractor002":
             nFeature = buildParameter.nFeature
         else:
-            nFeature = environment.getNmv()
+            nFeature = environment.getNpv()
 
         if buildParameter.valueFunctionApproximatorClass == "ConcreteValueFunctionApproximator001":        
             return ConcreteValueFunctionApproximator001(nFeature = nFeature
@@ -80,5 +80,17 @@ class ConcreteAgentFactory(AgentFactory):
     
     def createFeatureExtractor(self, buildParameter, environment):
         
-        assert buildParameter.nFeature == environment.getNpv(), "If you like to use ConcreteFeatureExtractor002, you have to choose nFeature = nPv."
+        assert buildParameter.featureExtractorClass == "ConcreteFeatureExtractor002", """
+        
+The given featureExtractorClass: {featureExtractorClass} was not available so far.
+Please, specify \"ConcreteFeatureExtractor002\" as the parameter of featureExtractorClass in your buildParameter.
+ 
+""".format(featureExtractorClass = buildParameter.featureExtractorClass)
+
+        if buildParameter.nFeature != environment.getNpv():
+            print("""\
+You specified nFeature = {nFeature}, though, this setting would be ignored
+since the ConcreteFeatureExtractor002 could only accept nPv = {nPv} as nFeature.
+""".format(nFeature = buildParameter.nFeature, nPv = environment.getNpv()))
+            
         return ConcreteFeatureExtractor002(nFeature = environment.getNpv())
