@@ -87,10 +87,4 @@ Please, specify \"ConcreteFeatureExtractor002\" as the parameter of featureExtra
  
 """.format(featureExtractorClass = buildParameter.featureExtractorClass)
 
-        if buildParameter.nFeature != environment.getNpv():
-            print("""\
-You specified nFeature = {nFeature}, though, this setting would be ignored
-since the ConcreteFeatureExtractor002 could only accept nPv = {nPv} as nFeature.
-""".format(nFeature = buildParameter.nFeature, nPv = environment.getNpv()))
-            
         return ConcreteFeatureExtractor002(nFeature = environment.getNpv())
