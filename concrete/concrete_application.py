@@ -3,12 +3,12 @@ Created on 2020/11/29
 
 @author: ukai
 '''
-from concrete.concrete_builder import ConcreteBuilder
-from concrete.concrete_loader import ConcreteLoader
 from sac.sac_evaluator import SacEvaluator
 from concrete.concrete_evaluation_db import ConcreteEvaluationDb
 from sac.sac_evaluate_method import SacEvaluateMethod
 import sys
+from framework.builder import Builder
+from framework.loader import Loader
 
 class ConcreteApplication(object):
     '''
@@ -21,8 +21,8 @@ class ConcreteApplication(object):
         Constructor
         '''
         
-        assert isinstance(builder, ConcreteBuilder)
-        assert isinstance(loader, ConcreteLoader)
+        assert isinstance(builder, Builder)
+        assert isinstance(loader, Loader)
         assert isinstance(evaluationDb, ConcreteEvaluationDb)
         assert isinstance(evaluator, SacEvaluator)
         
