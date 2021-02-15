@@ -6,6 +6,7 @@ Created on 2020/07/10
 from framework.agent_factory import AgentFactory
 from framework.environment_factory import EnvironmentFactory
 from framework.store import Store
+from framework.store_field import StoreField
 from framework.trainer_factory import TrainerFactory
 
 
@@ -48,3 +49,15 @@ class Loader(object):
             epoch = storeField.epoch
             
             yield agent, buildParameter, epoch, environment, trainer
+            
+    
+    def getPairsOfAgentKeyAndEpoch(self, buildParameterLabel, epoch, buildParameterKey, agentKey):
+        
+        self.store.update_db()
+        
+        lst = []
+        for storeField in self.store.restore(buildParameterLabel, epoch, buildParameterKey, agentKey):
+            assert isinstance(storeField, StoreField)            
+            lst.append((storeField.agentKey, storeField.epoch))
+        
+        return lst
