@@ -29,4 +29,4 @@ class ConcretePolicy002(ConcretePolicy):
         
         return ConcreteBatchDataAgent(
             _Mean = self.threshold * tensorflow.tanh(self.feature2mean(_Feature)) 
-            , _LogSd = tensorflow.math.log(self.threshold) + tensorflow.math.log_sigmoid(tensorflow.tanh(self.feature2sd(_Feature)))) 
+            , _LogSd = tensorflow.math.log(self.threshold) + tensorflow.math.log_sigmoid(self.feature2sd(_Feature))) 
